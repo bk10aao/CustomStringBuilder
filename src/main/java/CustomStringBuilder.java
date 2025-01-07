@@ -54,4 +54,6 @@ public class CustomStringBuilder implements StringBuilderInterface {
     public int getLength() {
         return capacity;
     }
+
+    //test
 }
