@@ -8,6 +8,8 @@ public class CustomStringBuilder implements StringBuilderInterface {
 
     private int size = 0;
 
+    private int capacity = 128;
+
     public CustomStringBuilder() { }
 
     public CustomStringBuilder(CharSequence seq) {
@@ -16,6 +18,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
         else {
             size = seq.length();
             stringBuilder.add(seq.toString());
+            expandCapacity();
         }
     }
 
@@ -23,6 +26,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
         if(capacity < 0)
             throw new NegativeArraySizeException();
         stringBuilder = new ArrayList<>(capacity);
+        this.capacity = Math.max(capacity, 128);
     }
 
     public CustomStringBuilder(String str) {
@@ -31,6 +35,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
         } else {
             size = str.length();
             stringBuilder.add(str);
+            expandCapacity();
         }
     }
 
@@ -38,12 +43,14 @@ public class CustomStringBuilder implements StringBuilderInterface {
         String bStr = String.valueOf(b);
         stringBuilder.add(bStr);
         size += bStr.length();
+        expandCapacity();
         return this;
     }
 
     public CustomStringBuilder append(char c) {
         stringBuilder.add(String.valueOf(c));
         size++;
+        expandCapacity();
         return this;
     }
 
@@ -51,10 +58,11 @@ public class CustomStringBuilder implements StringBuilderInterface {
         if(str == null) {
             stringBuilder.add("null");
             size += 4;
-            return this;
+        } else {
+            stringBuilder.add(String.valueOf(str));
+            size += str.length;
         }
-        stringBuilder.add(String.valueOf(str));
-        size += str.length;
+        expandCapacity();
         return this;
     }
     public CustomStringBuilder append(char[] str, int offset, int len) {
@@ -63,6 +71,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
         String appendString = new String(Arrays.copyOfRange(str, offset, offset + len));
         stringBuilder.add(appendString);
         size += appendString.length();
+        expandCapacity();
         return this;
     }
 
@@ -70,6 +79,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
         String appendString = String.valueOf(charSequence);
         stringBuilder.add(String.valueOf(charSequence));
         size += appendString.length();
+        expandCapacity();
         return this;
     }
 
@@ -78,6 +88,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
             throw new IndexOutOfBoundsException();
         stringBuilder.add(String.valueOf(charSequence.subSequence(start, end + 1)));
         size += (end - start) + 1;
+        expandCapacity();
         return this;
     }
 
@@ -85,6 +96,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
         String intStr = String.valueOf(i);
         stringBuilder.add(intStr);
         size += intStr.length();
+        expandCapacity();
         return this;
     }
 
@@ -92,6 +104,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
         String lngStr = String.valueOf(lng);
         stringBuilder.add(lngStr);
         size += lngStr.length();
+        expandCapacity();
         return this;
     }
 
@@ -99,6 +112,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
         String fltStr = String.valueOf(f);
         stringBuilder.add(fltStr);
         size += fltStr.length();
+        expandCapacity();
         return this;
     }
 
@@ -106,6 +120,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
         String dblStr = String.valueOf(d);
         stringBuilder.add(dblStr);
         size += dblStr.length();
+        expandCapacity();
         return this;
     }
 
@@ -119,10 +134,13 @@ public class CustomStringBuilder implements StringBuilderInterface {
     @Override
     public String toString() {
         String str = "";
-        for(String s : stringBuilder) {
+        for(String s : stringBuilder)
             str += s;
-        }
         return str;
     }
 
+    private void expandCapacity() {
+        while (size > capacity)
+            capacity *= 2;
+    }
 }
