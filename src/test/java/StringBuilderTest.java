@@ -19,8 +19,7 @@ public class StringBuilderTest {
 
     @Test
     public void givenStringBuilder_withCharSequenceConstructor_of_null_andLengthOf_0() {
-        CharSequence charSequence = null;
-        CustomStringBuilder customStringBuilder = new CustomStringBuilder(charSequence);
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder(null);
         assertEquals(0, customStringBuilder.length());
     }
 
@@ -52,7 +51,7 @@ public class StringBuilderTest {
     }
 
     @Test
-    public void givenStringBuilder_withStringConstructor_STRING_VALUE_OF_LENGTH_129_retunsLengthOf_129() {
+    public void givenStringBuilder_withStringConstructor_STRING_VALUE_OF_LENGTH_129_returnsLengthOf_129() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder(STRING_VALUE_OF_LENGTH_129);
         assertEquals(129, customStringBuilder.length());
     }
@@ -66,8 +65,7 @@ public class StringBuilderTest {
 
     @Test
     public void givenStringBuilder_withCharSequenceConstructor_of_null_on_toString_returns_emptyString() {
-        CharSequence charSequence = null;
-        CustomStringBuilder customStringBuilder = new CustomStringBuilder(charSequence);
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder(null);
         String stringValue = customStringBuilder.toString();
         assertEquals("", stringValue);
     }
@@ -99,6 +97,173 @@ public class StringBuilderTest {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
         String stringValue = customStringBuilder.toString();
         assertEquals("123abc", stringValue);
+    }
+
+    @Test
+    public void givenStringBuilderWithValueOf_123abc_onAppendingBooleanValueOf_true_returns_123abctrue_andLengthOf_10() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CustomStringBuilder appended = customStringBuilder.append(true);
+        String stringValue = appended.toString();
+        assertEquals("123abctrue", stringValue);
+        assertEquals(10, appended.length());
+
+    }
+
+    @Test
+    public void givenStringBuilderWithValueOf_123abc_onAppendingBooleanValueOf_false_returns_123abcfalse_andLengthOf_11() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CustomStringBuilder appended = customStringBuilder.append(false);
+        String stringValue = appended.toString();
+        assertEquals("123abcfalse", stringValue);
+        assertEquals(11, appended.length());
+    }
+
+    @Test
+    public void givenStringBuilderWithValueOf_123abc_onAppendingChar_d_returns_123abcd_andLengthOf_7() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CustomStringBuilder appended = customStringBuilder.append('d');
+        String stringValue = appended.toString();
+        assertEquals("123abcd", stringValue);
+        assertEquals(7, appended.length());
+    }
+
+    @Test
+    public void givenStringBuilderWithValueOf_123abc_onAppendingCharArrayOf_x_y_z_7_8_9_returns_123abcxyz789_andLengthOf_12() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        char[] append = new char[] {'x', 'y', 'z', '7', '8', '9'};
+        CustomStringBuilder appended = customStringBuilder.append(append);
+        assertEquals("123abcxyz789", appended.toString());
+        assertEquals(12, appended.length());
+    }
+
+    @Test
+    public void givenStringBuilderWithValueOf_123abc_onAppendingCharArrayOf_x_y_z_7_8_9_withOffsetOf_negative_1_throws_IndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        char[] append = new char[] {'x', 'y', 'z', '7', '8', '9'};
+        assertThrows(IndexOutOfBoundsException.class,
+                ()-> customStringBuilder.append(append,-1, 0));
+    }
+
+    @Test
+    public void givenStringBuilderWithValueOf_123abc_onAppendingCharArrayOf_x_y_z_7_8_9_withOffsetOf_1_andLengthOf_negative_1_throws_IndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        char[] append = new char[] {'x', 'y', 'z', '7', '8', '9'};
+        assertThrows(IndexOutOfBoundsException.class,
+                ()-> customStringBuilder.append(append,1, -1));
+    }
+
+    @Test
+    public void givenStringBuilderWithValueOf_123abc_onAppendingCharArrayOf_x_y_z_7_8_9_withOffsetOf_1_andLengthOf_10_throws_IndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        char[] append = new char[] {'x', 'y', 'z', '7', '8', '9'};
+        assertThrows(IndexOutOfBoundsException.class,
+                ()-> customStringBuilder.append(append,1, 10));
+    }
+
+    @Test
+    public void givenStringBuilderWithValueOf_123abc_onAppendingCharArrayOf_x_y_z_7_8_9_withOffsetOf_0_andLengthOf_6_returns_123abcxyz789_andLengthOf_12() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        char[] append = new char[] {'x', 'y', 'z', '7', '8', '9'};
+        CustomStringBuilder appended = customStringBuilder.append(append,0, 6);
+        assertEquals("123abcxyz789", appended.toString());
+        assertEquals(12, appended.length());
+    }
+
+    @Test
+    public void givenStringBuilderWithValueOf_123abc_onAppendingCharArrayOf_x_y_z_7_8_9_withOffsetOf_3_andLengthOf_3_returns_123abc789_andLengthOf_12() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        char[] append = new char[] {'x', 'y', 'z', '7', '8', '9'};
+        CustomStringBuilder appended = customStringBuilder.append(append,3, 3);
+        assertEquals("123abc789", appended.toString());
+        assertEquals(9, appended.length());
+    }
+
+    @Test
+    public void givenStringBuilderWithValueOf_123abc_onAppendingCharArrayOf_x_y_z_7_8_9_withOffsetOf_1_andLengthOf_2_returns_123abcZ7_andLengthOf_8() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        char[] append = new char[] {'x', 'y', 'z', '7', '8', '9'};
+        CustomStringBuilder appended = customStringBuilder.append(append,1, 2);
+        assertEquals("123abcyz", appended.toString());
+        assertEquals(8, appended.length());
+    }
+
+    @Test
+    public void givenStringBuilderWithValueOf_123abc_onAppendingCharSequenceOf_null_returns_123abcnull_andLengthOf_10() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CustomStringBuilder appended = customStringBuilder.append((CharSequence) null);
+        assertEquals("123abcnull", appended.toString());
+        assertEquals(10, appended.length());
+    }
+
+    @Test
+    public void givenStringBuilderWithValueOf_123abc_onAppendingCharSequenceOf_789_returns_123abc789_andLengthOf_9() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CharSequence charSequence = "789";
+        CustomStringBuilder appended = customStringBuilder.append(charSequence);
+        assertEquals("123abc789", appended.toString());
+        assertEquals(9, appended.length());
+    }
+
+    @Test
+    public void givenStringBuilderWithValueOf_123abc_onAppendingCharSequenceOf_123_at_indexOf_negative_1_andLengthOf_2_throws_IndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CharSequence charSequence = "123";
+        assertThrows(IndexOutOfBoundsException.class,
+                ()-> customStringBuilder.append(charSequence, -1, 2));
+    }
+
+    @Test
+    public void givenStringBuilderWithValueOf_123abc_onAppendingCharSequenceOf_123_at_indexOf_1_andEndIndexOf_5_throws_IndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CharSequence charSequence = "123";
+        assertThrows(IndexOutOfBoundsException.class,
+                ()-> customStringBuilder.append(charSequence, 1, 5));
+    }
+
+    @Test
+    public void givenStringBuilderWithValueOf_123abc_onAppendingCharSequenceOf_789_at_indexOf_1_andEndIndexOf_2_returns_123abc78_andLengthOf_8() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CharSequence charSequence = "789";
+        CustomStringBuilder appended = customStringBuilder.append(charSequence, 1, 2);
+        String stringValue = appended.toString();
+        assertEquals("123abc89", stringValue);
+        assertEquals(8, appended.length());
+    }
+
+    @Test
+    public void givenStringBuilderWithValueOf_123abc_onAppendingIntegerOf_10_returns_123abc10_andLengthOf_8() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CustomStringBuilder appended = customStringBuilder.append(10);
+        String stringValue = appended.toString();
+        assertEquals("123abc10", stringValue);
+        assertEquals(8, appended.length());
+    }
+
+    @Test
+    public void givenStringBuilderWithValueOf_123abc_onAppendingFloatOf_5_point_75f_returns_123abc5_point_75_andLengthOf_10() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CustomStringBuilder appended = customStringBuilder.append(5.75f);
+        String stringValue = appended.toString();
+        assertEquals("123abc5.75", stringValue);
+        assertEquals(10, appended.length());
+    }
+
+    @Test
+    public void givenStringBuilderWithValueOf_123abc_onAppendingDoubleOf_19_point_99d_returns_123abc19_point_99_andLengthOf_11() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CustomStringBuilder appended = customStringBuilder.append(19.99d);
+        String stringValue = appended.toString();
+        assertEquals("123abc19.99", stringValue);
+        assertEquals(11, appended.length());
+    }
+
+    @Test
+    public void givenStringBuilderWithValueOf_123abc_onAppendingLongValueOf_10_000L_returns_123abc10000_andLengthOf_11() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CustomStringBuilder appended = customStringBuilder.append(10_000L);
+        String stringValue = appended.toString();
+        assertEquals("123abc10000", stringValue);
+        assertEquals(11, appended.length());
     }
 
     private static final String STRING_VALUE_OF_LENGTH_129 = "uwcwiavzhhigohtwixbrlxserzenalmzmkzwhrtewfzqpcvtsrnxkpdzcqsvpnqsatxjftfkhrdagqqunffpezghcpkuhlwrttdduhwgvpoqsksfojgtkgtkxkyzvbykl";
