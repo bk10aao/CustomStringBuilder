@@ -18,7 +18,6 @@ public class CustomStringBuilder implements StringBuilderInterface {
         else {
             size = seq.length();
             stringBuilder.add(seq.toString());
-            expandCapacity();
         }
     }
 
@@ -126,6 +125,41 @@ public class CustomStringBuilder implements StringBuilderInterface {
 
     //TODO appendCodePoint
 
+    public CustomStringBuilder delete(int start, int end) {
+        if(start < 0 || start > size || start > end) {
+            throw new StringIndexOutOfBoundsException();
+        }
+        String s1 = "";
+        int nextIndex = 0;
+        List<Integer> matchesIndexes = new ArrayList<>();
+        while(s1.length() < end && nextIndex < stringBuilder.size()) {
+            matchesIndexes.add(nextIndex);
+            s1 += stringBuilder.get(nextIndex++);
+        }
+        if(matchesIndexes.size() == 1) {
+            setStart(start, end, matchesIndexes);
+        } else {
+            replaceInner(start, end, s1, matchesIndexes);
+        }
+        return this;
+    }
+
+    private void replaceInner(int start, int end, String s1, List<Integer> matchesIndexes) {
+        s1 = s1.substring(0, start) + s1.substring(end);
+        stringBuilder.subList(matchesIndexes.get(0), matchesIndexes.get(matchesIndexes.size() - 1) + 1).clear();
+        stringBuilder.add(0, s1);
+        System.out.println(123);
+    }
+
+    private void setStart(int start, int end, List<Integer> matchesIndexes) {
+        int removeIndex = matchesIndexes.get(0);
+        String toMod = stringBuilder.get(removeIndex);
+        if(end > toMod.length()) {
+            stringBuilder.set(0, toMod.substring(0, start));
+        } else {
+            stringBuilder.set(0, toMod.substring(0, start) + toMod.substring(end));
+        }
+    }
 
     public int length() {
         return size;
