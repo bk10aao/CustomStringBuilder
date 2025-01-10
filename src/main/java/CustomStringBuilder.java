@@ -125,6 +125,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
 
     //TODO appendCodePoint
 
+    //TODO - very inefficient - improve performance
     public CustomStringBuilder delete(int start, int end) {
         if(start < 0 || start > size || start > end) {
             throw new StringIndexOutOfBoundsException();
@@ -139,30 +140,132 @@ public class CustomStringBuilder implements StringBuilderInterface {
         if(matchesIndexes.size() == 1) {
             setStart(start, end, matchesIndexes);
         } else {
-            replaceInner(start, end, s1, matchesIndexes);
+            deleteInner(start, end, s1, matchesIndexes);
         }
         return this;
     }
 
-    private void replaceInner(int start, int end, String s1, List<Integer> matchesIndexes) {
+    public CustomStringBuilder deleteCharAt(int index) {
+        if(index < 0 || index >= size)
+            throw new StringIndexOutOfBoundsException();
+        return index < stringBuilder.get(0).length() ? removeCharFromStart(index) : removeChar(index);
+    }
+
+    public int length() {
+        return size;
+    }
+
+    //TODO - very inefficient - improve performance
+    public CustomStringBuilder replace(int start, int end, String str) {
+        if(start < 0 || start > size || start > end)
+            throw new StringIndexOutOfBoundsException();
+        String s1 = "";
+        int nextIndex = 0;
+        List<Integer> matchesIndexes = new ArrayList<>();
+        while(s1.length() < end && nextIndex < stringBuilder.size()) {
+            matchesIndexes.add(nextIndex);
+            s1 += stringBuilder.get(nextIndex++);
+        }
+        if(matchesIndexes.size() == 1)
+            replaceStart(start, end, str);
+        else
+            replaceInner(start, end, s1, matchesIndexes, str);
+        return this;
+    }
+
+    public CustomStringBuilder reverse() {
+        CustomStringBuilder sb = new CustomStringBuilder();
+        for(int i = stringBuilder.size() - 1; i >= 0; i--) {
+            char[] chars = stringBuilder.get(i).toCharArray();
+            String str = "";
+            for(char c : chars)
+                str = c + str;
+            sb.append(str);
+        }
+        return sb;
+    }
+
+    public void setCharAt(int index, char c) {
+        if(index < 0 || index > size)
+            throw new StringIndexOutOfBoundsException();
+        if (index < stringBuilder.get(0).length())
+            setStringStart(index, String.valueOf(c));
+        else
+            setString(index, String.valueOf(c));
+    }
+
+    private void replaceStart(int start, int end, String replaceStr) {
+        String toMod = stringBuilder.get(0);
+        toMod = end > toMod.length() ? toMod.substring(0, start) + replaceStr : toMod.substring(0, start) + replaceStr + toMod.substring(end);
+        stringBuilder.set(0, toMod);
+    }
+
+    private void replaceInner(int start, int end, String s1, List<Integer> matchesIndexes, String replaceString) {
+        s1 = end > s1.length() ? s1.substring(0, start) + replaceString : s1.substring(0, start) + replaceString + s1.substring(end);
+        stringBuilder.subList(matchesIndexes.get(0), matchesIndexes.get(matchesIndexes.size() - 1) + 1).clear();
+        stringBuilder.add(0, s1);
+    }
+
+    private CustomStringBuilder removeChar(int index) {
+        int currentIndex = 0;
+        int currentSize = stringBuilder.get(currentIndex).length();
+        int rollingIndex = index;
+        String currentIndexedString = "";
+        while (currentSize <= index) {
+            currentIndexedString = stringBuilder.get(++currentIndex);
+            rollingIndex -= currentIndexedString.length();
+            currentSize += currentIndexedString.length();
+        }
+        currentIndexedString = currentIndexedString.substring(0, rollingIndex) + currentIndexedString.substring(rollingIndex + 1);
+        stringBuilder.set(currentIndex, currentIndexedString);
+        return this;
+    }
+
+    private CustomStringBuilder removeCharFromStart(int index) {
+        String s1 = stringBuilder.get(0);
+        s1 = s1.substring(0, index) + s1.substring(index + 1);
+        stringBuilder.set(0, s1);
+        return this;
+    }
+
+    private void setStringStart(int index, String c) {
+        String s1 = stringBuilder.get(0);
+        s1 = s1.substring(0, index) + c + s1.substring(index + 1);
+        stringBuilder.set(0, s1);
+    }
+
+    private void setString(int index, String c) {
+        int currentIndex = 0;
+        int currentSize = stringBuilder.get(currentIndex).length();
+        int rollingIndex = index;
+        String currentIndexedString = "";
+        while (currentSize <= index) {
+            currentIndexedString = stringBuilder.get(++currentIndex);
+            rollingIndex -= currentIndexedString.length();
+            currentSize += currentIndexedString.length();
+        }
+        currentIndexedString = currentIndexedString.substring(0, rollingIndex) + c + currentIndexedString.substring(rollingIndex + 1);
+        stringBuilder.set(currentIndex, currentIndexedString);
+    }
+
+    private void deleteInner(int start, int end, String s1, List<Integer> matchesIndexes) {
         s1 = s1.substring(0, start) + s1.substring(end);
         stringBuilder.subList(matchesIndexes.get(0), matchesIndexes.get(matchesIndexes.size() - 1) + 1).clear();
         stringBuilder.add(0, s1);
-        System.out.println(123);
     }
 
     private void setStart(int start, int end, List<Integer> matchesIndexes) {
         int removeIndex = matchesIndexes.get(0);
         String toMod = stringBuilder.get(removeIndex);
-        if(end > toMod.length()) {
+        if(end > toMod.length())
             stringBuilder.set(0, toMod.substring(0, start));
-        } else {
+        else
             stringBuilder.set(0, toMod.substring(0, start) + toMod.substring(end));
-        }
     }
 
-    public int length() {
-        return size;
+    private void expandCapacity() {
+        while (size > capacity)
+            capacity *= 2;
     }
 
     @Override
@@ -171,10 +274,5 @@ public class CustomStringBuilder implements StringBuilderInterface {
         for(String s : stringBuilder)
             str += s;
         return str;
-    }
-
-    private void expandCapacity() {
-        while (size > capacity)
-            capacity *= 2;
     }
 }

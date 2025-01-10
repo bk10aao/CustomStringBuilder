@@ -284,23 +284,23 @@ public class StringBuilderTest {
         assertThrows(StringIndexOutOfBoundsException.class, () -> customStringBuilder.delete(5, 3));
     }
 
-//    @Test
-//    public void givenStringBuilderWithValueOf_123abc_onDeletingWithStartAndEndIndexOf5_returnsUnchangedStringOf_123abc() {
-//        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
-//        CustomStringBuilder modified = customStringBuilder.delete(2, 2);
-//        String stringValue = modified.toString();
-//        assertEquals("123abc", stringValue);
-//    }
+    @Test
+    public void givenStringBuilderWithValueOf_123abc_onDeletingWithStartAndEndIndexOf5_returnsUnchangedStringOf_123abc() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CustomStringBuilder modified = customStringBuilder.delete(2, 2);
+        String stringValue = modified.toString();
+        assertEquals("123abc", stringValue);
+    }
 
 
-//    @Test
-//    public void givenStringBuilderWithValueOf_123abc_onDeletingWithStartIndexOf_2_AndEndIndexOf_4_returnStringOf_12bc() {
-//        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
-//        CustomStringBuilder modified = customStringBuilder.delete(2, 4);
-//        String stringValue = modified.toString();
-//        assertEquals("12bc", stringValue);
-//    }
-//
+    @Test
+    public void givenStringBuilderWithValueOf_123abc_onDeletingWithStartIndexOf_2_AndEndIndexOf_4_returnStringOf_12bc() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CustomStringBuilder modified = customStringBuilder.delete(2, 4);
+        String stringValue = modified.toString();
+        assertEquals("12bc", stringValue);
+    }
+
     @Test
     public void givenStringBuilderWithValueOf_123abc_onDeletingWithStartIndexOf_2_AndEndIndexOf_10_returnStringOf_12() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
@@ -320,7 +320,7 @@ public class StringBuilderTest {
     }
 
     @Test
-    public void givenStringBuilder_withValues_123_abc_xyz_appended_onDeleteStartIndexOf_2_andEndIndexOf_6_returns_12bcx12312312yz() {
+    public void givenStringBuilder_withValues_123_abc_xyz_appended_onDeleteStartIndexOf_2_andEndIndexOf_6_returns_12bcx12xyz456() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("123");
         customStringBuilder.append("abc");
         customStringBuilder.append("xyz");
@@ -328,6 +328,261 @@ public class StringBuilderTest {
         CustomStringBuilder modified = customStringBuilder.delete(2, 6);
         String value = modified.toString();
         assertEquals("12xyz456", value);
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123abc_onDeleteCharAt_negative_1_throws_StringIndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        assertThrows(StringIndexOutOfBoundsException.class, () -> customStringBuilder.deleteCharAt(-1));
+    }
+    @Test
+    public void givenStringBuilder_withValues_123abc_onDeleteCharAt_10_throws_StringIndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        assertThrows(StringIndexOutOfBoundsException.class, () -> customStringBuilder.deleteCharAt(10));
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123abc_onDeleteCharAt_0_returns_23abc() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CustomStringBuilder modified = customStringBuilder.deleteCharAt(0);
+        String value = modified.toString();
+        assertEquals("23abc", value);
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123abc_onDeleteCharAt_1_returns_13abc() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CustomStringBuilder modified = customStringBuilder.deleteCharAt(1);
+        String value = modified.toString();
+        assertEquals("13abc", value);
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123_abc_xyz_appended_onDeleteCharAtIndexOf_3_returns_123bcxy456() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123");
+        customStringBuilder.append("abc");
+        customStringBuilder.append("xyz");
+        customStringBuilder.append("456");
+        CustomStringBuilder modified = customStringBuilder.deleteCharAt(3);
+        String value = modified.toString();
+        assertEquals("123bcxyz456", value);
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123_abc_xyz_appended_onDeleteCharAtIndexOf_4_returns_123acxy456() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123");
+        customStringBuilder.append("abc");
+        customStringBuilder.append("xyz");
+        customStringBuilder.append("456");
+        CustomStringBuilder modified = customStringBuilder.deleteCharAt(4);
+        String value = modified.toString();
+        assertEquals("123acxyz456", value);
+    }
+
+
+    @Test
+    public void givenStringBuilder_withValues_123_abc_xyz_appended_onDeleteCharAtIndexOf_5_returns_123abxy456() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123");
+        customStringBuilder.append("abc");
+        customStringBuilder.append("xyz");
+        customStringBuilder.append("456");
+        CustomStringBuilder modified = customStringBuilder.deleteCharAt(5);
+        String value = modified.toString();
+        assertEquals("123abxyz456", value);
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123_abc_xyz_appended_onDeleteCharAtIndexOf_6_returns_123abcyz456() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123");
+        customStringBuilder.append("abc");
+        customStringBuilder.append("xyz");
+        customStringBuilder.append("456");
+        CustomStringBuilder modified = customStringBuilder.deleteCharAt(6);
+        String value = modified.toString();
+        assertEquals("123abcyz456", value);
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123_abc_xyz_appended_onDeleteCharAtIndexOf_10_returns_123abcxyz46() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123");
+        customStringBuilder.append("abc");
+        customStringBuilder.append("xyz");
+        customStringBuilder.append("456");
+        CustomStringBuilder modified = customStringBuilder.deleteCharAt(10);
+        String value = modified.toString();
+        assertEquals("123abcxyz46", value);
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123_abc_xyz_appended_onDeleteCharAtIndexOf_11_returns_123abcxyz45() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123");
+        customStringBuilder.append("abc");
+        customStringBuilder.append("xyz");
+        customStringBuilder.append("456");
+        CustomStringBuilder modified = customStringBuilder.deleteCharAt(11);
+        String value = modified.toString();
+        assertEquals("123abcxyz45", value);
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123abcxyz_onReplace_withNegativeStartIndex_throws_StringIndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abcxyz");
+        assertThrows(StringIndexOutOfBoundsException.class, () -> customStringBuilder.replace(-1, 2, ""));
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123abcxyz_onReplace_withStartIndexLargerThanEndIndex_throws_StringIndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abcxyz");
+        assertThrows(StringIndexOutOfBoundsException.class, () -> customStringBuilder.replace(5, 1, ""));
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123abcxyz_onReplace_withStartIndexLargerLengthOfString_throws_StringIndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abcxyz");
+        assertThrows(StringIndexOutOfBoundsException.class, () -> customStringBuilder.replace(15, 100, ""));
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123abc_onReplaceRange_1_to_2_with_XX_returns_1XXabc() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CustomStringBuilder modified = customStringBuilder.replace(1, 2, "XX");
+        String value = modified.toString();
+        assertEquals("1XX3abc", value);
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123abc_onReplaceRange_1_to_3_with_XX_returns_1XXabc() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CustomStringBuilder modified = customStringBuilder.replace(1, 3, "XX");
+        String value = modified.toString();
+        assertEquals("1XXabc", value);
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123abc_onReplaceRange_1_to_3_with_XX_returns_1XXbc() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CustomStringBuilder modified = customStringBuilder.replace(1, 4, "XX");
+        String value = modified.toString();
+        assertEquals("1XXbc", value);
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123abc_onReplaceRange_1_to_6_with_XX_returns_1XX() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CustomStringBuilder modified = customStringBuilder.replace(1, 6, "XX");
+        String value = modified.toString();
+        assertEquals("1XX", value);
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123abc_onReplaceRange_1_to_7_with_XX_returns_1XX() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CustomStringBuilder modified = customStringBuilder.replace(1, 7, "XX");
+        String value = modified.toString();
+        assertEquals("1XX", value);
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123_abc_xyz_appended_onReplaceStartIndexOf_2_andEndIndexOf_4_with_XX_returns_12XXbcxyz() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123");
+        customStringBuilder.append("abc");
+        customStringBuilder.append("xyz");
+        CustomStringBuilder modified = customStringBuilder.replace(2, 4, "XX");
+        String value = modified.toString();
+        assertEquals("12XXbcxyz", value);
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123_abc_xyz_appended_onReplaceStartIndexOf_2_andEndIndexOf_6_with_X_returns_12X56() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123");
+        customStringBuilder.append("abc");
+        customStringBuilder.append("xyz");
+        customStringBuilder.append("456");
+        CustomStringBuilder modified = customStringBuilder.replace(2, 6, "X");
+        String value = modified.toString();
+        assertEquals("12Xxyz456", value);
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123_abc_xyz_appended_onReplaceStartIndexOf_10_andEndIndexOf_14_with_X_returns_123abcxyz4X() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123");
+        customStringBuilder.append("abc");
+        customStringBuilder.append("xyz");
+        customStringBuilder.append("456");
+        CustomStringBuilder modified = customStringBuilder.replace(10, 14, "X");
+        String value = modified.toString();
+        assertEquals("123abcxyz4X", value);
+    }
+
+    @Test
+    public void givenStringBuilder_withNoValues_onReverse_returns_emptyString() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        CustomStringBuilder reversed = customStringBuilder.reverse();
+        assertEquals("", reversed.toString());
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123_onReverse_returns_321() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123");
+        CustomStringBuilder reversed = customStringBuilder.reverse();
+        assertEquals("321", reversed.toString());
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123abc_onReverse_returns_cba321() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CustomStringBuilder reversed = customStringBuilder.reverse();
+        assertEquals("cba321", reversed.toString());
+    }
+
+    @Test
+    public void givenStringBuilder_withTwoAppendsOf_123_and_abc_returns_cba321() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        customStringBuilder.append("123");
+        customStringBuilder.append("abc");
+        CustomStringBuilder reversed = customStringBuilder.reverse();
+        assertEquals("cba321", reversed.toString());
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_withAppendsOf_123_abc_xyz_456_onReverse_returns_654zyxcba321() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123");
+        customStringBuilder.append("abc");
+        customStringBuilder.append("xyz");
+        customStringBuilder.append("456");
+        CustomStringBuilder reversed = customStringBuilder.reverse();
+        assertEquals("654zyxcba321", reversed.toString());
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123abcxyz_onSetCharAt_withNegativeStartIndex_throws_IndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abcxyz");
+        assertThrows(IndexOutOfBoundsException.class, () -> customStringBuilder.setCharAt(-1, 'X'));
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123abcxyz_onSetCharAt_withIndexLargerThanStringLength_throws_IndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abcxyz");
+        assertThrows(IndexOutOfBoundsException.class, () -> customStringBuilder.setCharAt(10, 'X'));
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123abcxyz_onSetCharAtIndex_2_withX_returns_12Xabcxyz() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abcxyz");
+        customStringBuilder.setCharAt(2, 'X');
+        String modified = customStringBuilder.toString();
+        assertEquals("12Xabcxyz", modified);
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_withAppendsOf_123_abc_xyz_456_onSetCharAt_5_t0_X_returns_123abXxyz456() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123");
+        customStringBuilder.append("abc");
+        customStringBuilder.append("xyz");
+        customStringBuilder.append("456");
+        customStringBuilder.setCharAt(5, 'X');
+        String modified = customStringBuilder.toString();
+        assertEquals("123abXxyz456", modified);
     }
 
     private static final String STRING_VALUE_OF_LENGTH_129 = "uwcwiavzhhigohtwixbrlxserzenalmzmkzwhrtewfzqpcvtsrnxkpdzcqsvpnqsatxjftfkhrdagqqunffpezghcpkuhlwrttdduhwgvpoqsksfojgtkgtkxkyzvbykl";
