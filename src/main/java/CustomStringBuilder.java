@@ -151,6 +151,8 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return index < stringBuilder.get(0).length() ? removeCharFromStart(index) : removeChar(index);
     }
 
+
+
     public int length() {
         return size;
     }
@@ -192,6 +194,36 @@ public class CustomStringBuilder implements StringBuilderInterface {
             setStringStart(index, String.valueOf(c));
         else
             setString(index, String.valueOf(c));
+    }
+
+    //TODO - very inefficient - improve performance
+    public String subString(int start) {
+        if(start < 0 || start >= size)
+            throw new StringIndexOutOfBoundsException();
+        int index = 0;
+
+        String str = stringBuilder.get(index++);
+        while(str.length() < start)
+            str += stringBuilder.get(index++);
+        str = str.substring(start);
+        for(int i = index; i < stringBuilder.size(); i++)
+            str += stringBuilder.get(i);
+
+        return str;
+    }
+
+    //TODO - very inefficient - improve performance
+    public String subString(int start, int end) {
+        if(start < 0 || start > size || start > end || end >= size)
+            throw new StringIndexOutOfBoundsException();
+        int index = 0;
+        String str = stringBuilder.get(index++);
+        while(str.length() <= start)
+            str += stringBuilder.get(index++);
+        while(str.length() <= end)
+            str += stringBuilder.get(index++);
+
+        return str.substring(start, end);
     }
 
     private void replaceStart(int start, int end, String replaceStr) {
