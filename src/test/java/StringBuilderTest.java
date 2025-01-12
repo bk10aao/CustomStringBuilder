@@ -719,21 +719,21 @@ public class StringBuilderTest {
     }
 
     @Test
-    public void givenStringBuilder_withValues_123abc_onSubString_startIndexOf_1_endIndexOf_3_returns_23() {
+    public void givenStringBuilder_withValues_123abc_onSubString_startIndexOf_1_onSubString_endIndexOf_3_returns_23() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
         String subString = customStringBuilder.subString(1, 3);
         assertEquals("23", subString);
     }
 
     @Test
-    public void givenStringBuilder_withValues_123abc_onSubString_startIndexOf_2_endIndexOf_3_returns_3() {
+    public void givenStringBuilder_withValues_123abc_onSubString_startIndexOf_2_onSubString_endIndexOf_3_returns_3() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
         String subString = customStringBuilder.subString(2, 3);
         assertEquals("3", subString);
     }
 
     @Test
-    public void givenStringBuilder_withFourValuesAppendedOf_123_abc_456_78_90_startIndexOf_2_endIndexOf_8_returns_3abc4() {
+    public void givenStringBuilder_withFourValuesAppendedOf_123_abc_456_78_90_onSubString_startIndexOf_2_endIndexOf_8_returns_3abc4() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
         customStringBuilder.append("456");
         customStringBuilder.append("7890");
@@ -742,7 +742,7 @@ public class StringBuilderTest {
     }
 
     @Test
-    public void givenStringBuilder_withFourValuesAppendedOf_1_2_3_a_b_c_4_5_6_withStartIndexOf_4_andEndIndexOf_8_returns_bc45() {
+    public void givenStringBuilder_withFourValuesAppendedOf_1_2_3_a_b_c_4_5_6_onSubString_withStartIndexOf_4_andEndIndexOf_8_returns_bc45() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("1");
         customStringBuilder.append("2");
         customStringBuilder.append("3");
@@ -753,6 +753,75 @@ public class StringBuilderTest {
         customStringBuilder.append("5");
         customStringBuilder.append("6");
         String subString = customStringBuilder.subString(4, 8);
+        assertEquals("bc45", subString);
+    }
+
+    //HERE
+    @Test
+    public void givenStringBuilder_withValues_123abc_onSubSequence_withIndexOf_negative_1_and_2_throws_IndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        assertThrows(IndexOutOfBoundsException.class, () -> customStringBuilder.subSequence(-1, 2));
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123abc_onSubSequence_withIndexOf_3_and_endIndexOf_2_throws_IndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        assertThrows(IndexOutOfBoundsException.class, () -> customStringBuilder.subSequence(3, 2));
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123abc_onSubSequence_withIndexof_1_and_endIndexOf_negative_1_throws_IndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        assertThrows(IndexOutOfBoundsException.class, () -> customStringBuilder.subSequence(1, -1));
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123abc_onSubSequence_withIndexof_1_and_endIndexLargerThanStringSize_throws_IndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        assertThrows(IndexOutOfBoundsException.class, () -> customStringBuilder.subSequence(1, 10));
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123abc_onSubSequence_withIndexLargerThanStringLengthOf_10_andEndIndexOf_15throws_StringIndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        assertThrows(IndexOutOfBoundsException.class, () -> customStringBuilder.subSequence(10, 15));
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123abc_onSubSequence_startIndexOf_1_endIndexOf_3_returns_23() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CharSequence subSequence = customStringBuilder.subSequence(1, 3);
+        assertEquals("23", subSequence);
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_123abc_onSubSequence_startIndexOf_2_endIndexOf_3_returns_3() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CharSequence subSequence = customStringBuilder.subSequence(2, 3);
+        assertEquals("3", subSequence);
+    }
+
+    @Test
+    public void givenStringBuilder_withFourValuesAppendedOf_123_abc_456_78_90_subSequence_startIndexOf_2_endIndexOf_8_returns_3abc4() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        customStringBuilder.append("456");
+        customStringBuilder.append("7890");
+        CharSequence subString = customStringBuilder.subSequence(2, 8);
+        assertEquals("3abc45", subString);
+    }
+
+    @Test
+    public void givenStringBuilder_withFourValuesAppendedOf_1_2_3_a_b_c_4_5_6_subSequence_withStartIndexOf_4_andEndIndexOf_8_returns_bc45() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("1");
+        customStringBuilder.append("2");
+        customStringBuilder.append("3");
+        customStringBuilder.append("a");
+        customStringBuilder.append("b");
+        customStringBuilder.append("c");
+        customStringBuilder.append("4");
+        customStringBuilder.append("5");
+        customStringBuilder.append("6");
+        CharSequence subString = customStringBuilder.subSequence(4, 8);
         assertEquals("bc45", subString);
     }
 

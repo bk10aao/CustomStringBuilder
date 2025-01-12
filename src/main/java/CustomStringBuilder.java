@@ -196,6 +196,14 @@ public class CustomStringBuilder implements StringBuilderInterface {
             setString(index, String.valueOf(c));
     }
 
+    public CharSequence subSequence(int start, int end) {
+        try {
+            return subString(start, end);
+        } catch(StringIndexOutOfBoundsException e) {
+            throw new IndexOutOfBoundsException();
+        }
+    }
+
     //TODO - very inefficient - improve performance
     public String subString(int start) {
         if(start < 0 || start >= size)
