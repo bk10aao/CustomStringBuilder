@@ -151,7 +151,51 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return index < stringBuilder.get(0).length() ? removeCharFromStart(index) : removeChar(index);
     }
 
+    public int indexOf(String str) {
+        int index = 0;
+        for (String inner : stringBuilder) {
+            int temp = inner.indexOf(str);
+            if (temp != -1)
+                return index + temp;
+            else
+                index += inner.length();
+        }
+        return -1;
+    }
 
+    public int indexOf(String str, int fromIndex) {
+        if(fromIndex > size || fromIndex < 0) 
+            return -1;
+        else if(stringBuilder.size() == 1) {
+            String subString = stringBuilder.get(0).substring(fromIndex);
+            if(subString.contains(str)) 
+                return subString.indexOf(str) + fromIndex;
+        } else {
+            return indexOfInner(str, fromIndex);
+        }
+        return -1;
+    }
+
+    private int indexOfInner(String str, int fromIndex) {
+        int index = 0;
+        String current = stringBuilder.get(index);
+        int count = current.length();
+
+        for (int i = 1; i < stringBuilder.size(); i++) {
+            count += stringBuilder.get(i).length();
+            if(count >= fromIndex) {
+                index = i;
+                break;
+            }
+        }
+        for(int i = index + 1; i < stringBuilder.size(); i++) {
+            String next = stringBuilder.get(i);
+            if(next.contains(str))
+                return count + next.indexOf(str);
+            count += next.length();
+        }
+        return -1;
+    }
 
     public int length() {
         return size;

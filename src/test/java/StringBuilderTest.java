@@ -379,7 +379,6 @@ public class StringBuilderTest {
         assertEquals("123acxyz456", value);
     }
 
-
     @Test
     public void givenStringBuilder_withValues_123_abc_xyz_appended_onDeleteCharAtIndexOf_5_returns_123abxy456() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("123");
@@ -756,7 +755,6 @@ public class StringBuilderTest {
         assertEquals("bc45", subString);
     }
 
-    //HERE
     @Test
     public void givenStringBuilder_withValues_123abc_onSubSequence_withIndexOf_negative_1_and_2_throws_IndexOutOfBoundsException() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
@@ -823,6 +821,169 @@ public class StringBuilderTest {
         customStringBuilder.append("6");
         CharSequence subString = customStringBuilder.subSequence(4, 8);
         assertEquals("bc45", subString);
+    }
+
+    @Test
+    public void givenStringBuilder_withNoValues_onIndexOf_A_returns_negative_1() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        assertEquals(-1, customStringBuilder.indexOf("A"));
+    }
+
+    @Test
+    public void givenStringBuilder_withValue_A_onIndexOf_B_returns_negative_1() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("A");
+        assertEquals(-1, customStringBuilder.indexOf("B"));
+    }
+
+    @Test
+    public void givenStringBuilder_withValue_A_onIndexOf_A_returns_0() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("A");
+        assertEquals(0, customStringBuilder.indexOf("A"));
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_abc123_onIndexOf_c_returns_2() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("abc123");
+        assertEquals(2, customStringBuilder.indexOf("c"));
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_abc123_onIndexOf_3_returns_4() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("abc123");
+        assertEquals(5, customStringBuilder.indexOf("3"));
+    }
+
+    @Test
+    public void givenStringBuilder_withFourValuesAppendedOf_123_abc_456_78_90_onIndexOf_2_returns_1() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        customStringBuilder.append("456");
+        customStringBuilder.append("7890");
+        int strIndex = customStringBuilder.indexOf("2");
+        assertEquals(1, strIndex);
+    }
+
+    @Test
+    public void givenStringBuilder_withFourValuesAppendedOf_123_abc_456_78_90_onIndexOf_c_returns_5() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        customStringBuilder.append("456");
+        customStringBuilder.append("7890");
+        int strIndex = customStringBuilder.indexOf("c");
+        assertEquals(5, strIndex);
+    }
+
+    @Test
+    public void givenStringBuilder_withFourValuesAppendedOf_123_abc_456_78_90_onIndexOf_5_returns_7() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        customStringBuilder.append("456");
+        customStringBuilder.append("7890");
+        int strIndex = customStringBuilder.indexOf("5");
+        assertEquals(7, strIndex);
+    }
+
+    @Test
+    public void givenStringBuilder_withFourValuesAppendedOf_123_abc_456_78_90_onIndexOf_7_returns_9() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        customStringBuilder.append("456");
+        customStringBuilder.append("7890");
+        int strIndex = customStringBuilder.indexOf("7");
+        assertEquals(9, strIndex);
+    }
+
+    @Test
+    public void givenStringBuilder_withFourValuesAppendedOf_123_abc_456_78_90_onIndexOf_0_returns_12() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        customStringBuilder.append("456");
+        customStringBuilder.append("7890");
+        int strIndex = customStringBuilder.indexOf("0");
+        assertEquals(12, strIndex);
+    }
+
+    @Test
+    public void givenStringBuilder_withValue_A_onIndexOf_B_withStartIndexOf_negative_1_returns_negative_1() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("A");
+        assertEquals(-1, customStringBuilder.indexOf("B", 1));
+    }
+
+    @Test
+    public void givenStringBuilder_withNoValues_onIndexOf_A_withStartIndexOf_0_returns_negative_1() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        assertEquals(-1, customStringBuilder.indexOf("A", 1));
+    }
+
+    @Test
+    public void givenStringBuilder_withValue_A_onIndexOf_B_withStartIndexOf_0_returns_negative_1() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("A");
+        assertEquals(-1, customStringBuilder.indexOf("B", 0));
+    }
+
+    @Test
+    public void givenStringBuilder_withValue_A_onIndexOf_B_withStartIndexOf_1_returns_negative_1() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("A");
+        assertEquals(-1, customStringBuilder.indexOf("B", 1));
+    }
+
+    @Test
+    public void givenStringBuilder_withValue_A_onIndexOf_A_fromIndexOf_0_returns_0() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("A");
+        assertEquals(0, customStringBuilder.indexOf("A", 0));
+    }
+
+    @Test
+    public void givenStringBuilder_withValue_ABB_onIndexOf_A_fromIndexOf_1_returns_3() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABA");
+        assertEquals(2, customStringBuilder.indexOf("A", 1));
+    }
+
+    @Test
+    public void givenStringBuilder_withValue_ABAB_onIndexOf_B_fromIndexOf_2_returns_3() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABAB");
+        assertEquals(3, customStringBuilder.indexOf("B", 2));
+    }
+
+    @Test
+    public void givenStringBuilder_withFourValuesAppendedOf_123_abc_456_78_90_onIndexOf_0_fromIndex_0_returns_12() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        customStringBuilder.append("456");
+        customStringBuilder.append("7890");
+        int strIndex = customStringBuilder.indexOf("0", 0);
+        assertEquals(12, strIndex);
+    }
+
+    @Test
+    public void givenStringBuilder_withFourValuesAppendedOf_123_abc_456_78_90_onIndexOf_456_fromIndex_2_returns_6() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        customStringBuilder.append("456");
+        customStringBuilder.append("7890");
+        int strIndex = customStringBuilder.indexOf("0", 0);
+        assertEquals(12, strIndex);
+    }
+
+    @Test
+    public void givenStringBuilder_withFourValuesAppendedOf_123_abc_456_78_90_onIndexOf_789_fromIndex_2_returns_9() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        customStringBuilder.append("456");
+        customStringBuilder.append("7890");
+        int strIndex = customStringBuilder.indexOf("789", 2);
+        assertEquals(9, strIndex);
+    }
+
+    @Test
+    public void givenStringBuilder_withFourValuesAppendedOf_123_abc_456_7890_onIndexOf_890_fromIndex_2_returns_10() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        customStringBuilder.append("456");
+        customStringBuilder.append("7890");
+        int strIndex = customStringBuilder.indexOf("890", 9);
+        assertEquals(10, strIndex);
+    }
+
+    @Test
+    public void givenStringBuilder_withFourValuesAppendedOf_123_abc_456_7890_abc_onIndexOf_abc_fromIndex_5_returns_13() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        customStringBuilder.append("456");
+        customStringBuilder.append("7890");
+        customStringBuilder.append("abc");
+        int strIndex = customStringBuilder.indexOf("abc", 5);
+        assertEquals(13, strIndex);
     }
 
     private static final String STRING_VALUE_OF_LENGTH_129 = "uwcwiavzhhigohtwixbrlxserzenalmzmkzwhrtewfzqpcvtsrnxkpdzcqsvpnqsatxjftfkhrdagqqunffpezghcpkuhlwrttdduhwgvpoqsksfojgtkgtkxkyzvbykl";
