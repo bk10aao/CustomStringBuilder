@@ -986,6 +986,61 @@ public class StringBuilderTest {
         assertEquals(13, strIndex);
     }
 
+    @Test
+    public void givenStringBuilder_withNo_withLastIndexOf_A_returns_negative_1() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        int strIndex = customStringBuilder.lastIndexOf("A");
+        assertEquals(-1, strIndex);
+    }
+
+    @Test
+    public void givenStringBuilder_withValueOf_A_withLastIndexOf_A_returns_0() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("A");
+        int strIndex = customStringBuilder.lastIndexOf("A");
+        assertEquals(0, strIndex);
+    }
+
+    @Test
+    public void givenStringBuilder_withValueOf_ABA_withLastIndexOf_A_returns_2() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABA");
+        int strIndex = customStringBuilder.lastIndexOf("A");
+        assertEquals(2, strIndex);
+    }
+
+    @Test
+    public void givenStringBuilder_withValueOf_ABA_withLastIndexOf_B_returns_1() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABA");
+        int strIndex = customStringBuilder.lastIndexOf("A");
+        assertEquals(2, strIndex);
+    }
+
+    @Test
+    public void givenStringBuilder_withFourValuesAppendedOf_123_abc_456_78_90_onLastIndexOf_0_returns_12() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        customStringBuilder.append("456");
+        customStringBuilder.append("7890");
+        int strIndex = customStringBuilder.lastIndexOf("0");
+        assertEquals(12, strIndex);
+    }
+
+    @Test
+    public void givenStringBuilder_withFourValuesAppendedOf_123_abc_456_78_90_onLastIndexOf_456_returns_7() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        customStringBuilder.append("456");
+        customStringBuilder.append("7890");
+        int strIndex = customStringBuilder.lastIndexOf("456");
+        assertEquals(6, strIndex);
+    }
+
+    @Test
+    public void givenStringBuilder_withFourValuesAppendedOf_123_abc_456_78_90_onLastIndexOf_c45_returns_6() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        customStringBuilder.append("456");
+        customStringBuilder.append("7890");
+        int strIndex = customStringBuilder.lastIndexOf("c45");
+        assertEquals(5, strIndex);
+    }
+
     private static final String STRING_VALUE_OF_LENGTH_129 = "uwcwiavzhhigohtwixbrlxserzenalmzmkzwhrtewfzqpcvtsrnxkpdzcqsvpnqsatxjftfkhrdagqqunffpezghcpkuhlwrttdduhwgvpoqsksfojgtkgtkxkyzvbykl";
 
 }

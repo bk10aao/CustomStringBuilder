@@ -163,6 +163,26 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return -1;
     }
 
+    public int lastIndexOf(String str) {
+        String built = "";
+        for(int i = stringBuilder.size() - 1; i >= 0; i--) {
+            if(built.length() < str.length()) {
+                built = stringBuilder.get(i) + built;
+                if(built.lastIndexOf(str) != -1) {
+                    int idx = built.length() - built.lastIndexOf(str);
+                    return size - idx;
+                }
+            } else {
+                built = stringBuilder.get(i) + built;
+                if(built.lastIndexOf(str) != -1) {
+                    int idx = built.length() - built.lastIndexOf(str);
+                    return size - idx;
+                }
+            }
+        }
+        return -1;
+    }
+
     public int indexOf(String str, int fromIndex) {
         if(fromIndex > size || fromIndex < 0) 
             return -1;
@@ -172,27 +192,6 @@ public class CustomStringBuilder implements StringBuilderInterface {
                 return subString.indexOf(str) + fromIndex;
         } else {
             return indexOfInner(str, fromIndex);
-        }
-        return -1;
-    }
-
-    private int indexOfInner(String str, int fromIndex) {
-        int index = 0;
-        String current = stringBuilder.get(index);
-        int count = current.length();
-
-        for (int i = 1; i < stringBuilder.size(); i++) {
-            count += stringBuilder.get(i).length();
-            if(count >= fromIndex) {
-                index = i;
-                break;
-            }
-        }
-        for(int i = index + 1; i < stringBuilder.size(); i++) {
-            String next = stringBuilder.get(i);
-            if(next.contains(str))
-                return count + next.indexOf(str);
-            count += next.length();
         }
         return -1;
     }
@@ -350,6 +349,28 @@ public class CustomStringBuilder implements StringBuilderInterface {
     private void expandCapacity() {
         while (size > capacity)
             capacity *= 2;
+    }
+
+
+    private int indexOfInner(String str, int fromIndex) {
+        int index = 0;
+        String current = stringBuilder.get(index);
+        int count = current.length();
+
+        for (int i = 1; i < stringBuilder.size(); i++) {
+            count += stringBuilder.get(i).length();
+            if(count >= fromIndex) {
+                index = i;
+                break;
+            }
+        }
+        for(int i = index + 1; i < stringBuilder.size(); i++) {
+            String next = stringBuilder.get(i);
+            if(next.contains(str))
+                return count + next.indexOf(str);
+            count += next.length();
+        }
+        return -1;
     }
 
     @Override

@@ -12,8 +12,8 @@ public interface StringBuilderInterface {
     CustomStringBuilder append(double d);
     CustomStringBuilder delete(int start, int end);
     CustomStringBuilder deleteCharAt(int index);
-
     int indexOf(String str);
+    int lastIndexOf(String str);
     int indexOf(String str, int fromIndex);
     int length();
     CustomStringBuilder replace(int start, int end, String str);
