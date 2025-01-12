@@ -16,6 +16,7 @@ public interface StringBuilderInterface {
     CustomStringBuilder replace(int start, int end, String str);
     CustomStringBuilder reverse();
     void setCharAt(int index, char c);
+    CharSequence subSequence(int start, int end);
     String subString(int start);
     String subString(int start, int end);
     String toString();
