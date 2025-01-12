@@ -30,7 +30,6 @@ public class StringBuilderTest {
         assertEquals(6, customStringBuilder.length());
     }
 
-
     @Test
     public void givenStringBuilder_withStringConstructor_andEmptyString_returns_lengthOf_0() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("");
@@ -287,7 +286,7 @@ public class StringBuilderTest {
     @Test
     public void givenStringBuilderWithValueOf_123abc_onDeletingWithStartAndEndIndexOf5_returnsUnchangedStringOf_123abc() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
-        CustomStringBuilder modified = customStringBuilder.delete(2, 2);
+        CustomStringBuilder modified = customStringBuilder.delete(5, 5);
         String stringValue = modified.toString();
         assertEquals("123abc", stringValue);
     }
@@ -1040,6 +1039,78 @@ public class StringBuilderTest {
         int strIndex = customStringBuilder.lastIndexOf("c45");
         assertEquals(5, strIndex);
     }
+
+    @Test
+    public void givenStringBuilder_withValues_ABCDEFGHI_and_JKLMNOPQ_onDelete_0_1_returns_BCDEFGHIJKLMNOPQ() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABCDEFGHI");
+        customStringBuilder.append("JKLMNOPQ");
+        CustomStringBuilder result = customStringBuilder.delete(0, 1);
+        String str = result.toString();
+        assertEquals("BCDEFGHIJKLMNOPQ", str);
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_ABCDEFGHI_and_JKLMNOPQ_onDelete_0_2_returns_CDEFGHIJKLMNOPQ() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABCDEFGHI");
+        customStringBuilder.append("JKLMNOPQ");
+        CustomStringBuilder result = customStringBuilder.delete(0, 2);
+        String str = result.toString();
+        assertEquals("CDEFGHIJKLMNOPQ", str);
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_ABCDEFGHI_and_JKLMNOPQ_onDelete_0_3_returns_CDEFGHIJKLMNOPQ() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABCDEFGHI");
+        customStringBuilder.append("JKLMNOPQ");
+        CustomStringBuilder result = customStringBuilder.delete(0, 3);
+        String str = result.toString();
+        assertEquals("DEFGHIJKLMNOPQ", str);
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_ABCDEFGHI_and_JKLMNOPQ_onDelete_1_2_returns_ACDEFGHIJKLMNOPQ() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABCDEFGHI");
+        customStringBuilder.append("JKLMNOPQ");
+        CustomStringBuilder result = customStringBuilder.delete(1, 2);
+        String str = result.toString();
+        assertEquals("ACDEFGHIJKLMNOPQ", str);
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_ABCDEFGHI_and_JKLMNOPQ_onDelete_1_3_returns_ADEFGHIJKLMNOPQ() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABCDEFGHI");
+        customStringBuilder.append("JKLMNOPQ");
+        CustomStringBuilder result = customStringBuilder.delete(1, 3);
+        String str = result.toString();
+        assertEquals("ADEFGHIJKLMNOPQ", str);
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_ABCDEFGHI_and_JKLMNOPQ_onDelete_8_9_returns_ABCDEFGHJKLMNOPQ() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABCDEFGHI");
+        customStringBuilder.append("JKLMNOPQ");
+        CustomStringBuilder result = customStringBuilder.delete(8, 9);
+        String str = result.toString();
+        assertEquals("ABCDEFGHJKLMNOPQ", str);
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_ABCDEFGHI_and_JKLMNOPQ_onDelete_8_10_returns_ABCDEFGHKLMNOPQ() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABCDEFGHI");
+        customStringBuilder.append("JKLMNOPQ");
+        CustomStringBuilder result = customStringBuilder.delete(8, 10);
+        String str = result.toString();
+        assertEquals("ABCDEFGHKLMNOPQ", str);
+    }
+
+//    @Test
+//    public void givenStringBuilder_withValues_ABCDEFGHI_and_JKLMNOPQ_onDelete_1_3_returns_ADEFGHIJKLMNOPQ() {
+//        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABCDEFGHI");
+//        customStringBuilder.append("JKLMNOPQ");
+//        CustomStringBuilder result = customStringBuilder.delete(1, 3);
+//        String str = result.toString();
+//        assertEquals("ADEFGHIJKLMNOPQ", str);
+//    }
 
     private static final String STRING_VALUE_OF_LENGTH_129 = "uwcwiavzhhigohtwixbrlxserzenalmzmkzwhrtewfzqpcvtsrnxkpdzcqsvpnqsatxjftfkhrdagqqunffpezghcpkuhlwrttdduhwgvpoqsksfojgtkgtkxkyzvbykl";
 

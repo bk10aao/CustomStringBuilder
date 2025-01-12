@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -64,6 +65,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
         expandCapacity();
         return this;
     }
+
     public CustomStringBuilder append(char[] str, int offset, int len) {
         if(offset < 0 || len < 0 || offset + len > str.length)
             throw new IndexOutOfBoundsException();
@@ -123,25 +125,14 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return this;
     }
 
-    //TODO appendCodePoint
-
-    //TODO - very inefficient - improve performance
     public CustomStringBuilder delete(int start, int end) {
-        if(start < 0 || start > size || start > end) {
+        if(start < 0 || start > size || start > end)
             throw new StringIndexOutOfBoundsException();
-        }
-        String s1 = "";
-        int nextIndex = 0;
-        List<Integer> matchesIndexes = new ArrayList<>();
-        while(s1.length() < end && nextIndex < stringBuilder.size()) {
-            matchesIndexes.add(nextIndex);
-            s1 += stringBuilder.get(nextIndex++);
-        }
-        if(matchesIndexes.size() == 1) {
-            setStart(start, end, matchesIndexes);
-        } else {
-            deleteInner(start, end, s1, matchesIndexes);
-        }
+        String str = toString().substring(0, start);
+        if(end < size)
+            str += toString().substring(end);
+        stringBuilder = new ArrayList<>();
+        stringBuilder.add(str);
         return this;
     }
 
@@ -190,9 +181,8 @@ public class CustomStringBuilder implements StringBuilderInterface {
             String subString = stringBuilder.get(0).substring(fromIndex);
             if(subString.contains(str)) 
                 return subString.indexOf(str) + fromIndex;
-        } else {
+        } else
             return indexOfInner(str, fromIndex);
-        }
         return -1;
     }
 
@@ -200,7 +190,6 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return size;
     }
 
-    //TODO - very inefficient - improve performance
     public CustomStringBuilder replace(int start, int end, String str) {
         if(start < 0 || start > size || start > end)
             throw new StringIndexOutOfBoundsException();
@@ -247,7 +236,6 @@ public class CustomStringBuilder implements StringBuilderInterface {
         }
     }
 
-    //TODO - very inefficient - improve performance
     public String subString(int start) {
         if(start < 0 || start >= size)
             throw new StringIndexOutOfBoundsException();
@@ -263,7 +251,6 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return str;
     }
 
-    //TODO - very inefficient - improve performance
     public String subString(int start, int end) {
         if(start < 0 || start > size || start > end || end >= size)
             throw new StringIndexOutOfBoundsException();
@@ -331,26 +318,10 @@ public class CustomStringBuilder implements StringBuilderInterface {
         stringBuilder.set(currentIndex, currentIndexedString);
     }
 
-    private void deleteInner(int start, int end, String s1, List<Integer> matchesIndexes) {
-        s1 = s1.substring(0, start) + s1.substring(end);
-        stringBuilder.subList(matchesIndexes.get(0), matchesIndexes.get(matchesIndexes.size() - 1) + 1).clear();
-        stringBuilder.add(0, s1);
-    }
-
-    private void setStart(int start, int end, List<Integer> matchesIndexes) {
-        int removeIndex = matchesIndexes.get(0);
-        String toMod = stringBuilder.get(removeIndex);
-        if(end > toMod.length())
-            stringBuilder.set(0, toMod.substring(0, start));
-        else
-            stringBuilder.set(0, toMod.substring(0, start) + toMod.substring(end));
-    }
-
     private void expandCapacity() {
         while (size > capacity)
             capacity *= 2;
     }
-
 
     private int indexOfInner(String str, int fromIndex) {
         int index = 0;
@@ -375,9 +346,19 @@ public class CustomStringBuilder implements StringBuilderInterface {
 
     @Override
     public String toString() {
-        String str = "";
-        for(String s : stringBuilder)
-            str += s;
-        return str;
+        int totalLength = 0;
+        for (String str : stringBuilder)
+            totalLength += str.length();
+
+        char[] result = new char[totalLength];
+        int currentIndex = 0;
+
+        for (String str : stringBuilder) {
+            char[] charArray = str.toCharArray();
+            System.arraycopy(charArray, 0, result, currentIndex, charArray.length);
+            currentIndex += charArray.length;
+        }
+
+        return new String(result);
     }
 }
