@@ -239,6 +239,16 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return insert(dstOffset, String.valueOf(s));
     }
 
+    //TODO
+    public CustomStringBuilder insert(int dstOffset, CharSequence s, int start, int end) {
+        return this;
+    }
+
+    @Override
+    public CustomStringBuilder insert(int offset, double d) {
+        return insert(offset, String.valueOf(d));
+    }
+
     public int length() {
         return size;
     }

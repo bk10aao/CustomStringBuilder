@@ -21,6 +21,8 @@ public interface StringBuilderInterface {
     CustomStringBuilder insert(int offset, char[] str);
     CustomStringBuilder insert(int index, char[] str, int offset, int len);
     CustomStringBuilder insert(int dstOffset, CharSequence s);
+    CustomStringBuilder insert(int dstOffset, CharSequence s, int start, int end);
+    CustomStringBuilder insert(int offset, double d);
     int length();
     CustomStringBuilder replace(int start, int end, String str);
     CustomStringBuilder reverse();

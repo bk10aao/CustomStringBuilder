@@ -1427,6 +1427,40 @@ public class StringBuilderTest {
         String str = result.toString();
         assertEquals("ABCDEFGHITEST", str);
     }
-    private static final String STRING_VALUE_OF_LENGTH_129 = "uwcwiavzhhigohtwixbrlxserzenalmzmkzwhrtewfzqpcvtsrnxkpdzcqsvpnqsatxjftfkhrdagqqunffpezghcpkuhlwrttdduhwgvpoqsksfojgtkgtkxkyzvbykl";
 
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingADoubleValueOF_666_AtIndex_6_returns_ABCDEF666GHI() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        double d = 666;
+        CustomStringBuilder result = customStringBuilder.insert(6, d);
+        String str = result.toString();
+        assertEquals("ABCDEF666.0GHI", str);
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingADoubleValueOF_666_AtIndex_7_returns_ABCDEFG666HI() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        CharSequence charSequence = "TEST";
+        double d = 666;
+        CustomStringBuilder result = customStringBuilder.insert(7, d);
+        String str = result.toString();
+        assertEquals("ABCDEFG666.0HI", str);
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingADoubleValueOF_666_returns_ABCDEFGHI666() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        double d = 666;
+        CustomStringBuilder result = customStringBuilder.insert(9, d);
+        String str = result.toString();
+        assertEquals("ABCDEFGHI666.0", str);
+    }
+
+    private static final String STRING_VALUE_OF_LENGTH_129 = "uwcwiavzhhigohtwixbrlxserzenalmzmkzwhrtewfzqpcvtsrnxkpdzcqsvpnqsatxjftfkhrdagqqunffpezghcpkuhlwrttdduhwgvpoqsksfojgtkgtkxkyzvbykl";
 }
