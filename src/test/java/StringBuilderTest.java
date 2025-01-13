@@ -1189,6 +1189,178 @@ public class StringBuilderTest {
         assertEquals("ABCDEFGHITEST", str);
     }
 
+    @Test
+    public void giveStringBuilder_withValues_ABC_onInsertingABoolean_True_AtIndex_negative_1_throws_StringIndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        assertThrows(StringIndexOutOfBoundsException.class, () -> customStringBuilder.insert(-1, true));
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_onInsertingABoolean_True_AtIndex_negative_4_throws_StringIndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        assertThrows(StringIndexOutOfBoundsException.class, () -> customStringBuilder.insert(4, true));
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_onInsertingABoolean_True_AtIndex_3_returns_ABCD() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        CustomStringBuilder result = customStringBuilder.insert(3, true);
+        String str = result.toString();
+        assertEquals("ABCtrue", str);
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_onInsertingABoolean_True_AtIndex_0_returns_trueABC() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        CustomStringBuilder result = customStringBuilder.insert(0, true);
+        String str = result.toString();
+        assertEquals("trueABC", str);
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_onInsertingABoolean_True_AtIndex_1_returns_AtrueBC() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        CustomStringBuilder result = customStringBuilder.insert(1, true);
+        String str = result.toString();
+        assertEquals("AtrueBC", str);
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingABoolean_True_AtIndex_3_returns_ABCtrueDEFGHI() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        CustomStringBuilder result = customStringBuilder.insert(3, true);
+        String str = result.toString();
+        assertEquals("ABCtrueDEFGHI", str);
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingABoolean_True_AtIndex_4_returns_ABCDtrueEFGHI() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        CustomStringBuilder result = customStringBuilder.insert(4, true);
+        String str = result.toString();
+        assertEquals("ABCDtrueEFGHI", str);
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_oonInsertingABoolean_True_AtIndex_6_returns_ABCDEFtrueGHI() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        CustomStringBuilder result = customStringBuilder.insert(6, true);
+        String str = result.toString();
+        assertEquals("ABCDEFtrueGHI", str);
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingABoolean_True_AtIndex_7_returns_ABCDEFGtrueHI() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        CustomStringBuilder result = customStringBuilder.insert(7, true);
+        String str = result.toString();
+        assertEquals("ABCDEFGtrueHI", str);
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingABoolean_True_AtIndex_9_returns_ABCDEFGHItrue() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        CustomStringBuilder result = customStringBuilder.insert(9, true);
+        String str = result.toString();
+        assertEquals("ABCDEFGHItrue", str);
+    }
+
+    //HERE
+    @Test
+    public void giveStringBuilder_withValues_ABC_onInsertingACharOf_X_AtIndex_negative_1_throws_StringIndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        assertThrows(StringIndexOutOfBoundsException.class, () -> customStringBuilder.insert(-1, 'X'));
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_onInsertingACharOf_X_AtIndex_negative_4_throws_StringIndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        assertThrows(StringIndexOutOfBoundsException.class, () -> customStringBuilder.insert(4, 'X'));
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_onInsertingACharOf_X_AtIndex_3_returns_ABCX() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        CustomStringBuilder result = customStringBuilder.insert(3, 'X');
+        String str = result.toString();
+        assertEquals("ABCX", str);
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_onInsertingACharOf_X_AtIndex_0_returns_XABC() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        CustomStringBuilder result = customStringBuilder.insert(0, 'X');
+        String str = result.toString();
+        assertEquals("XABC", str);
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_onInsertingACharOf_X_AtIndex_1_returns_AXBC() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        CustomStringBuilder result = customStringBuilder.insert(1, 'X');
+        String str = result.toString();
+        assertEquals("AXBC", str);
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingABoolean_True_AtIndex_3_returns_ABCXDEFGHI() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        CustomStringBuilder result = customStringBuilder.insert(3, 'X');
+        String str = result.toString();
+        assertEquals("ABCXDEFGHI", str);
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingABoolean_X_AtIndex_4_returns_ABCDXEFGHI() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        CustomStringBuilder result = customStringBuilder.insert(4, 'X');
+        String str = result.toString();
+        assertEquals("ABCDXEFGHI", str);
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingABoolean_X_AtIndex_6_returns_ABCDEFXGHI() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        CustomStringBuilder result = customStringBuilder.insert(6, 'X');
+        String str = result.toString();
+        assertEquals("ABCDEFXGHI", str);
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingABoolean_X_AtIndex_7_returns_ABCDEFGXHI() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        CustomStringBuilder result = customStringBuilder.insert(7, 'X');
+        String str = result.toString();
+        assertEquals("ABCDEFGXHI", str);
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingABoolean_X_AtIndex_9_returns_ABCDEFGHIX() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        CustomStringBuilder result = customStringBuilder.insert(9, 'X');
+        String str = result.toString();
+        assertEquals("ABCDEFGHIX", str);
+    }
     private static final String STRING_VALUE_OF_LENGTH_129 = "uwcwiavzhhigohtwixbrlxserzenalmzmkzwhrtewfzqpcvtsrnxkpdzcqsvpnqsatxjftfkhrdagqqunffpezghcpkuhlwrttdduhwgvpoqsksfojgtkgtkxkyzvbykl";
 
 }

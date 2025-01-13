@@ -186,34 +186,44 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return -1;
     }
 
-    public CustomStringBuilder insert(int index, String str) {
-        if(index < 0 || index > size)
+    public CustomStringBuilder insert(int offset, String str) {
+        if(offset < 0 || offset > size)
             throw new StringIndexOutOfBoundsException();
-
-        if(index == 0) {
+        if(str == null) {
+            str = "null";
+        }
+        if(offset == 0) {
             stringBuilder.set(0, str + stringBuilder.get(0));
-        } else if(index == size) {
+        } else if(offset == size) {
             stringBuilder.add(str);
         } else {
             String s = stringBuilder.get(0);
-            if(s.length() > index) {
-                s = s.substring(0, index) + str + s.substring(index);
+            if(s.length() > offset) {
+                s = s.substring(0, offset) + str + s.substring(offset);
                 stringBuilder.set(0, s);
             } else {
                 int idx = 0;
                 List<Integer> matchedIndexes = new ArrayList<>();
                 matchedIndexes.add(idx++);
-                String inner = stringBuilder.get(0);
-                while (inner.length() <= index) {
-                    inner += stringBuilder.get(idx);
+
+                while (s.length() <= offset) {
+                    s += stringBuilder.get(idx);
                     matchedIndexes.add(idx++);
                 }
-                inner = inner.substring(0, index) + str + inner.substring(index);
+                s = s.substring(0, offset) + str + s.substring(offset);
                 stringBuilder.subList(0, matchedIndexes.size()).clear();
-                stringBuilder.add(0, inner);
+                stringBuilder.add(0, s);
             }
         }
         return this;
+    }
+
+    public CustomStringBuilder insert(int offset, boolean b) {
+        return insert(offset, String.valueOf(b));
+    }
+
+    public CustomStringBuilder insert(int offset, char c) {
+        return insert(offset, String.valueOf(c));
     }
 
     public int length() {
