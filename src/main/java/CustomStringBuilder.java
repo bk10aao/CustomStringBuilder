@@ -186,6 +186,36 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return -1;
     }
 
+    public CustomStringBuilder insert(int index, String str) {
+        if(index < 0 || index > size)
+            throw new StringIndexOutOfBoundsException();
+
+        if(index == 0) {
+            stringBuilder.set(0, str + stringBuilder.get(0));
+        } else if(index == size) {
+            stringBuilder.add(str);
+        } else {
+            String s = stringBuilder.get(0);
+            if(s.length() > index) {
+                s = s.substring(0, index) + str + s.substring(index);
+                stringBuilder.set(0, s);
+            } else {
+                int idx = 0;
+                List<Integer> matchedIndexes = new ArrayList<>();
+                matchedIndexes.add(idx++);
+                String inner = stringBuilder.get(0);
+                while (inner.length() <= index) {
+                    inner += stringBuilder.get(idx);
+                    matchedIndexes.add(idx++);
+                }
+                inner = inner.substring(0, index) + str + inner.substring(index);
+                stringBuilder.subList(0, matchedIndexes.size()).clear();
+                stringBuilder.add(0, inner);
+            }
+        }
+        return this;
+    }
+
     public int length() {
         return size;
     }

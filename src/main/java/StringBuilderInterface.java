@@ -15,6 +15,7 @@ public interface StringBuilderInterface {
     int indexOf(String str);
     int lastIndexOf(String str);
     int indexOf(String str, int fromIndex);
+    CustomStringBuilder insert(int index, String str);
     int length();
     CustomStringBuilder replace(int start, int end, String str);
     CustomStringBuilder reverse();
