@@ -230,6 +230,15 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return insert(offset, String.valueOf(str));
     }
 
+    //TODO
+    public CustomStringBuilder insert(int index, char[] str, int offset, int len) {
+        return this;
+    }
+
+    public CustomStringBuilder insert(int dstOffset, CharSequence s) {
+        return insert(dstOffset, String.valueOf(s));
+    }
+
     public int length() {
         return size;
     }
