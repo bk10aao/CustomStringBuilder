@@ -1323,7 +1323,7 @@ public class StringBuilderTest {
     }
 
     @Test
-    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingABoolean_X_AtIndex_4_returns_ABCDXEFGHI() {
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingCharOf_X_AtIndex_4_returns_ABCDXEFGHI() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
         customStringBuilder.append("DEF");
         customStringBuilder.append("GHI");
@@ -1333,7 +1333,7 @@ public class StringBuilderTest {
     }
 
     @Test
-    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingABoolean_X_AtIndex_6_returns_ABCDEFXGHI() {
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingCharOf_X_AtIndex_6_returns_ABCDEFXGHI() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
         customStringBuilder.append("DEF");
         customStringBuilder.append("GHI");
@@ -1343,7 +1343,7 @@ public class StringBuilderTest {
     }
 
     @Test
-    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingABoolean_X_AtIndex_7_returns_ABCDEFGXHI() {
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingCharOf_X_AtIndex_7_returns_ABCDEFGXHI() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
         customStringBuilder.append("DEF");
         customStringBuilder.append("GHI");
@@ -1353,7 +1353,7 @@ public class StringBuilderTest {
     }
 
     @Test
-    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingABoolean_X_AtIndex_9_returns_ABCDEFGHIX() {
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingCharOf_X_AtIndex_9_returns_ABCDEFGHIX() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
         customStringBuilder.append("DEF");
         customStringBuilder.append("GHI");
@@ -1361,6 +1361,37 @@ public class StringBuilderTest {
         String str = result.toString();
         assertEquals("ABCDEFGHIX", str);
     }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingACharArrayOf_T_E_S_T_AtIndex_6_returns_ABCDEFTESTGHI() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        CustomStringBuilder result = customStringBuilder.insert(6, new char[] {'T', 'E', 'S', 'T'});
+        String str = result.toString();
+        assertEquals("ABCDEFTESTGHI", str);
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingACharArrayOf_T_E_S_T_AtIndex_7_returns_ABCDEFGTESTHI() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        CustomStringBuilder result = customStringBuilder.insert(7, new char[] {'T', 'E', 'S', 'T'});
+        String str = result.toString();
+        assertEquals("ABCDEFGTESTHI", str);
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingACharArrayOf_T_E_S_T_AtIndex_9_returns_ABCDEFGHITEST() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        CustomStringBuilder result = customStringBuilder.insert(9, new char[] {'T', 'E', 'S', 'T'});
+        String str = result.toString();
+        assertEquals("ABCDEFGHITEST", str);
+    }
+
     private static final String STRING_VALUE_OF_LENGTH_129 = "uwcwiavzhhigohtwixbrlxserzenalmzmkzwhrtewfzqpcvtsrnxkpdzcqsvpnqsatxjftfkhrdagqqunffpezghcpkuhlwrttdduhwgvpoqsksfojgtkgtkxkyzvbykl";
 
 }
