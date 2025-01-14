@@ -10,6 +10,7 @@ public interface StringBuilderInterface {
     CustomStringBuilder append(long lng);
     CustomStringBuilder append(float f);
     CustomStringBuilder append(double d);
+    CustomStringBuilder append(String str);
     CustomStringBuilder delete(int start, int end);
     CustomStringBuilder deleteCharAt(int index);
     int indexOf(String str);

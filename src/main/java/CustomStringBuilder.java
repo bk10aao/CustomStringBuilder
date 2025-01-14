@@ -40,82 +40,54 @@ public class CustomStringBuilder implements StringBuilderInterface {
     }
 
     public CustomStringBuilder append(boolean b) {
-        String bStr = String.valueOf(b);
-        stringBuilder.add(bStr);
-        size += bStr.length();
-        expandCapacity();
-        return this;
+        return append(String.valueOf(b));
     }
 
     public CustomStringBuilder append(char c) {
-        stringBuilder.add(String.valueOf(c));
-        size++;
-        expandCapacity();
-        return this;
+        return append(String.valueOf(c));
     }
 
     public CustomStringBuilder append(char[] str) {
-        stringBuilder.add(String.valueOf(str));
-        size += str.length;
-        expandCapacity();
-        return this;
+        return append(new String(str));
     }
 
     public CustomStringBuilder append(char[] str, int offset, int len) {
         if(offset < 0 || len < 0 || offset + len > str.length)
             throw new IndexOutOfBoundsException();
-        String appendString = new String(Arrays.copyOfRange(str, offset, offset + len));
-        stringBuilder.add(appendString);
-        size += appendString.length();
-        expandCapacity();
-        return this;
+        return append(new String(Arrays.copyOfRange(str, offset, offset + len)));
     }
 
     public CustomStringBuilder append(CharSequence charSequence) {
-        String appendString = String.valueOf(charSequence);
-        stringBuilder.add(String.valueOf(charSequence));
-        size += appendString.length();
-        expandCapacity();
-        return this;
+        return append(String.valueOf(charSequence));
     }
 
     public CustomStringBuilder append(CharSequence charSequence, int start, int end) {
         if(start < 0 || end < 0 || start > end || end > charSequence.length())
             throw new IndexOutOfBoundsException();
-        stringBuilder.add(String.valueOf(charSequence.subSequence(start, end + 1)));
-        size += (end - start) + 1;
-        expandCapacity();
-        return this;
-    }
-
-    public CustomStringBuilder append(int i) {
-        String intStr = String.valueOf(i);
-        stringBuilder.add(intStr);
-        size += intStr.length();
-        expandCapacity();
-        return this;
-    }
-
-    public CustomStringBuilder append(long lng) {
-        String lngStr = String.valueOf(lng);
-        stringBuilder.add(lngStr);
-        size += lngStr.length();
-        expandCapacity();
-        return this;
-    }
-
-    public CustomStringBuilder append(float f) {
-        String fltStr = String.valueOf(f);
-        stringBuilder.add(fltStr);
-        size += fltStr.length();
-        expandCapacity();
-        return this;
+        return append(charSequence.subSequence(start, end + 1));
     }
 
     public CustomStringBuilder append(double d) {
-        String dblStr = String.valueOf(d);
-        stringBuilder.add(dblStr);
-        size += dblStr.length();
+        return append(String.valueOf(d));
+
+    }
+
+    public CustomStringBuilder append(float f) {
+        return append(String.valueOf(f));
+    }
+
+    public CustomStringBuilder append(int i) {
+        return append(String.valueOf(i));
+    }
+
+    public CustomStringBuilder append(long lng) {
+        return append(String.valueOf(lng));
+    }
+
+    public CustomStringBuilder append(String str) {
+        String appendString = String.valueOf(str);
+        stringBuilder.add(String.valueOf(str));
+        size += appendString.length();
         expandCapacity();
         return this;
     }
@@ -123,11 +95,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
     public CustomStringBuilder delete(int start, int end) {
         if(start < 0 || start > size || start > end)
             throw new StringIndexOutOfBoundsException();
-        String str = toString().substring(0, start);
-        if(end < size)
-            str += toString().substring(end);
-        stringBuilder = new ArrayList<>();
-        stringBuilder.add(str);
+        replace(start, end, "");
         return this;
     }
 
@@ -247,6 +215,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
         String s1 = "";
         int nextIndex = 0;
         List<Integer> matchesIndexes = new ArrayList<>();
+
         while(s1.length() < end && nextIndex < stringBuilder.size()) {
             matchesIndexes.add(nextIndex);
             s1 += stringBuilder.get(nextIndex++);
