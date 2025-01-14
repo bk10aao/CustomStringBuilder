@@ -260,6 +260,10 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return insert(offset, String.valueOf(l));
     }
 
+    public CustomStringBuilder insert(int offset, Object obj) {
+        return insert(offset, obj.toString());
+    }
+
     public int length() {
         return size;
     }

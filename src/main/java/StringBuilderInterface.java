@@ -26,6 +26,7 @@ public interface StringBuilderInterface {
     CustomStringBuilder insert(int offset, float f);
     CustomStringBuilder insert(int offset, int i);
     CustomStringBuilder insert(int offset, long l);
+    CustomStringBuilder insert(int offset, Object obj);
     int length();
     CustomStringBuilder replace(int start, int end, String str);
     CustomStringBuilder reverse();
@@ -34,5 +35,4 @@ public interface StringBuilderInterface {
     String subString(int start);
     String subString(int start, int end);
     String toString();
-
 }
