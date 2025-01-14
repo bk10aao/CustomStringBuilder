@@ -334,6 +334,8 @@ public class CustomStringBuilder implements StringBuilderInterface {
         String str = stringBuilder.get(idx++).substring(start);
         for(int i = idx; i < stringBuilder.size(); i++) {
             str += stringBuilder.get(i);
+            if(str.length() > end - start)
+                return str.substring(0, end - start);
         }
         return str.substring(0, end - start);
     }
