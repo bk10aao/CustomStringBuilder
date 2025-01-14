@@ -1611,7 +1611,7 @@ public class StringBuilderTest {
 
     private static final String STRING_VALUE_OF_LENGTH_129 = "uwcwiavzhhigohtwixbrlxserzenalmzmkzwhrtewfzqpcvtsrnxkpdzcqsvpnqsatxjftfkhrdagqqunffpezghcpkuhlwrttdduhwgvpoqsksfojgtkgtkxkyzvbykl";
 
-    private class TestObject {
+    private static class TestObject {
         int x = 0;
         int y = 1;
         int z = 2;
