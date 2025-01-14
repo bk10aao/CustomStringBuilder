@@ -158,7 +158,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
 
     public int indexOf(String str, int fromIndex) {
         int start = fromIndex;
-        if(fromIndex > size || fromIndex < 0)
+        if(fromIndex > size || fromIndex < 0 || size == 0)
             return -1;
         else if(stringBuilder.size() == 1) {
             String subString = stringBuilder.getFirst().substring(fromIndex);
