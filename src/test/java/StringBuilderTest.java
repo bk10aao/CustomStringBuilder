@@ -1497,14 +1497,14 @@ public class StringBuilderTest {
     }
 
     @Test
-    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingIntValueOF_666_AtIndex_6_returns_ABCDEF2point14159GHI() {
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingIntValueOF_666_AtIndex_6_returns_ABCDEF2point666GHI() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
         customStringBuilder.append("DEF");
         customStringBuilder.append("GHI");
-        float pi = 3.14159f;
-        CustomStringBuilder result = customStringBuilder.insert(6, pi);
+        int i = 666;
+        CustomStringBuilder result = customStringBuilder.insert(6, i);
         String str = result.toString();
-        assertEquals("ABCDEF3.14159GHI", str);
+        assertEquals("ABCDEF666GHI", str);
     }
 
     @Test
@@ -1513,10 +1513,10 @@ public class StringBuilderTest {
         customStringBuilder.append("DEF");
         customStringBuilder.append("GHI");
         CharSequence charSequence = "TEST";
-        float pi = 3.14159f;
-        CustomStringBuilder result = customStringBuilder.insert(7, pi);
+        int i = 666;
+        CustomStringBuilder result = customStringBuilder.insert(7, i);
         String str = result.toString();
-        assertEquals("ABCDEFG3.14159HI", str);
+        assertEquals("ABCDEFG666HI", str);
     }
 
     @Test
@@ -1524,10 +1524,10 @@ public class StringBuilderTest {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
         customStringBuilder.append("DEF");
         customStringBuilder.append("GHI");
-        float pi = 3.14159f;
-        CustomStringBuilder result = customStringBuilder.insert(9, pi);
+        int i = 666;
+        CustomStringBuilder result = customStringBuilder.insert(9, i);
         String str = result.toString();
-        assertEquals("ABCDEFGHI3.14159", str);
+        assertEquals("ABCDEFGHI666", str);
     }
 
     private static final String STRING_VALUE_OF_LENGTH_129 = "uwcwiavzhhigohtwixbrlxserzenalmzmkzwhrtewfzqpcvtsrnxkpdzcqsvpnqsatxjftfkhrdagqqunffpezghcpkuhlwrttdduhwgvpoqsksfojgtkgtkxkyzvbykl";
