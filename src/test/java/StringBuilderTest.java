@@ -1530,5 +1530,39 @@ public class StringBuilderTest {
         assertEquals("ABCDEFGHI666", str);
     }
 
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingLongValueOF_666_AtIndex_6_returns_ABCDEF2point666GHI() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        long l = 666;
+        CustomStringBuilder result = customStringBuilder.insert(6, l);
+        String str = result.toString();
+        assertEquals("ABCDEF666GHI", str);
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingLongValueOF_666_AtIndex_7_returns_ABCDEFG666HI() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        CharSequence charSequence = "TEST";
+        long l = 666;
+        CustomStringBuilder result = customStringBuilder.insert(7, l);
+        String str = result.toString();
+        assertEquals("ABCDEFG666HI", str);
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingLongValueOF_666_returns_ABCDEFGHI666() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        long l = 666;
+        CustomStringBuilder result = customStringBuilder.insert(9, l);
+        String str = result.toString();
+        assertEquals("ABCDEFGHI666", str);
+    }
+
     private static final String STRING_VALUE_OF_LENGTH_129 = "uwcwiavzhhigohtwixbrlxserzenalmzmkzwhrtewfzqpcvtsrnxkpdzcqsvpnqsatxjftfkhrdagqqunffpezghcpkuhlwrttdduhwgvpoqsksfojgtkgtkxkyzvbykl";
 }
