@@ -23,6 +23,7 @@ public interface StringBuilderInterface {
     CustomStringBuilder insert(int dstOffset, CharSequence s);
     CustomStringBuilder insert(int dstOffset, CharSequence s, int start, int end);
     CustomStringBuilder insert(int offset, double d);
+    CustomStringBuilder insert(int offset, float f);
     int length();
     CustomStringBuilder replace(int start, int end, String str);
     CustomStringBuilder reverse();
@@ -31,4 +32,5 @@ public interface StringBuilderInterface {
     String subString(int start);
     String subString(int start, int end);
     String toString();
+
 }

@@ -244,10 +244,14 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return this;
     }
 
-    @Override
     public CustomStringBuilder insert(int offset, double d) {
         return insert(offset, String.valueOf(d));
     }
+
+    public CustomStringBuilder insert(int offset, float f) {
+        return insert(offset, String.valueOf(f));
+    }
+
 
     public int length() {
         return size;
