@@ -230,10 +230,10 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return insert(offset, String.valueOf(str));
     }
 
-    //TODO
     public CustomStringBuilder insert(int index, char[] str, int offset, int len) {
-
-        return this;
+        if(index < 0 || index > size || offset < 0 || len < 0 ||  offset + len > size)
+            throw new StringIndexOutOfBoundsException();
+        return insert(offset, String.valueOf(str).substring(offset, len));
     }
 
     public CustomStringBuilder insert(int dstOffset, CharSequence s) {
@@ -241,9 +241,8 @@ public class CustomStringBuilder implements StringBuilderInterface {
     }
 
     public CustomStringBuilder insert(int dstOffset, CharSequence s, int start, int end) {
-        if(dstOffset < 0 || dstOffset > size || start < 0 || end < 0 || start > size || start > end) {
+        if(dstOffset < 0 || dstOffset > size || start < 0 || end < 0 || start > size || start > end)
             throw new IndexOutOfBoundsException();
-        }
         return insert(dstOffset, s.subSequence(start, end));
     }
 
