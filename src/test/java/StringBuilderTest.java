@@ -291,7 +291,6 @@ public class StringBuilderTest {
         assertEquals("123abc", stringValue);
     }
 
-
     @Test
     public void givenStringBuilderWithValueOf_123abc_onDeletingWithStartIndexOf_2_AndEndIndexOf_4_returnStringOf_12bc() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
@@ -334,6 +333,7 @@ public class StringBuilderTest {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
         assertThrows(StringIndexOutOfBoundsException.class, () -> customStringBuilder.deleteCharAt(-1));
     }
+
     @Test
     public void givenStringBuilder_withValues_123abc_onDeleteCharAt_10_throws_StringIndexOutOfBoundsException() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
@@ -1294,7 +1294,6 @@ public class StringBuilderTest {
         assertEquals("ABCDEFGHItrue", str);
     }
 
-    //HERE
     @Test
     public void giveStringBuilder_withValues_ABC_onInsertingACharOf_X_AtIndex_negative_1_throws_StringIndexOutOfBoundsException() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
@@ -1606,8 +1605,6 @@ public class StringBuilderTest {
         String str = result.toString();
         assertEquals("ABCDEFGHITestObject{x=0, y=1, z=2}", str);
     }
-
-
 
     private static final String STRING_VALUE_OF_LENGTH_129 = "uwcwiavzhhigohtwixbrlxserzenalmzmkzwhrtewfzqpcvtsrnxkpdzcqsvpnqsatxjftfkhrdagqqunffpezghcpkuhlwrttdduhwgvpoqsksfojgtkgtkxkyzvbykl";
 

@@ -8,7 +8,6 @@ public class CustomStringBuilder implements StringBuilderInterface {
     private List<String> stringBuilder = new ArrayList<>();
 
     private int size = 0;
-
     private int capacity = 128;
 
     public CustomStringBuilder() { }
@@ -94,8 +93,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
     public CustomStringBuilder delete(final int start, final int end) {
         if(start < 0 || start > size || start > end)
             throw new StringIndexOutOfBoundsException();
-        replace(start, end, "");
-        return this;
+        return replace(start, end, "");
     }
 
     public CustomStringBuilder deleteCharAt(final int index) {
@@ -117,9 +115,8 @@ public class CustomStringBuilder implements StringBuilderInterface {
             return subString.contains(str) ? subString.indexOf(str) + fromIndex : -1;
         } else {
             int idx = 0;
-            while (fromIndex > stringBuilder.get(idx).length()) {
+            while (fromIndex > stringBuilder.get(idx).length())
                 fromIndex -= stringBuilder.get(idx++).length();
-            }
             String s = stringBuilder.get(idx).substring(fromIndex);
             if(s.contains(str))
                 return s.indexOf(str) + start;
@@ -128,7 +125,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
                     s += stringBuilder.get(i);
                     if (s.contains(str))
                         return s.indexOf(str) + start;
-            }
+                }
             return -1;
         }
     }
@@ -241,9 +238,11 @@ public class CustomStringBuilder implements StringBuilderInterface {
     public void setCharAt(int index, final char c) {
         if(index < 0 || index > size)
             throw new StringIndexOutOfBoundsException();
-        if (index < stringBuilder.getFirst().length())
-            setStringStart(index, String.valueOf(c));
-        else {
+        if (index < stringBuilder.getFirst().length()) {
+            String s1 = stringBuilder.getFirst();
+            s1 = s1.substring(0, index) + c + s1.substring(index + 1);
+            stringBuilder.set(0, s1);
+        } else {
             int idx = 0;
             while (index > stringBuilder.get(idx).length())
                 index -= stringBuilder.get(++idx).length();
@@ -303,7 +302,6 @@ public class CustomStringBuilder implements StringBuilderInterface {
             System.arraycopy(charArray, 0, result, currentIndex, charArray.length);
             currentIndex += charArray.length;
         }
-
         return new String(result);
     }
 
