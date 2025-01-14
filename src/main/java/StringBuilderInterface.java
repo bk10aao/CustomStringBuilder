@@ -15,18 +15,20 @@ public interface StringBuilderInterface {
     int indexOf(String str);
     int lastIndexOf(String str);
     int indexOf(String str, int fromIndex);
-    CustomStringBuilder insert(int index, String str);
-    CustomStringBuilder insert(int offset, boolean b);
-    CustomStringBuilder insert(int offset, char c);
-    CustomStringBuilder insert(int offset, char[] str);
+
     CustomStringBuilder insert(int index, char[] str, int offset, int len);
     CustomStringBuilder insert(int dstOffset, CharSequence s);
     CustomStringBuilder insert(int dstOffset, CharSequence s, int start, int end);
+    CustomStringBuilder insert(int offset, boolean b);
+    CustomStringBuilder insert(int offset, char c);
     CustomStringBuilder insert(int offset, double d);
     CustomStringBuilder insert(int offset, float f);
     CustomStringBuilder insert(int offset, int i);
     CustomStringBuilder insert(int offset, long l);
     CustomStringBuilder insert(int offset, Object obj);
+    CustomStringBuilder insert(int index, String str);
+    CustomStringBuilder insert(int offset, char[] str);
+
     int length();
     CustomStringBuilder replace(int start, int end, String str);
     CustomStringBuilder reverse();

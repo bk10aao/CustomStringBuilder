@@ -232,6 +232,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
 
     //TODO
     public CustomStringBuilder insert(int index, char[] str, int offset, int len) {
+
         return this;
     }
 
@@ -239,9 +240,11 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return insert(dstOffset, String.valueOf(s));
     }
 
-    //TODO
     public CustomStringBuilder insert(int dstOffset, CharSequence s, int start, int end) {
-        return this;
+        if(dstOffset < 0 || dstOffset > size || start < 0 || end < 0 || start > size || start > end) {
+            throw new IndexOutOfBoundsException();
+        }
+        return insert(dstOffset, s.subSequence(start, end));
     }
 
     public CustomStringBuilder insert(int offset, double d) {

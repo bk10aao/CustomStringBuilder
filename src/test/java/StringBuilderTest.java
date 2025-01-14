@@ -1392,8 +1392,6 @@ public class StringBuilderTest {
         assertEquals("ABCDEFGHITEST", str);
     }
 
-    //        CharSequence charSequence = "123abc";
-
     @Test
     public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingACharSequenceOfTEST_AtIndex_6_returns_ABCDEFTESTGHI() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
