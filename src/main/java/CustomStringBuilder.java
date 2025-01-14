@@ -55,13 +55,8 @@ public class CustomStringBuilder implements StringBuilderInterface {
     }
 
     public CustomStringBuilder append(char[] str) {
-        if(str == null) {
-            stringBuilder.add("null");
-            size += 4;
-        } else {
-            stringBuilder.add(String.valueOf(str));
-            size += str.length;
-        }
+        stringBuilder.add(String.valueOf(str));
+        size += str.length;
         expandCapacity();
         return this;
     }
@@ -144,16 +139,6 @@ public class CustomStringBuilder implements StringBuilderInterface {
 
     public int indexOf(String str) {
         return indexOf(str, 0);
-    }
-
-    public int lastIndexOf(String str) {
-        String built = "";
-        for(int i = stringBuilder.size() - 1; i >= 0; i--) {
-            built = stringBuilder.get(i) + built;
-            if(built.lastIndexOf(str) != -1)
-                return size - (built.length() - built.lastIndexOf(str));
-        }
-        return -1;
     }
 
     public int indexOf(String str, int fromIndex) {
@@ -240,6 +225,16 @@ public class CustomStringBuilder implements StringBuilderInterface {
 
     public CustomStringBuilder insert(int offset, Object obj) {
         return insert(offset, obj.toString());
+    }
+
+    public int lastIndexOf(String str) {
+        String built = "";
+        for(int i = stringBuilder.size() - 1; i >= 0; i--) {
+            built = stringBuilder.get(i) + built;
+            if(built.lastIndexOf(str) != -1)
+                return size - (built.length() - built.lastIndexOf(str));
+        }
+        return -1;
     }
 
     public int length() {
