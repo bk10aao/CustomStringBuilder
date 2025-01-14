@@ -24,6 +24,7 @@ public interface StringBuilderInterface {
     CustomStringBuilder insert(int dstOffset, CharSequence s, int start, int end);
     CustomStringBuilder insert(int offset, double d);
     CustomStringBuilder insert(int offset, float f);
+    CustomStringBuilder insert(int offset, int i);
     int length();
     CustomStringBuilder replace(int start, int end, String str);
     CustomStringBuilder reverse();

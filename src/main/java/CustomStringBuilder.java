@@ -252,6 +252,9 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return insert(offset, String.valueOf(f));
     }
 
+    public CustomStringBuilder insert(int offset, int i) {
+        return insert(offset, String.valueOf(i));
+    }
 
     public int length() {
         return size;

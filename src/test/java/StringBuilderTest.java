@@ -1474,7 +1474,7 @@ public class StringBuilderTest {
     }
 
     @Test
-    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingFloatValueOF_pi_AtIndex_7_returns_ABCDEFG666HI() {
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingFloatValueOF_pi_AtIndex_7_returns_ABCDEF2point14159GHI() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
         customStringBuilder.append("DEF");
         customStringBuilder.append("GHI");
@@ -1486,7 +1486,7 @@ public class StringBuilderTest {
     }
 
     @Test
-    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingFloatValueOF_pi_returns_ABCDEFGHI666() {
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingFloatValueOF_pi_returns_ABCDEF2point14159GHI() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
         customStringBuilder.append("DEF");
         customStringBuilder.append("GHI");
@@ -1496,7 +1496,39 @@ public class StringBuilderTest {
         assertEquals("ABCDEFGHI3.14159", str);
     }
 
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingIntValueOF_666_AtIndex_6_returns_ABCDEF2point14159GHI() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        float pi = 3.14159f;
+        CustomStringBuilder result = customStringBuilder.insert(6, pi);
+        String str = result.toString();
+        assertEquals("ABCDEF3.14159GHI", str);
+    }
 
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingIntValueOF_666_AtIndex_7_returns_ABCDEFG666HI() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        CharSequence charSequence = "TEST";
+        float pi = 3.14159f;
+        CustomStringBuilder result = customStringBuilder.insert(7, pi);
+        String str = result.toString();
+        assertEquals("ABCDEFG3.14159HI", str);
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInsertingIntValueOF_666_returns_ABCDEFGHI666() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        float pi = 3.14159f;
+        CustomStringBuilder result = customStringBuilder.insert(9, pi);
+        String str = result.toString();
+        assertEquals("ABCDEFGHI3.14159", str);
+    }
 
     private static final String STRING_VALUE_OF_LENGTH_129 = "uwcwiavzhhigohtwixbrlxserzenalmzmkzwhrtewfzqpcvtsrnxkpdzcqsvpnqsatxjftfkhrdagqqunffpezghcpkuhlwrttdduhwgvpoqsksfojgtkgtkxkyzvbykl";
 }
