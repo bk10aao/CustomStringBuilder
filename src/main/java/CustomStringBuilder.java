@@ -30,9 +30,9 @@ public class CustomStringBuilder implements StringBuilderInterface {
     }
 
     public CustomStringBuilder(String str) {
-        if(str == null) {
+        if(str == null)
             size = 0;
-        } else {
+        else {
             size = str.length();
             stringBuilder.add(str);
             expandCapacity();
@@ -352,17 +352,10 @@ public class CustomStringBuilder implements StringBuilderInterface {
     }
 
     private CustomStringBuilder removeChar(int index) {
-        int currentIndex = 0;
-        int currentSize = stringBuilder.get(currentIndex).length();
-        int rollingIndex = index;
-        String currentIndexedString = "";
-        while (currentSize <= index) {
-            currentIndexedString = stringBuilder.get(++currentIndex);
-            rollingIndex -= currentIndexedString.length();
-            currentSize += currentIndexedString.length();
-        }
-        currentIndexedString = currentIndexedString.substring(0, rollingIndex) + currentIndexedString.substring(rollingIndex + 1);
-        stringBuilder.set(currentIndex, currentIndexedString);
+        int idx = 0;
+        while (index >= stringBuilder.get(idx).length())
+            index -= stringBuilder.get(idx++).length();
+        stringBuilder.set(idx, stringBuilder.get(idx).substring(0, index) + stringBuilder.get(idx).substring(index + 1));
         return this;
     }
 
