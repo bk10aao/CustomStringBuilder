@@ -143,15 +143,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
     }
 
     public int indexOf(String str) {
-        int index = 0;
-        for (String inner : stringBuilder) {
-            int temp = inner.indexOf(str);
-            if (temp != -1)
-                return index + temp;
-            else
-                index += inner.length();
-        }
-        return -1;
+        return indexOf(str, 0);
     }
 
     public int lastIndexOf(String str) {
@@ -165,13 +157,28 @@ public class CustomStringBuilder implements StringBuilderInterface {
     }
 
     public int indexOf(String str, int fromIndex) {
-        if(fromIndex > size || fromIndex < 0) 
+        int start = fromIndex;
+        if(fromIndex > size || fromIndex < 0)
             return -1;
         else if(stringBuilder.size() == 1) {
             String subString = stringBuilder.getFirst().substring(fromIndex);
             return subString.contains(str) ? subString.indexOf(str) + fromIndex : -1;
-        } else
-            return indexOfInner(str, fromIndex);
+        } else {
+            int idx = 0;
+            while (fromIndex > stringBuilder.get(idx).length()) {
+                fromIndex -= stringBuilder.get(idx++).length();
+            }
+            String s = stringBuilder.get(idx).substring(fromIndex);
+            if(s.contains(str))
+                return s.indexOf(str) + start;
+            else
+                for (int i = idx + 1; i < stringBuilder.size(); i++) {
+                    s += stringBuilder.get(i);
+                    if (s.contains(str))
+                        return s.indexOf(str) + start;
+            }
+            return -1;
+        }
     }
 
     public CustomStringBuilder insert(int offset, String str) {
@@ -273,8 +280,14 @@ public class CustomStringBuilder implements StringBuilderInterface {
             throw new StringIndexOutOfBoundsException();
         if (index < stringBuilder.getFirst().length())
             setStringStart(index, String.valueOf(c));
-        else
-            setString(index, String.valueOf(c));
+        else {
+            int idx = 0;
+            while (index > stringBuilder.get(idx).length())
+                index -= stringBuilder.get(++idx).length();
+            String current = stringBuilder.get(idx);
+            current = current.substring(0, index) + c + current.substring(index + 1);
+            stringBuilder.set(idx, current);
+        }
     }
 
     public CharSequence subSequence(int start, int end) {
@@ -371,43 +384,8 @@ public class CustomStringBuilder implements StringBuilderInterface {
         stringBuilder.set(0, s1);
     }
 
-    private void setString(int index, String c) {
-        int currentIndex = 0;
-        int currentSize = stringBuilder.get(currentIndex).length();
-        int rollingIndex = index;
-        String currentIndexedString = "";
-        while (currentSize <= index) {
-            currentIndexedString = stringBuilder.get(++currentIndex);
-            rollingIndex -= currentIndexedString.length();
-            currentSize += currentIndexedString.length();
-        }
-        currentIndexedString = currentIndexedString.substring(0, rollingIndex) + c + currentIndexedString.substring(rollingIndex + 1);
-        stringBuilder.set(currentIndex, currentIndexedString);
-    }
-
     private void expandCapacity() {
         while (size > capacity)
             capacity *= 2;
-    }
-
-    private int indexOfInner(String str, int fromIndex) {
-        int index = 0;
-        String current = stringBuilder.get(index);
-        int count = current.length();
-
-        for (int i = 1; i < stringBuilder.size(); i++) {
-            count += stringBuilder.get(i).length();
-            if(count >= fromIndex) {
-                index = i;
-                break;
-            }
-        }
-        for(int i = index + 1; i < stringBuilder.size(); i++) {
-            String next = stringBuilder.get(i);
-            if(next.contains(str))
-                return count + next.indexOf(str);
-            count += next.length();
-        }
-        return -1;
     }
 }

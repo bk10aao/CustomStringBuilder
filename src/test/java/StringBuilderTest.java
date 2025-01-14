@@ -898,6 +898,15 @@ public class StringBuilderTest {
     }
 
     @Test
+    public void givenStringBuilder_withFourValuesAppendedOf_123_abc_456_78_90_onIndexOf_bc4_returns_12() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        customStringBuilder.append("456");
+        customStringBuilder.append("7890");
+        int strIndex = customStringBuilder.indexOf("bc4");
+        assertEquals(4, strIndex);
+    }
+
+    @Test
     public void givenStringBuilder_withValue_A_onIndexOf_B_withStartIndexOf_negative_1_returns_negative_1() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("A");
         assertEquals(-1, customStringBuilder.indexOf("B", 1));
@@ -928,7 +937,7 @@ public class StringBuilderTest {
     }
 
     @Test
-    public void givenStringBuilder_withValue_ABB_onIndexOf_A_fromIndexOf_1_returns_3() {
+    public void givenStringBuilder_withValue_ABB_onIndexOf_A_fromIndexOf_1_returns_2() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABA");
         assertEquals(2, customStringBuilder.indexOf("A", 1));
     }
@@ -983,6 +992,16 @@ public class StringBuilderTest {
         customStringBuilder.append("abc");
         int strIndex = customStringBuilder.indexOf("abc", 5);
         assertEquals(13, strIndex);
+    }
+
+    @Test
+    public void givenStringBuilder_withFourValuesAppendedOf_123_abc_456_7890_abc_onIndexOf_0ab_fromIndex_5_returns_12() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        customStringBuilder.append("456");
+        customStringBuilder.append("7890");
+        customStringBuilder.append("abc");
+        int strIndex = customStringBuilder.indexOf("0ab", 5);
+        assertEquals(12, strIndex);
     }
 
     @Test
