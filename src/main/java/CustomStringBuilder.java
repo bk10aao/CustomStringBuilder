@@ -13,7 +13,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
 
     public CustomStringBuilder() { }
 
-    public CustomStringBuilder(CharSequence seq) {
+    public CustomStringBuilder(final CharSequence seq) {
         if(seq == null)
             size = 0;
         else {
@@ -22,14 +22,14 @@ public class CustomStringBuilder implements StringBuilderInterface {
         }
     }
 
-    public CustomStringBuilder(int capacity) {
+    public CustomStringBuilder(final int capacity) {
         if(capacity < 0)
             throw new NegativeArraySizeException();
         stringBuilder = new ArrayList<>(capacity);
         this.capacity = Math.max(capacity, 128);
     }
 
-    public CustomStringBuilder(String str) {
+    public CustomStringBuilder(final String str) {
         if(str == null)
             size = 0;
         else {
@@ -39,52 +39,51 @@ public class CustomStringBuilder implements StringBuilderInterface {
         }
     }
 
-    public CustomStringBuilder append(boolean b) {
+    public CustomStringBuilder append(final boolean b) {
         return append(String.valueOf(b));
     }
 
-    public CustomStringBuilder append(char c) {
+    public CustomStringBuilder append(final char c) {
         return append(String.valueOf(c));
     }
 
-    public CustomStringBuilder append(char[] str) {
+    public CustomStringBuilder append(final char[] str) {
         return append(new String(str));
     }
 
-    public CustomStringBuilder append(char[] str, int offset, int len) {
+    public CustomStringBuilder append(final char[] str, final int offset, final int len) {
         if(offset < 0 || len < 0 || offset + len > str.length)
             throw new IndexOutOfBoundsException();
         return append(new String(Arrays.copyOfRange(str, offset, offset + len)));
     }
 
-    public CustomStringBuilder append(CharSequence charSequence) {
+    public CustomStringBuilder append(final CharSequence charSequence) {
         return append(String.valueOf(charSequence));
     }
 
-    public CustomStringBuilder append(CharSequence charSequence, int start, int end) {
+    public CustomStringBuilder append(final CharSequence charSequence, final int start, final int end) {
         if(start < 0 || end < 0 || start > end || end > charSequence.length())
             throw new IndexOutOfBoundsException();
         return append(charSequence.subSequence(start, end + 1));
     }
 
-    public CustomStringBuilder append(double d) {
+    public CustomStringBuilder append(final double d) {
         return append(String.valueOf(d));
-
     }
 
-    public CustomStringBuilder append(float f) {
+    public CustomStringBuilder append(final float f) {
         return append(String.valueOf(f));
     }
 
-    public CustomStringBuilder append(int i) {
+    public CustomStringBuilder append(final int i) {
         return append(String.valueOf(i));
     }
 
-    public CustomStringBuilder append(long lng) {
+    public CustomStringBuilder append(final long lng) {
         return append(String.valueOf(lng));
     }
 
-    public CustomStringBuilder append(String str) {
+    public CustomStringBuilder append(final String str) {
         String appendString = String.valueOf(str);
         stringBuilder.add(String.valueOf(str));
         size += appendString.length();
@@ -92,24 +91,24 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return this;
     }
 
-    public CustomStringBuilder delete(int start, int end) {
+    public CustomStringBuilder delete(final int start, final int end) {
         if(start < 0 || start > size || start > end)
             throw new StringIndexOutOfBoundsException();
         replace(start, end, "");
         return this;
     }
 
-    public CustomStringBuilder deleteCharAt(int index) {
+    public CustomStringBuilder deleteCharAt(final int index) {
         if(index < 0 || index >= size)
             throw new StringIndexOutOfBoundsException();
         return index < stringBuilder.getFirst().length() ? removeCharFromStart(index) : removeChar(index);
     }
 
-    public int indexOf(String str) {
+    public int indexOf(final String str) {
         return indexOf(str, 0);
     }
 
-    public int indexOf(String str, int fromIndex) {
+    public int indexOf(final String str, int fromIndex) {
         int start = fromIndex;
         if(fromIndex > size || fromIndex < 0 || size == 0)
             return -1;
@@ -134,7 +133,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
         }
     }
 
-    public CustomStringBuilder insert(int offset, String str) {
+    public CustomStringBuilder insert(int offset, final String str) {
         if(offset < 0 || offset > size)
             throw new StringIndexOutOfBoundsException();
         else {
@@ -147,29 +146,29 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return this;
     }
 
-    public CustomStringBuilder insert(int offset, boolean b) {
+    public CustomStringBuilder insert(final int offset, final boolean b) {
         return insert(offset, String.valueOf(b));
     }
 
-    public CustomStringBuilder insert(int offset, char c) {
+    public CustomStringBuilder insert(final int offset, final char c) {
         return insert(offset, String.valueOf(c));
     }
 
-    public CustomStringBuilder insert(int offset, char[] str) {
+    public CustomStringBuilder insert(final int offset, final char[] str) {
         return insert(offset, String.valueOf(str));
     }
 
-    public CustomStringBuilder insert(int index, char[] str, int offset, int len) {
+    public CustomStringBuilder insert(final int index, final char[] str, final int offset, final int len) {
         if(index < 0 || index > size || offset < 0 || len < 0 ||  offset + len > size)
             throw new StringIndexOutOfBoundsException();
         return insert(offset, String.valueOf(str).substring(offset, len));
     }
 
-    public CustomStringBuilder insert(int dstOffset, CharSequence s) {
+    public CustomStringBuilder insert(final int dstOffset, final CharSequence s) {
         return insert(dstOffset, String.valueOf(s));
     }
 
-    public CustomStringBuilder insert(int dstOffset, CharSequence s, int start, int end) {
+    public CustomStringBuilder insert(final int dstOffset, final CharSequence s, final int start, final int end) {
         if(dstOffset < 0 || dstOffset > size || start < 0 || end < 0 || start > size || start > end)
             throw new IndexOutOfBoundsException();
         return insert(dstOffset, s.subSequence(start, end));
@@ -179,23 +178,23 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return insert(offset, String.valueOf(d));
     }
 
-    public CustomStringBuilder insert(int offset, float f) {
+    public CustomStringBuilder insert(final int offset, final float f) {
         return insert(offset, String.valueOf(f));
     }
 
-    public CustomStringBuilder insert(int offset, int i) {
+    public CustomStringBuilder insert(final int offset, final int i) {
         return insert(offset, String.valueOf(i));
     }
 
-    public CustomStringBuilder insert(int offset, long l) {
+    public CustomStringBuilder insert(final int offset, final long l) {
         return insert(offset, String.valueOf(l));
     }
 
-    public CustomStringBuilder insert(int offset, Object obj) {
+    public CustomStringBuilder insert(final int offset, final Object obj) {
         return insert(offset, obj.toString());
     }
 
-    public int lastIndexOf(String str) {
+    public int lastIndexOf(final String str) {
         String built = "";
         for(int i = stringBuilder.size() - 1; i >= 0; i--) {
             built = stringBuilder.get(i) + built;
@@ -239,7 +238,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return sb;
     }
 
-    public void setCharAt(int index, char c) {
+    public void setCharAt(int index, final char c) {
         if(index < 0 || index > size)
             throw new StringIndexOutOfBoundsException();
         if (index < stringBuilder.getFirst().length())
@@ -254,7 +253,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
         }
     }
 
-    public CharSequence subSequence(int start, int end) {
+    public CharSequence subSequence(final int start, final int end) {
         try {
             return subString(start, end);
         } catch(StringIndexOutOfBoundsException e) {
@@ -308,13 +307,13 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return new String(result);
     }
 
-    private void replaceStart(int start, int end, String replaceStr) {
+    private void replaceStart(final int start, final int end, final String replaceStr) {
         String toMod = stringBuilder.getFirst();
         toMod = end > toMod.length() ? toMod.substring(0, start) + replaceStr : toMod.substring(0, start) + replaceStr + toMod.substring(end);
         stringBuilder.set(0, toMod);
     }
 
-    private void replaceInner(int start, int end, String s1, List<Integer> matchesIndexes, String replaceString) {
+    private void replaceInner(final int start, final int end, String s1, final List<Integer> matchesIndexes, final String replaceString) {
         s1 = end > s1.length() ? s1.substring(0, start) + replaceString : s1.substring(0, start) + replaceString + s1.substring(end);
         stringBuilder.subList(matchesIndexes.getFirst(), matchesIndexes.getLast() + 1).clear();
         stringBuilder.addFirst(s1);
@@ -328,14 +327,14 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return this;
     }
 
-    private CustomStringBuilder removeCharFromStart(int index) {
+    private CustomStringBuilder removeCharFromStart(final int index) {
         String s1 = stringBuilder.getFirst();
         s1 = s1.substring(0, index) + s1.substring(index + 1);
         stringBuilder.set(0, s1);
         return this;
     }
 
-    private void setStringStart(int index, String c) {
+    private void setStringStart(final int index, final String c) {
         String s1 = stringBuilder.getFirst();
         s1 = s1.substring(0, index) + c + s1.substring(index + 1);
         stringBuilder.set(0, s1);
