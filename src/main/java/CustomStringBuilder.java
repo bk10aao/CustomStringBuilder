@@ -307,31 +307,35 @@ public class CustomStringBuilder implements StringBuilderInterface {
     }
 
     public String subString(int start) {
-        if(start < 0 || start >= size)
+        if(start < 0 || start > size)
             throw new StringIndexOutOfBoundsException();
-        int index = 0;
-
-        String str = stringBuilder.get(index++);
-        while(str.length() < start)
-            str += stringBuilder.get(index++);
-        str = str.substring(start);
-        for(int i = index; i < stringBuilder.size(); i++)
+        int idx = 0;
+        while(start > stringBuilder.get(idx).length()) {
+            start -= stringBuilder.get(++idx).length();
+        }
+        String str = stringBuilder.get(idx++).substring(start);
+        for(int i = idx; i < stringBuilder.size(); i++) {
             str += stringBuilder.get(i);
-
+        }
         return str;
     }
 
     public String subString(int start, int end) {
-        if(start < 0 || start > size || start > end || end >= size)
+        if(start < 0 || start > size)
             throw new StringIndexOutOfBoundsException();
-        int index = 0;
-        String str = stringBuilder.get(index++);
-        while(str.length() <= start)
-            str += stringBuilder.get(index++);
-        while(str.length() <= end)
-            str += stringBuilder.get(index++);
-
-        return str.substring(start, end);
+        if(stringBuilder.size() == 1) {
+            return stringBuilder.getFirst().substring(start, end);
+        }
+        int idx = 0;
+        while(start >= stringBuilder.get(idx).length()) {
+            start -= stringBuilder.get(++idx).length();
+            end -= stringBuilder.get(idx).length();
+        }
+        String str = stringBuilder.get(idx++).substring(start);
+        for(int i = idx; i < stringBuilder.size(); i++) {
+            str += stringBuilder.get(i);
+        }
+        return str.substring(0, end - start);
     }
 
     @Override

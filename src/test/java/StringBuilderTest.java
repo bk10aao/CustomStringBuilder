@@ -731,7 +731,7 @@ public class StringBuilderTest {
     }
 
     @Test
-    public void givenStringBuilder_withFourValuesAppendedOf_123_abc_456_78_90_onSubString_startIndexOf_2_endIndexOf_8_returns_3abc4() {
+    public void givenStringBuilder_withFourValuesAppendedOf_123_abc_456_78_90_onSubString_startIndexOf_2_endIndexOf_8_returns_3abc45() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
         customStringBuilder.append("456");
         customStringBuilder.append("7890");
