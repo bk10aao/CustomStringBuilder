@@ -6,18 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class StringBuilderTest {
 
     @Test
-    public void givenStringBuilder_withSizeConstructor_negative_1_throws_NegativeArraySizeException() {
-        assertThrows(NegativeArraySizeException.class,
-                ()-> new CustomStringBuilder(-1));
-    }
-
-    @Test
-    public void givenStringBuilder_withSizeConstructor_negative_20000_throws_NegativeArraySizeException() {
-        assertThrows(NegativeArraySizeException.class,
-                ()-> new CustomStringBuilder(-20_000));
-    }
-
-    @Test
     public void givenStringBuilder_withCharSequenceConstructor_of_null_andLengthOf_0() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder(null);
         assertEquals(0, customStringBuilder.length());
@@ -75,13 +63,6 @@ public class StringBuilderTest {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder(charSequence);
         String stringValue = customStringBuilder.toString();
         assertEquals("123abc", stringValue);
-    }
-
-    @Test
-    public void givenStringBuilder_withSizeOf_127_returns_emptyString() {
-        CustomStringBuilder customStringBuilder = new CustomStringBuilder(127);
-        String stringValue = customStringBuilder.toString();
-        assertEquals("", stringValue);
     }
 
     @Test
