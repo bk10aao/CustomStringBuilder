@@ -65,18 +65,18 @@ public interface StringBuilderInterface {
     CustomStringBuilder append(long lng);
 
     /**
-     * Add float to CustomStringBuilder.
-     * @param f - float to be appended to CustomStringBuilder.
-     * @return CustomStringBuilder
-     */
-    CustomStringBuilder append(float f);
-
-    /**
      * Add double to CustomStringBuilder.
      * @param d - double to be appended to CustomStringBuilder.
      * @return CustomStringBuilder
      */
     CustomStringBuilder append(double d);
+
+    /**
+     * Add float to CustomStringBuilder.
+     * @param f - float to be appended to CustomStringBuilder.
+     * @return CustomStringBuilder
+     */
+    CustomStringBuilder append(float f);
 
     /**
      * Add String to CustomStringBuilder.
@@ -134,7 +134,7 @@ public interface StringBuilderInterface {
      * @param offset - index to insert into CustomStringBuilder
      * @param len - last index of char array to insert
      * @throws StringIndexOutOfBoundsException - if offset less than 0
-     * @throws IndexOutOfBoundsException - if offset greater than CustomStringBuilder size
+     * @throws StringIndexOutOfBoundsException - if offset greater than CustomStringBuilder size
      * @return CustomStringBuilder
      */
     CustomStringBuilder insert(int index, char[] str, int offset, int len);
@@ -150,7 +150,6 @@ public interface StringBuilderInterface {
 
     /**
      * Insert sub CharSequence at given index
-     * Insert character into string at given Index
      * @param dstOffset - index to insert character into
      * @param s - CharSequence to insert into CustomStringBuilder
      * @param start - start index of CharSequence to insert
@@ -170,7 +169,7 @@ public interface StringBuilderInterface {
     CustomStringBuilder insert(int offset, boolean b);
 
     /**
-     * Insert charr into CustomStringBuilder
+     * Insert char into CustomStringBuilder
      * @param offset - index to insert character into
      * @param c - char to insert into CustomStringBuilder
      * @throws IndexOutOfBoundsException - if offset greater than CustomStringBuilder size
@@ -278,7 +277,7 @@ public interface StringBuilderInterface {
      * Get CharSubsequence from CustomStringBuilder
      * @param start - index to get CharSubSequence from
      * @param end - - index to get CharSubSequence to
-     * @throws StringIndexOutOfBoundsException if start > 0
+     * @throws StringIndexOutOfBoundsException if start < 0
      * @throws StringIndexOutOfBoundsException if start > size
      * @return CharSubsequence of CustomStringBuilder range
      */
