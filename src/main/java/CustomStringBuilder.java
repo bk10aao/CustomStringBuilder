@@ -223,11 +223,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
     }
 
     public CharSequence subSequence(final int start, final int end) {
-        try {
-            return subString(start, end);
-        } catch(StringIndexOutOfBoundsException e) {
-            throw new IndexOutOfBoundsException();
-        }
+        return subString(start, end);
     }
 
     public String subString(int start) {
@@ -243,7 +239,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
     }
 
     public String subString(int start, int end) {
-        if(start < 0 || start > size)
+        if(start < 0 || start > size || start > end)
             throw new StringIndexOutOfBoundsException();
         if(stringBuilder.size() == 1)
             return stringBuilder.getFirst().substring(start, end);
