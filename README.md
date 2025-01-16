@@ -22,7 +22,7 @@ Implementation of a StringBuilder using a List
 17. `int indexOf(String str)` - returns index of String in CustomStringBuilder, else -1.
 18. `int indexOf(String str, int fromIndex)` - returns index of String from fromIndex if present, else -1.
 19. `int lastIndexOf(String str);` - return last index of String if present else -1.
-20. `CustomStringBuilder insert(int index, char[] str, int offset, int len)` - Insert String from char array into CustomStringBuilder, returns CustomStringBuilder. Throws StringIndexOutOfBoundsException if offset < 0 or offset > size).
+20. `CustomStringBuilder insert(int index, char[] str, int offset, int len)` - Insert String from char array into CustomStringBuilder, returns CustomStringBuilder. Throws StringIndexOutOfBoundsException if offset < 0 or offset > size.
 21. `CustomStringBuilder insert(int dstOffset, CharSequence s)` - insert CharSequence into CustomStringBuilder at index, returns CustomStringBuilderThrows IndexOutOfBoundsException - if offset greater than size.
 22. `CustomStringBuilder insert(int dstOffset, CharSequence s, int start, int end)` - Insert sub CharSequence at given index, returns CustomStringBuilder.  Throws IndexOutOfBoundsException if offset greater than size.
 23. `CustomStringBuilder insert(int offset, boolean b)` - insert boolean into CustomStringBuilder, returns CustomStringBuilder. Throws IndexOutOfBoundsException if offset greater than CustomStringBuilder size.
