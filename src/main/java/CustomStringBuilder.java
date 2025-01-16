@@ -128,7 +128,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
     }
 
     public CustomStringBuilder insert(final int index, final char[] str, final int offset, final int len) {
-        return insert(offset, String.valueOf(str).substring(offset, len));
+        return insert(index, String.valueOf(str).substring(offset, len));
     }
 
     public CustomStringBuilder insert(final int dstOffset, final CharSequence s) {

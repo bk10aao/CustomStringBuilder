@@ -1587,6 +1587,28 @@ public class StringBuilderTest {
         assertEquals("ABCDEFGHITestObject{x=0, y=1, z=2}", str);
     }
 
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInserting_charArrayOf_J_K_L_atIndex_4_returns_ABCDEFKLGHI() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        char[] insertChars = new char[] { 'J', 'K', 'L' };
+        CustomStringBuilder result = customStringBuilder.insert(4,  insertChars, 1, 3);
+        String str = result.toString();
+        assertEquals("ABCDKLEFGHI", str);
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onInserting_charSequence_OfLength_3_J_K_L_atIndex_4_ofLength_3_returns_ABCDEFKLGHI() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        CharSequence charSequence = "JKL";
+        CustomStringBuilder result = customStringBuilder.insert(4,  charSequence, 1, 3);
+        String str = result.toString();
+        assertEquals("ABCDKLEFGHI", str);
+    }
+
     private static final String STRING_VALUE_OF_LENGTH_129 = "uwcwiavzhhigohtwixbrlxserzenalmzmkzwhrtewfzqpcvtsrnxkpdzcqsvpnqsatxjftfkhrdagqqunffpezghcpkuhlwrttdduhwgvpoqsksfojgtkgtkxkyzvbykl";
 
     private static class TestObject {

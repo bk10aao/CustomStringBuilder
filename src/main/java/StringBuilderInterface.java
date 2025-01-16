@@ -129,7 +129,7 @@ public interface StringBuilderInterface {
 
     /**
      * Insert String from char array into CustomStringBuilder
-     * @param index - int index to insert to
+     * @param index - int index to insert to substring of char[] str to
      * @param str - char[] array of String to be inserted
      * @param offset - index to insert into CustomStringBuilder
      * @param len - last index of char array to insert
