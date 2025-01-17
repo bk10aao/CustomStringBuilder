@@ -24,8 +24,8 @@ public interface StringBuilderInterface {
     /**
      * Add String from String[] to CustomStringBuilder.
      * @param str - string[] to be appended to CustomStringBuilder.
-     * @param offset- integer offset of which to cretae substring from to append to CustomStringBuilder.
-     * @param len- integer offset of which to cretae substring from to append to CustomStringBuilder.
+     * @param offset- integer offset of which to create substring from to append to CustomStringBuilder.
+     * @param len- integer offset of which to create substring from to append to CustomStringBuilder.
      * @throws IndexOutOfBoundsException - on offset less than 0.
      * @throws IndexOutOfBoundsException - if length less than 0.
      * @throws IndexOutOfBoundsException - if offset + len bigger than length().
@@ -41,7 +41,7 @@ public interface StringBuilderInterface {
     CustomStringBuilder append(CharSequence charSequence);
 
     /**
-     * Add String from CharSeqience to CustomStringBuilder.
+     * Add String from CharSequence to CustomStringBuilder.
      * @param charSequence - CharSequence to be appended to CustomStringBuilder.
      * @throws IndexOutOfBoundsException - if start is negative.
      * @throws IndexOutOfBoundsException - if start is size.
