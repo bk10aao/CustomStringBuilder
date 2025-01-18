@@ -101,19 +101,6 @@ public class CustomStringBuilder implements StringBuilderInterface {
             return getIndexOfInner(str, fromIndex, fromIndex);
     }
 
-    public CustomStringBuilder insert(int offset, final String str) {
-        if(offset < 0 || offset > size)
-            throw new StringIndexOutOfBoundsException();
-        else {
-            int idx = 0;
-            while(offset > stringBuilder.get(idx).length())
-                offset -= stringBuilder.get(idx++).length();
-            String insertInto = stringBuilder.get(idx);
-            stringBuilder.set(idx, insertInto.substring(0, offset) + str + insertInto.substring(offset));
-        }
-        return this;
-    }
-
     public CustomStringBuilder insert(final int offset, final boolean b) {
         return insert(offset, String.valueOf(b));
     }
@@ -156,6 +143,19 @@ public class CustomStringBuilder implements StringBuilderInterface {
 
     public CustomStringBuilder insert(final int offset, final Object obj) {
         return insert(offset, obj.toString());
+    }
+
+    public CustomStringBuilder insert(int offset, final String str) {
+        if(offset < 0 || offset > size)
+            throw new StringIndexOutOfBoundsException();
+        else {
+            int idx = 0;
+            while(offset > stringBuilder.get(idx).length())
+                offset -= stringBuilder.get(idx++).length();
+            String insertInto = stringBuilder.get(idx);
+            stringBuilder.set(idx, insertInto.substring(0, offset) + str + insertInto.substring(offset));
+        }
+        return this;
     }
 
     public int lastIndexOf(final String str) {
