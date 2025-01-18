@@ -72,9 +72,8 @@ public class CustomStringBuilder implements StringBuilderInterface {
     }
 
     public CustomStringBuilder append(final String str) {
-        String appendString = String.valueOf(str);
-        stringBuilder.add(String.valueOf(str));
-        size += appendString.length();
+        stringBuilder.add(str);
+        size += str.length();
         return this;
     }
 
