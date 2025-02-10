@@ -98,7 +98,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
             String subString = stringBuilder.getFirst().substring(fromIndex);
             return subString.contains(str) ? subString.indexOf(str) + fromIndex : -1;
         } else
-            return getIndexOfInner(str, fromIndex, fromIndex);
+            return getIndexOfInner(str, fromIndex);
     }
 
     public CustomStringBuilder insert(final int offset, final boolean b) {
@@ -270,8 +270,9 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return new String(result);
     }
 
-    private Integer getIndexOfInner(String str, int fromIndex, int start) {
+    private Integer getIndexOfInner(String str, int fromIndex) {
         int idx = 0;
+        int start = fromIndex;
         while (fromIndex > stringBuilder.get(idx).length())
             fromIndex -= stringBuilder.get(idx++).length();
         String s = stringBuilder.get(idx).substring(fromIndex);
