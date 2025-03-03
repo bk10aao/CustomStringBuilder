@@ -84,7 +84,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
     public CustomStringBuilder deleteCharAt(final int index) {
         if(index < 0 || index >= size)
             throw new StringIndexOutOfBoundsException();
-        return index < stringBuilder.getFirst().length() ? removeCharFromStart(index) : removeChar(index);
+        return delete(index, index + 1);
     }
 
     public int indexOf(final String str) {
@@ -95,8 +95,8 @@ public class CustomStringBuilder implements StringBuilderInterface {
         if(fromIndex > size || fromIndex < 0 || size == 0)
             return -1;
         else if(stringBuilder.size() == 1) {
-            String subString = stringBuilder.getFirst().substring(fromIndex);
-            return subString.contains(str) ? subString.indexOf(str) + fromIndex : -1;
+            int idx = stringBuilder.getFirst().substring(fromIndex).indexOf(str);
+            return idx != -1 ? idx + fromIndex : -1;
         } else
             return getIndexOfInner(str, fromIndex);
     }
@@ -207,18 +207,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
     public void setCharAt(int index, final char c) {
         if(index < 0 || index > size)
             throw new StringIndexOutOfBoundsException();
-        if (index < stringBuilder.getFirst().length()) {
-            String s1 = stringBuilder.getFirst();
-            s1 = s1.substring(0, index) + c + s1.substring(index + 1);
-            stringBuilder.set(0, s1);
-        } else {
-            int idx = 0;
-            while (index > stringBuilder.get(idx).length())
-                index -= stringBuilder.get(++idx).length();
-            String current = stringBuilder.get(idx);
-            current = current.substring(0, index) + c + current.substring(index + 1);
-            stringBuilder.set(idx, current);
-        }
+        replace(index, index + 1, String.valueOf(c));
     }
 
     public CharSequence subSequence(final int start, final int end) {
@@ -260,12 +249,12 @@ public class CustomStringBuilder implements StringBuilderInterface {
             totalLength += str.length();
 
         char[] result = new char[totalLength];
-        int currentIndex = 0;
+        int idx = 0;
 
         for (String str : stringBuilder) {
             char[] charArray = str.toCharArray();
-            System.arraycopy(charArray, 0, result, currentIndex, charArray.length);
-            currentIndex += charArray.length;
+            System.arraycopy(charArray, 0, result, idx, charArray.length);
+            idx += charArray.length;
         }
         return new String(result);
     }
@@ -296,23 +285,6 @@ public class CustomStringBuilder implements StringBuilderInterface {
                 break;
         }
         return update;
-    }
-
-    private CustomStringBuilder removeChar(int index) {
-        int idx = 0;
-        while (index >= stringBuilder.get(idx).length())
-            index -= stringBuilder.get(idx++).length();
-        stringBuilder.set(idx, stringBuilder.get(idx).substring(0, index) + stringBuilder.get(idx).substring(index + 1));
-        size--;
-        return this;
-    }
-
-    private CustomStringBuilder removeCharFromStart(final int index) {
-        String s1 = stringBuilder.getFirst();
-        s1 = s1.substring(0, index) + s1.substring(index + 1);
-        stringBuilder.set(0, s1);
-        size--;
-        return this;
     }
 
     private CustomStringBuilder replaceEnd(int start, String str, List<Integer> matchedIndexes, String update) {
