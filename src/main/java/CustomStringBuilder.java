@@ -94,11 +94,8 @@ public class CustomStringBuilder implements StringBuilderInterface {
     public int indexOf(final String str, int fromIndex) {
         if(fromIndex > size || fromIndex < 0 || size == 0)
             return -1;
-        else if(stringBuilder.size() == 1) {
-            int idx = stringBuilder.getFirst().substring(fromIndex).indexOf(str);
-            return idx != -1 ? idx + fromIndex : -1;
-        } else
-            return getIndexOfInner(str, fromIndex);
+        else
+            return getIndex(str, fromIndex);
     }
 
     public CustomStringBuilder insert(final int offset, final boolean b) {
@@ -259,7 +256,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return new String(result);
     }
 
-    private Integer getIndexOfInner(String str, int fromIndex) {
+    private Integer getIndex(String str, int fromIndex) {
         int idx = 0;
         int start = fromIndex;
         while (fromIndex > stringBuilder.get(idx).length())
