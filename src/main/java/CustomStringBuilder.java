@@ -180,9 +180,11 @@ public class CustomStringBuilder implements StringBuilderInterface {
             s -= stringBuilder.get(++idx).length();
             e -= stringBuilder.get(idx).length();
         }
-        List<Integer> matchedIndexes = new ArrayList<>(List.of(idx));
-        String update = getStringRange(str, idx, matchedIndexes);
-        return e > update.length() ? replaceEnd(s, str, matchedIndexes, update) : replaceInner(s, e, str, matchedIndexes, update);
+        List<Integer> matchedRange = getMatchedRange(str, idx);
+        String temp = "";
+        for(int i : matchedRange)
+            temp += stringBuilder.get(i);
+        return replace(str, temp, s, e, matchedRange);
     }
 
     public CustomStringBuilder reverse() {
@@ -275,8 +277,10 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return -1;
     }
 
-    private String getStringRange(final String str, final int index, final List<Integer> matchedIndexes) {
+    private List<Integer> getMatchedRange(final String str, final int index) {
         int idx = index;
+        List<Integer> matchedIndexes = new ArrayList<>();
+        matchedIndexes.add(idx);
         String update = stringBuilder.get(idx++);
         for(int i = idx; i < stringBuilder.size(); i++) {
             update += stringBuilder.get(i);
@@ -284,22 +288,21 @@ public class CustomStringBuilder implements StringBuilderInterface {
             if(update.length() >= str.length())
                 break;
         }
-        return update;
+        return matchedIndexes;
     }
 
-    private CustomStringBuilder replaceEnd(final int start, final String str, final List<Integer> matchedIndexes, final String update) {
-        stringBuilder.subList(matchedIndexes.getFirst(), stringBuilder.size()).clear();
-        stringBuilder.add(update.substring(0, start) + str);
-        size -= start;
-        size += update.length();
-        return this;
-    }
-
-    private CustomStringBuilder replaceInner(final int start, final int end, final String str, final List<Integer> matchedIndexes, final String update) {
-        stringBuilder.subList(matchedIndexes.getFirst(), matchedIndexes.getLast()).clear();
-        stringBuilder.set(matchedIndexes.getFirst(), update.substring(0, start) + str + update.substring(end));
-        size -= end - start;
-        size += update.length();
+    private CustomStringBuilder replace(String str, String temp, int start, int end, List<Integer> matchedRange) {
+        String newStr = temp.substring(0, start) + str;
+        if(end <= temp.length())
+            newStr += temp.substring(end);
+        int insertIndex = matchedRange.getFirst();
+        for(int i = 0; i <  matchedRange.size(); i++) {
+            int currentLength = stringBuilder.get(insertIndex).length();
+            stringBuilder.remove(insertIndex);
+            size -= currentLength;
+        }
+        stringBuilder.add(insertIndex, newStr);
+        size += newStr.length();
         return this;
     }
 }
