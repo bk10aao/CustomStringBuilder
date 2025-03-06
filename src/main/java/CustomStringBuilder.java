@@ -296,11 +296,8 @@ public class CustomStringBuilder implements StringBuilderInterface {
         if(end <= temp.length())
             newStr += temp.substring(end);
         int insertIndex = matchedRange.getFirst();
-        for(int i = 0; i <  matchedRange.size(); i++) {
-            int currentLength = stringBuilder.get(insertIndex).length();
-            stringBuilder.remove(insertIndex);
-            size -= currentLength;
-        }
+        for(int i = 0; i <  matchedRange.size(); i++)
+            size -= stringBuilder.remove(insertIndex).length();
         stringBuilder.add(insertIndex, newStr);
         size += newStr.length();
         return this;
