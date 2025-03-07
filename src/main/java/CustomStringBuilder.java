@@ -12,21 +12,13 @@ public class CustomStringBuilder implements StringBuilderInterface {
     public CustomStringBuilder() { }
 
     public CustomStringBuilder(final CharSequence seq) {
-        if(seq == null)
-            size = 0;
-        else {
-            size = seq.length();
-            stringBuilder.add(seq.toString());
-        }
+        if(seq != null)
+            append(seq);
     }
 
     public CustomStringBuilder(final String str) {
-        if(str == null)
-            size = 0;
-        else {
-            size = str.length();
-            stringBuilder.add(str);
-        }
+        if(str != null)
+            append(str);
     }
 
     public CustomStringBuilder append(final boolean b) {
@@ -92,10 +84,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
     }
 
     public int indexOf(final String str, final int fromIndex) {
-        if(fromIndex > size || fromIndex < 0 || size == 0)
-            return -1;
-        else
-            return getIndex(str, fromIndex);
+        return (fromIndex > size || fromIndex < 0 || size == 0) ? -1 : getIndex(str, fromIndex);
     }
 
     public CustomStringBuilder insert(final int offset, final boolean b) {
@@ -142,16 +131,15 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return insert(offset, obj.toString());
     }
 
-    public CustomStringBuilder insert(final int offset, final String str) {
-        int off = offset;
-        if(off < 0 || offset > size)
+    public CustomStringBuilder insert(int offset, final String str) {
+        if(offset < 0 || offset > size)
             throw new StringIndexOutOfBoundsException();
         else {
             int idx = 0;
-            while(off > stringBuilder.get(idx).length())
-                off -= stringBuilder.get(idx++).length();
+            while(offset > stringBuilder.get(idx).length())
+                offset -= stringBuilder.get(idx++).length();
             String insertInto = stringBuilder.get(idx);
-            stringBuilder.set(idx, insertInto.substring(0, off) + str + insertInto.substring(off));
+            stringBuilder.set(idx, insertInto.substring(0, offset) + str + insertInto.substring(offset));
         }
         return this;
     }
@@ -170,21 +158,19 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return size;
     }
 
-    public CustomStringBuilder replace(final int start, final int end, final String str) {
+    public CustomStringBuilder replace(int start, int end, final String str) {
         if(start < 0 || start > size || start > end)
             throw new StringIndexOutOfBoundsException();
-        int s = start;
-        int e = end;
         int idx = 0;
-        while(s >= stringBuilder.get(idx).length()) {
-            s -= stringBuilder.get(++idx).length();
-            e -= stringBuilder.get(idx).length();
+        while(start >= stringBuilder.get(idx).length()) {
+            start -= stringBuilder.get(++idx).length();
+            end -= stringBuilder.get(idx).length();
         }
         List<Integer> matchedRange = getMatchedRange(str, idx);
         String temp = "";
         for(int i : matchedRange)
             temp += stringBuilder.get(i);
-        return replace(str, temp, s, e, matchedRange);
+        return replace(str, temp, start, end, matchedRange);
     }
 
     public CustomStringBuilder reverse() {
@@ -214,35 +200,30 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return subString(start, end);
     }
 
-    public String subString(final int start) {
+    public String subString(int start) {
         if(start < 0 || start > size)
             throw new StringIndexOutOfBoundsException();
-        int s = start;
         int idx = 0;
-        while(s > stringBuilder.get(idx).length())
-            s -= stringBuilder.get(++idx).length();
-        String str = stringBuilder.get(idx++).substring(s);
+        while(start > stringBuilder.get(idx).length())
+            start -= stringBuilder.get(++idx).length();
+        String str = stringBuilder.get(idx++).substring(start);
         for(int i = idx; i < stringBuilder.size(); i++)
             str += stringBuilder.get(i);
         return str;
     }
 
-    public String subString(final int start, final int end) {
+    public String subString(int start, int end) {
         if(start < 0 || start > size || start > end)
             throw new StringIndexOutOfBoundsException();
-        if(stringBuilder.size() == 1)
-            return stringBuilder.getFirst().substring(start, end);
-        int s = start;
-        int e = end;
         int idx = 0;
-        while(s >= stringBuilder.get(idx).length()) {
-            s -= stringBuilder.get(++idx).length();
-            e -= stringBuilder.get(idx).length();
+        while(start >= stringBuilder.get(idx).length()) {
+            start -= stringBuilder.get(++idx).length();
+            end -= stringBuilder.get(idx).length();
         }
-        String str = stringBuilder.get(idx++).substring(s);
-        for(int i = idx; i < stringBuilder.size() && str.length() < e - s; i++)
+        String str = stringBuilder.get(idx++).substring(start);
+        for(int i = idx; i < stringBuilder.size() && str.length() < end - start; i++)
             str += stringBuilder.get(i);
-        return str.substring(0, e - s);
+        return str.substring(0, end - start);
     }
 
     @Override
@@ -253,9 +234,8 @@ public class CustomStringBuilder implements StringBuilderInterface {
         char[] result = new char[totalLength];
         int idx = 0;
         for (String str : stringBuilder) {
-            char[] charArray = str.toCharArray();
-            System.arraycopy(charArray, 0, result, idx, charArray.length);
-            idx += charArray.length;
+            System.arraycopy(str.toCharArray(), 0, result, idx, str.length());
+            idx += str.length();
         }
         return new String(result);
     }
