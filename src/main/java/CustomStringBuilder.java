@@ -76,7 +76,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
     public CustomStringBuilder deleteCharAt(final int index) {
         if(index < 0 || index >= size)
             throw new StringIndexOutOfBoundsException();
-        return delete(index, index + 1);
+        return replace(index, index + 1, "");
     }
 
     public int indexOf(final String str) {
