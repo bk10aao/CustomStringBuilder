@@ -215,6 +215,8 @@ public class CustomStringBuilder implements StringBuilderInterface {
     public String subString(int start, int end) {
         if(start < 0 || start > size || start > end)
             throw new StringIndexOutOfBoundsException();
+        if(start == end)
+            return "";
         int idx = 0;
         while(start >= stringBuilder.get(idx).length()) {
             start -= stringBuilder.get(++idx).length();
