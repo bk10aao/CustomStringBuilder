@@ -86,12 +86,6 @@ This table compares the time complexity of key methods in Java's `StringBuilder`
 | **subString(int, int)**                 | O(k)                  | O(m + k)                | StringBuilder      | m = segment count, k = substring length |
 | **toString()**                          | O(n)                  | O(n)                    | Tie                | n = string length             |
 
-## Notes
-- **Variables**:
-  - **n**: Total length of the string (sum of all characters).
-  - **m**: Number of string segments in `CustomStringBuilder`'s `ArrayList`.
-  - **k**: Length of the input string or subsequence.
-
 # Space Complexity Comparison: Java StringBuilder vs. CustomStringBuilder
 
 This table compares the space complexity of key methods in Java's `StringBuilder` (using a dynamic character array) and `CustomStringBuilder` (using an `ArrayList<String>`). The **Winner** column indicates which implementation uses less auxiliary memory.
