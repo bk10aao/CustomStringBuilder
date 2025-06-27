@@ -43,7 +43,9 @@ Implementation of a StringBuilder using a List
 38. `String subString(int start, int end)` - get substring from CustomStringBuilder from start index to end index. Throws StringIndexOutOfBoundsException if start < 0, start > size or start > end.
 39. `String toString()` - return String representation of CustomStringBuilder.
 
-This table compares the time complexity of key methods in Java's `StringBuilder` (using a dynamic character array) and `CustomStringBuilder` (using an `ArrayList<String>`). The **Winner** column indicates which implementation has better theoretical performance based on time complexity.
+# Time Complexity
+
+This table compares the time complexity of key methods in Java's `StringBuilder` (using a dynamic character array) and `CustomStringBuilder` (using an `ArrayList<String>`).
 
 | **Method**                              | **Java StringBuilder** | **CustomStringBuilder** | **Winner**          | **Notes**                                                |
 |-----------------------------------------|------------------------|-------------------------|---------------------|----------------------------------------------------------|
@@ -89,5 +91,54 @@ This table compares the time complexity of key methods in Java's `StringBuilder`
     - **n**: Total length of the string (sum of all characters).
     - **m**: Number of string segments in `CustomStringBuilder`'s `ArrayList`.
     - **k**: Length of the input string or subsequence.
+
+# Space Complexity
+
+This table compares the space complexity of key methods in Java's `StringBuilder` (using a dynamic character array) and `CustomStringBuilder` (using an `ArrayList<String>`).
+
+| **Method**                              | **Java StringBuilder** | **CustomStringBuilder** | **Winner**         | **Notes**                                                                 |
+|-----------------------------------------|------------------------|-------------------------|--------------------|---------------------------------------------------------------------------|
+| **append(boolean)**                     | O(1)                  | O(1)                    | Tie                | Both store a small string (e.g., "true").                                 |
+| **append(char)**                        | O(1)                  | O(1)                    | Tie                | Both store a single-character string.                                     |
+| **append(char[])**                      | O(k)                  | O(k)                    | Tie                | k = array length. Both store the input array as a string.                 |
+| **append(char[], int, int)**            | O(k)                  | O(k)                    | Tie                | k = len. Both store the range as a string.                                |
+| **append(CharSequence)**                | O(k)                  | O(k)                    | Tie                | k = sequence length. Both store the sequence as a string.                 |
+| **append(CharSequence, int, int)**      | O(k)                  | O(k)                    | Tie                | k = end - start. Both store the subsequence.                              |
+| **append(double)**                      | O(1)                  | O(1)                    | Tie                | Both store a small string for the double.                                 |
+| **append(float)**                       | O(1)                  | O(1)                    | Tie                | Both store a small string for the float.                                  |
+| **append(int)**                         | O(1)                  | O(1)                    | Tie                | Both store a small string for the int.                                    |
+| **append(long)**                        | O(1)                  | O(1)                    | Tie                | Both store a small string for the long.                                   |
+| **append(String)**                      | O(k)                  | O(k)                    | Tie                | k = string length. Both store the input string.                           |
+| **delete(int, int)**                    | O(1)                  | O(m + k)                | StringBuilder      | Custom: O(m) for range list, O(k) for new string.                         |
+| **deleteCharAt(int)**                   | O(1)                  | O(m + k)                | StringBuilder      | Custom: O(m) for range list, O(k) for single-char replacement.            |
+| **indexOf(String)**                     | O(1)                  | O(n + m)                | StringBuilder      | Custom: O(n) for concatenated string, O(m) for segment list.              |
+| **indexOf(String, int)**                | O(1)                  | O(n + m)                | StringBuilder      | Custom: O(n) for concatenated string, O(m) for segment list.              |
+| **insert(int, boolean)**                | O(1)                  | O(m + k)                | StringBuilder      | Custom: O(m) to find index, O(k) for new string (k small).                |
+| **insert(int, char)**                   | O(1)                  | O(m + k)                | StringBuilder      | Custom: O(m) to find index, O(k) for new string (k small).                |
+| **insert(int, char[])**                 | O(k)                  | O(m + k)                | StringBuilder      | Custom: O(m) to find index, O(k) for new string.                          |
+| **insert(int, char[], int, int)**       | O(k)                  | O(m + k)                | StringBuilder      | Custom: O(m) to find index, O(k) for substring.                           |
+| **insert(int, CharSequence)**           | O(k)                  | O(m + k)                | StringBuilder      | Custom: O(m) to find index, O(k) for sequence.                            |
+| **insert(int, CharSequence, int, int)** | O(k)                  | O(m + k)                | StringBuilder      | Custom: O(m) to find index, O(k) for subsequence.                         |
+| **insert(int, double)**                 | O(1)                  | O(m + k)                | StringBuilder      | Custom: O(m) to find index, O(k) for string (k small).                    |
+| **insert(int, float)**                  | O(1)                  | O(m + k)                | StringBuilder      | Custom: O(m) to find index, O(k) for string (k small).                    |
+| **insert(int, int)**                    | O(1)                  | O(m + k)                | StringBuilder      | Custom: O(m) to find index, O(k) for string (k small).                    |
+| **insert(int, long)**                   | O(1)                  | O(m + k)                | StringBuilder      | Custom: O(m) to find index, O(k) for string (k small).                    |
+| **insert(int, Object)**                 | O(k)                  | O(m + k)                | StringBuilder      | Custom: O(m) to find index, O(k) for object string.                       |
+| **insert(int, String)**                 | O(k)                  | O(m + k)                | StringBuilder      | Custom: O(m) to find index, O(k) for string.                              |
+| **lastIndexOf(String)**                 | O(1)                  | O(n + m)                | StringBuilder      | Custom: O(n) for concatenated string, O(m) for segment iteration.         |
+| **length()**                            | O(1)                  | O(1)                    | Tie                | Both use a cached integer.                                               |
+| **replace(int, int, String)**           | O(k)                  | O(m + k)                | StringBuilder      | Custom: O(m) for range list, O(k) for new string.                         |
+| **reverse()**                           | O(n)                  | O(n + m)                | StringBuilder      | Custom: O(n) for new string, O(m) for new CustomStringBuilder.            |
+| **setCharAt(int, char)**                | O(1)                  | O(m + k)                | StringBuilder      | Custom: O(m) for range list, O(k) for single-char replacement.            |
+| **subSequence(int, int)**               | O(k)                  | O(m + k)                | StringBuilder      | Custom: O(m) to find index, O(k) for substring.                           |
+| **subString(int)**                      | O(n)                  | O(n + m)                | StringBuilder      | Custom: O(n) for concatenated string, O(m) for segment iteration.         |
+| **subString(int, int)**                 | O(k)                  | O(m + k)                | StringBuilder      | Custom: O(m) to find index, O(k) for substring.                           |
+| **toString()**                          | O(n)                  | O(n)                    | Tie                | Both create a new string of length n.                                     |
+
+## Notes
+- **Variables**:
+  - **n**: Total length of the string (sum of all characters).
+  - **m**: Number of string segments in `CustomStringBuilder`'s `ArrayList`.
+  - **k**: Length of the input string or subsequence.
 
 ![Combined Performance Charts](PerformanceTesting/CompareCustomStringBuilderToStringBuilder/All_Performance_Comparisons.png)
