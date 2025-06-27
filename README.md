@@ -42,3 +42,5 @@ Implementation of a StringBuilder using a List
 37. `String subString(int start)` - get substring from CustomStringBuilder from start index. Throws StringIndexOutOfBoundsException if start < 0 or start > size.
 38. `String subString(int start, int end)` - get substring from CustomStringBuilder from start index to end index. Throws StringIndexOutOfBoundsException if start < 0, start > size or start > end.
 39. `String toString()` - return String representation of CustomStringBuilder.
+
+40. ![Combined Performance Charts](PerformanceTesting/CompareCustomStringBuilderToStringBuilder/All_Performance_Comparisons.png)
