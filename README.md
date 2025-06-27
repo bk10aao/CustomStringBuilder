@@ -43,6 +43,8 @@ Implementation of a StringBuilder using a List
 38. `String subString(int start, int end)` - get substring from CustomStringBuilder from start index to end index. Throws StringIndexOutOfBoundsException if start < 0, start > size or start > end.
 39. `String toString()` - return String representation of CustomStringBuilder.
 
+This table compares the time complexity of key methods in Java's `StringBuilder` (using a dynamic character array) and `CustomStringBuilder` (using an `ArrayList<String>`). The **Winner** column indicates which implementation has better theoretical performance based on time complexity.
+
 | **Method**                              | **Java StringBuilder** | **CustomStringBuilder** | **Winner**          | **Notes**                                                |
 |-----------------------------------------|------------------------|-------------------------|---------------------|----------------------------------------------------------|
 | **append(boolean)**                     | O(1)                   | O(1) amortized          | Tie                 | Constant-time appends (amortized for Custom).            |
