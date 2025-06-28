@@ -1,3 +1,5 @@
+
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -86,7 +88,6 @@ public class StringBuilderTest {
         String stringValue = appended.toString();
         assertEquals("123abctrue", stringValue);
         assertEquals(10, appended.length());
-
     }
 
     @Test
@@ -427,6 +428,7 @@ public class StringBuilderTest {
         CustomStringBuilder modified = customStringBuilder.replace(1, 2, "XX");
         String value = modified.toString();
         assertEquals("1XX3abc", value);
+        assertEquals(7, customStringBuilder.length());
     }
 
     @Test
@@ -1154,6 +1156,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(3, "D");
         String str = result.toString();
         assertEquals("ABCD", str);
+        assertEquals(4, result.length());
     }
 
     @Test
@@ -1162,6 +1165,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(0, "D");
         String str = result.toString();
         assertEquals("DABC", str);
+        assertEquals(4, result.length());
     }
 
     @Test
@@ -1170,6 +1174,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(1, "D");
         String str = result.toString();
         assertEquals("ADBC", str);
+        assertEquals(4, result.length());
     }
 
     @Test
@@ -1180,6 +1185,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(3, "TEST");
         String str = result.toString();
         assertEquals("ABCTESTDEFGHI", str);
+        assertEquals(13, result.length());
     }
 
     @Test
@@ -1190,6 +1196,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(4, "TEST");
         String str = result.toString();
         assertEquals("ABCDTESTEFGHI", str);
+        assertEquals(13, result.length());
     }
 
     @Test
@@ -1200,6 +1207,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(6, "TEST");
         String str = result.toString();
         assertEquals("ABCDEFTESTGHI", str);
+        assertEquals(13, result.length());
     }
 
     @Test
@@ -1210,6 +1218,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(7, "TEST");
         String str = result.toString();
         assertEquals("ABCDEFGTESTHI", str);
+        assertEquals(13, result.length());
     }
 
     @Test
@@ -1220,6 +1229,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(9, "TEST");
         String str = result.toString();
         assertEquals("ABCDEFGHITEST", str);
+        assertEquals(13, result.length());
     }
 
     @Test
@@ -1240,6 +1250,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(3, true);
         String str = result.toString();
         assertEquals("ABCtrue", str);
+        assertEquals(7, result.length());
     }
 
     @Test
@@ -1248,6 +1259,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(0, true);
         String str = result.toString();
         assertEquals("trueABC", str);
+        assertEquals(7, result.length());
     }
 
     @Test
@@ -1256,6 +1268,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(1, true);
         String str = result.toString();
         assertEquals("AtrueBC", str);
+        assertEquals(7, result.length());
     }
 
     @Test
@@ -1266,6 +1279,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(3, true);
         String str = result.toString();
         assertEquals("ABCtrueDEFGHI", str);
+        assertEquals(13, result.length());
     }
 
     @Test
@@ -1276,6 +1290,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(4, true);
         String str = result.toString();
         assertEquals("ABCDtrueEFGHI", str);
+        assertEquals(13, result.length());
     }
 
     @Test
@@ -1286,6 +1301,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(6, true);
         String str = result.toString();
         assertEquals("ABCDEFtrueGHI", str);
+        assertEquals(13, result.length());
     }
 
     @Test
@@ -1296,6 +1312,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(7, true);
         String str = result.toString();
         assertEquals("ABCDEFGtrueHI", str);
+        assertEquals(13, result.length());
     }
 
     @Test
@@ -1306,6 +1323,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(9, true);
         String str = result.toString();
         assertEquals("ABCDEFGHItrue", str);
+        assertEquals(13, result.length());
     }
 
     @Test
@@ -1326,6 +1344,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(3, 'X');
         String str = result.toString();
         assertEquals("ABCX", str);
+        assertEquals(4, result.length());
     }
 
     @Test
@@ -1334,6 +1353,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(0, 'X');
         String str = result.toString();
         assertEquals("XABC", str);
+        assertEquals(4, result.length());
     }
 
     @Test
@@ -1342,6 +1362,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(1, 'X');
         String str = result.toString();
         assertEquals("AXBC", str);
+        assertEquals(4, result.length());
     }
 
     @Test
@@ -1352,6 +1373,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(3, 'X');
         String str = result.toString();
         assertEquals("ABCXDEFGHI", str);
+        assertEquals(10, result.length());
     }
 
     @Test
@@ -1362,6 +1384,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(4, 'X');
         String str = result.toString();
         assertEquals("ABCDXEFGHI", str);
+        assertEquals(10, result.length());
     }
 
     @Test
@@ -1372,6 +1395,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(6, 'X');
         String str = result.toString();
         assertEquals("ABCDEFXGHI", str);
+        assertEquals(10, result.length());
     }
 
     @Test
@@ -1392,6 +1416,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(9, 'X');
         String str = result.toString();
         assertEquals("ABCDEFGHIX", str);
+        assertEquals(10, result.length());
     }
 
     @Test
@@ -1402,6 +1427,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(6, new char[] {'T', 'E', 'S', 'T'});
         String str = result.toString();
         assertEquals("ABCDEFTESTGHI", str);
+        assertEquals(13, result.length());
     }
 
     @Test
@@ -1412,6 +1438,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(7, new char[] {'T', 'E', 'S', 'T'});
         String str = result.toString();
         assertEquals("ABCDEFGTESTHI", str);
+        assertEquals(13, result.length());
     }
 
     @Test
@@ -1422,6 +1449,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(9, new char[] {'T', 'E', 'S', 'T'});
         String str = result.toString();
         assertEquals("ABCDEFGHITEST", str);
+        assertEquals(13, result.length());
     }
 
     @Test
@@ -1433,6 +1461,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(6, charSequence);
         String str = result.toString();
         assertEquals("ABCDEFTESTGHI", str);
+        assertEquals(13, result.length());
     }
 
     @Test
@@ -1444,6 +1473,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(7, charSequence);
         String str = result.toString();
         assertEquals("ABCDEFGTESTHI", str);
+        assertEquals(13, result.length());
     }
 
     @Test
@@ -1456,6 +1486,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(9, charSequence);
         String str = result.toString();
         assertEquals("ABCDEFGHITEST", str);
+        assertEquals(13, result.length());
     }
 
     @Test
@@ -1467,6 +1498,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(6, d);
         String str = result.toString();
         assertEquals("ABCDEF666.0GHI", str);
+        assertEquals(14, result.length());
     }
 
     @Test
@@ -1478,6 +1510,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(7, d);
         String str = result.toString();
         assertEquals("ABCDEFG666.0HI", str);
+        assertEquals(14, result.length());
     }
 
     @Test
@@ -1489,6 +1522,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(9, d);
         String str = result.toString();
         assertEquals("ABCDEFGHI666.0", str);
+        assertEquals(14, result.length());
     }
 
     @Test
@@ -1500,6 +1534,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(6, pi);
         String str = result.toString();
         assertEquals("ABCDEF3.14159GHI", str);
+        assertEquals(16, result.length());
     }
 
     @Test
@@ -1511,6 +1546,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(7, pi);
         String str = result.toString();
         assertEquals("ABCDEFG3.14159HI", str);
+        assertEquals(16, result.length());
     }
 
     @Test
@@ -1522,6 +1558,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(9, pi);
         String str = result.toString();
         assertEquals("ABCDEFGHI3.14159", str);
+        assertEquals(16, result.length());
     }
 
     @Test
@@ -1533,6 +1570,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(6, i);
         String str = result.toString();
         assertEquals("ABCDEF666GHI", str);
+        assertEquals(12, result.length());
     }
 
     @Test
@@ -1544,6 +1582,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(7, i);
         String str = result.toString();
         assertEquals("ABCDEFG666HI", str);
+        assertEquals(12, result.length());
     }
 
     @Test
@@ -1555,6 +1594,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(9, i);
         String str = result.toString();
         assertEquals("ABCDEFGHI666", str);
+        assertEquals(12, result.length());
     }
 
     @Test
@@ -1566,6 +1606,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(6, l);
         String str = result.toString();
         assertEquals("ABCDEF666GHI", str);
+        assertEquals(12, result.length());
     }
 
     @Test
@@ -1577,6 +1618,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(7, l);
         String str = result.toString();
         assertEquals("ABCDEFG666HI", str);
+        assertEquals(12, result.length());
     }
 
     @Test
@@ -1588,6 +1630,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(9, l);
         String str = result.toString();
         assertEquals("ABCDEFGHI666", str);
+        assertEquals(12, result.length());
     }
 
     @Test
@@ -1598,6 +1641,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(6, new TestObject());
         String str = result.toString();
         assertEquals("ABCDEFTestObject{x=0, y=1, z=2}GHI", str);
+        assertEquals(34, result.length());
     }
 
     @Test
@@ -1608,6 +1652,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(7, new TestObject());
         String str = result.toString();
         assertEquals("ABCDEFGTestObject{x=0, y=1, z=2}HI", str);
+        assertEquals(34, result.length());
     }
 
     @Test
@@ -1618,6 +1663,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(9, new TestObject());
         String str = result.toString();
         assertEquals("ABCDEFGHITestObject{x=0, y=1, z=2}", str);
+        assertEquals(34, result.length());
     }
 
     @Test
@@ -1629,6 +1675,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(4,  insertChars, 1, 3);
         String str = result.toString();
         assertEquals("ABCDKLEFGHI", str);
+        assertEquals(11, result.length());
     }
 
     @Test
@@ -1640,6 +1687,7 @@ public class StringBuilderTest {
         CustomStringBuilder result = customStringBuilder.insert(4,  charSequence, 1, 3);
         String str = result.toString();
         assertEquals("ABCDKLEFGHI", str);
+        assertEquals(11, result.length());
     }
 
     private static final String STRING_VALUE_OF_LENGTH_129 = "uwcwiavzhhigohtwixbrlxserzenalmzmkzwhrtewfzqpcvtsrnxkpdzcqsvpnqsatxjftfkhrdagqqunffpezghcpkuhlwrttdduhwgvpoqsksfojgtkgtkxkyzvbykl";

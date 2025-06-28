@@ -140,6 +140,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
                 offset -= stringBuilder.get(idx++).length();
             String insertInto = stringBuilder.get(idx);
             stringBuilder.set(idx, insertInto.substring(0, offset) + str + insertInto.substring(offset));
+            size += str.length();
         }
         return this;
     }
