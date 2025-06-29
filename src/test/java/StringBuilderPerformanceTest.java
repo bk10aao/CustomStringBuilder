@@ -4,7 +4,7 @@ import java.io.IOException;
 public class StringBuilderPerformanceTest {
 
     public static void main(String[] args) {
-        int[] sizes = {1, 10, 50, 100, 250, 500, 750, 1000, 2500, 5000, 7500, 10000,
+        int[] sizes = { 10, 50, 100, 250, 500, 750, 1000, 2500, 5000, 7500, 10000,
                 25000, 50000, 100000, 250000, 500000, 1000000};
 
         long[][] results = new long[sizes.length][];
