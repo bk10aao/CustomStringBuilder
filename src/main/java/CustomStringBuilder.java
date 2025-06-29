@@ -44,7 +44,13 @@ public class CustomStringBuilder implements StringBuilderInterface {
     }
 
     public CustomStringBuilder append(final CharSequence charSequence, final int start, final int end) {
-        return append(charSequence.subSequence(start, end + 1));
+        CustomStringBuilder customStringBuilder;
+        try {
+            customStringBuilder = append(charSequence.subSequence(start, end + 1));
+        } catch (IndexOutOfBoundsException e) {
+            return this;
+        }
+        return customStringBuilder;
     }
 
     public CustomStringBuilder append(final double d) {
