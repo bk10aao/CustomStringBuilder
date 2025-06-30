@@ -136,4 +136,6 @@ This table compares the space complexity of key methods in Java's `StringBuilder
   - **m**: Number of string segments in `CustomStringBuilder`'s `ArrayList`.
   - **k**: Length of the input string or subsequence.
 
+# Performance Charts
+
 ![Combined Performance Charts](PerformanceTesting/CompareCustomStringBuilderToStringBuilder/All_Performance_Comparisons.png)
