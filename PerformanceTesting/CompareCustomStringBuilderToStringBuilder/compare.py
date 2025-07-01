@@ -1,15 +1,14 @@
 import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 import csv
 
 def read_csv(filename):
     data = {}
     with open(filename, 'r') as f:
         reader = csv.DictReader(f, delimiter=';')
-        # Normalize headers by stripping quotes from keys
         headers = [h.strip('"') for h in reader.fieldnames]
 
         for row in reader:
-            # Build a clean dict with stripped keys and values
             clean_row = {h.strip('"'): v for h, v in row.items()}
             size = int(clean_row['Size'])
             for key, value in clean_row.items():
@@ -17,7 +16,6 @@ def read_csv(filename):
                     continue
                 if key not in data:
                     data[key] = []
-                # Defensive: Some values may be empty, skip or convert safely
                 try:
                     val = int(value)
                 except ValueError:
@@ -40,7 +38,12 @@ sizes = [size for size, _ in custom_data[some_method]]
 n_methods = len(methods)
 fig, axes = plt.subplots(nrows=n_methods, ncols=1, figsize=(10, 4 * n_methods))
 if n_methods == 1:
-    axes = [axes]  # Make iterable
+    axes = [axes]
+
+# Configure tick formatter and locator
+formatter = ticker.ScalarFormatter()
+formatter.set_scientific(False)
+locator = ticker.MultipleLocator(100000)  # Tick every 100,000
 
 # Plot each method's comparison
 for idx, method in enumerate(methods):
@@ -54,6 +57,10 @@ for idx, method in enumerate(methods):
     axes[idx].set_title(f'Performance Comparison: {method}')
     axes[idx].legend()
     axes[idx].grid(True)
+    axes[idx].set_xlim(left=0, right=1_000_000)
+    axes[idx].set_ylim(bottom=0)
+    axes[idx].xaxis.set_major_formatter(formatter)
+    axes[idx].xaxis.set_major_locator(locator)
 
 plt.tight_layout()
 plt.savefig('All_Performance_Comparisons.png', dpi=300, bbox_inches='tight')
