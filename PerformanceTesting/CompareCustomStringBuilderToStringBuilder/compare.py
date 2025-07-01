@@ -57,7 +57,7 @@ for idx, method in enumerate(methods):
     ax.plot(sizes, sb_times, label='StringBuilder')
     ax.set_xlabel('Input Size')
     ax.set_ylabel('Time (ns)')
-    ax.set_title(f'Performance Comparison: {method}')
+    ax.set_title(f'{method}')
     ax.legend()
     ax.grid(True)
 
