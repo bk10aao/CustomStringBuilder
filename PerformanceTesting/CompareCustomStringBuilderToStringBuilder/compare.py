@@ -40,27 +40,38 @@ fig, axes = plt.subplots(nrows=n_methods, ncols=1, figsize=(10, 4 * n_methods))
 if n_methods == 1:
     axes = [axes]
 
-# Configure tick formatter and locator
-formatter = ticker.ScalarFormatter()
-formatter.set_scientific(False)
-locator = ticker.MultipleLocator(100000)  # Tick every 100,000
+# Formatters
+scalar_formatter = ticker.ScalarFormatter()
+scalar_formatter.set_scientific(False)
+scalar_formatter.set_useOffset(False)
+
+x_locator = ticker.MultipleLocator(100000)
 
 # Plot each method's comparison
 for idx, method in enumerate(methods):
     custom_times = [time for _, time in custom_data[method]]
     sb_times = [time for _, time in stringbuilder_data.get(method, [(0, 0)] * len(sizes))]
 
-    axes[idx].plot(sizes, custom_times, label='CustomStringBuilder')
-    axes[idx].plot(sizes, sb_times, label='StringBuilder')
-    axes[idx].set_xlabel('Input Size')
-    axes[idx].set_ylabel('Time (ns)')
-    axes[idx].set_title(f'Performance Comparison: {method}')
-    axes[idx].legend()
-    axes[idx].grid(True)
-    axes[idx].set_xlim(left=0, right=1_000_000)
-    axes[idx].set_ylim(bottom=0)
-    axes[idx].xaxis.set_major_formatter(formatter)
-    axes[idx].xaxis.set_major_locator(locator)
+    ax = axes[idx]
+    ax.plot(sizes, custom_times, label='CustomStringBuilder')
+    ax.plot(sizes, sb_times, label='StringBuilder')
+    ax.set_xlabel('Input Size')
+    ax.set_ylabel('Time (ns)')
+    ax.set_title(f'Performance Comparison: {method}')
+    ax.legend()
+    ax.grid(True)
+
+    # Smart axis scaling
+    x_max = max(sizes)
+    y_max = max(max(custom_times), max(sb_times))
+
+    ax.set_xlim(0, 1_000_000)  # Optional: use x_max * 1.05 for dynamic
+    ax.set_ylim(0, y_max * 1.1)
+
+    # Format ticks
+    ax.xaxis.set_major_locator(x_locator)
+    ax.xaxis.set_major_formatter(scalar_formatter)
+    ax.yaxis.set_major_formatter(scalar_formatter)
 
 plt.tight_layout()
 plt.savefig('All_Performance_Comparisons.png', dpi=300, bbox_inches='tight')
