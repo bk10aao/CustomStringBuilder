@@ -144,4 +144,4 @@ This table compares the space complexity of key methods in Java's `StringBuilder
 ![Combined Performance Charts](PerformanceTesting/CustomStringBuilder/CustomStringBuilder_Performance_Comparisons.png)
 
 ## String Builder
-![Combined Performance Charts](PerformanceTesting/StringBuilder/StringBuilder_Performance_Comparisons.png)
+![Combined Performance Charts](PerformanceTesting/StringBuilderPerformanceTest/StringBuilder_Performance.png)
