@@ -1,6 +1,5 @@
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class CustomStringBuilder implements StringBuilderInterface {
@@ -34,9 +33,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
     }
 
     public CustomStringBuilder append(final char[] str, final int offset, final int len) {
-        if(offset < 0 || len < 0 || offset + len > str.length)
-            throw new IndexOutOfBoundsException();
-        return append(new String(Arrays.copyOfRange(str, offset, offset + len)));
+        return append(new String(str, offset, len));
     }
 
     public CustomStringBuilder append(final CharSequence charSequence) {
@@ -44,13 +41,13 @@ public class CustomStringBuilder implements StringBuilderInterface {
     }
 
     public CustomStringBuilder append(final CharSequence charSequence, final int start, final int end) {
-        CustomStringBuilder customStringBuilder;
-        try {
-            customStringBuilder = append(charSequence.subSequence(start, end + 1));
-        } catch (IndexOutOfBoundsException e) {
-            return this;
+        if (charSequence == null) {
+            throw new NullPointerException();
         }
-        return customStringBuilder;
+        if (start < 0 || end < start || end > charSequence.length()) {
+            throw new StringIndexOutOfBoundsException();
+        }
+        return append(charSequence.subSequence(start, end));
     }
 
     public CustomStringBuilder append(final double d) {
@@ -70,6 +67,9 @@ public class CustomStringBuilder implements StringBuilderInterface {
     }
 
     public CustomStringBuilder append(final String str) {
+        if (str == null) {
+            throw new NullPointerException();
+        }
         stringBuilder.add(str);
         size += str.length();
         return this;
@@ -137,17 +137,24 @@ public class CustomStringBuilder implements StringBuilderInterface {
         return insert(offset, obj.toString());
     }
 
-    public CustomStringBuilder insert(int offset, final String str) {
+    public CustomStringBuilder insert(final int offset, final String str) {
         if(offset < 0 || offset > size)
             throw new StringIndexOutOfBoundsException();
+
+        int idx = 0;
+        int currentOffset = 0;
+        while (idx < stringBuilder.size() && currentOffset + stringBuilder.get(idx).length() <= offset)
+            currentOffset += stringBuilder.get(idx++).length();
+        if (idx == stringBuilder.size())
+            stringBuilder.add(str);
         else {
-            int idx = 0;
-            while(offset > stringBuilder.get(idx).length())
-                offset -= stringBuilder.get(idx++).length();
-            String insertInto = stringBuilder.get(idx);
-            stringBuilder.set(idx, insertInto.substring(0, offset) + str + insertInto.substring(offset));
-            size += str.length();
+            String target = stringBuilder.get(idx);
+            int splitPoint = offset - currentOffset;
+            stringBuilder.set(idx, target.substring(0, splitPoint));
+            stringBuilder.add(++idx, str);
+            stringBuilder.add(++idx, target.substring(splitPoint));
         }
+        size += str.length();
         return this;
     }
 
@@ -181,20 +188,24 @@ public class CustomStringBuilder implements StringBuilderInterface {
     }
 
     public CustomStringBuilder reverse() {
-        CustomStringBuilder sb = new CustomStringBuilder();
-        for (int i = stringBuilder.size() - 1; i >= 0; i--) {
-            String str = stringBuilder.get(i);
-            char[] chars = str.toCharArray();  // Convert string to char array
-            int left = 0;
-            int right = chars.length - 1;
-            while (left < right) {
-                char temp = chars[left];
-                chars[left++] = chars[right];
-                chars[right--] = temp;
-            }
-            sb.append(chars);
+        char[] buffer = new char[size];
+        int offset = 0;
+        for (String str : stringBuilder) {
+            str.getChars(0, str.length(), buffer, offset);
+            offset += str.length();
         }
-        return sb;
+
+        int left = 0, right = size - 1;
+        while (left < right) {
+            char temp = buffer[left];
+            buffer[left++] = buffer[right];
+            buffer[right--] = temp;
+        }
+
+        CustomStringBuilder result = new CustomStringBuilder();
+        result.stringBuilder.add(new String(buffer));
+        result.size = size;
+        return result;
     }
 
     public void setCharAt(final int index, final char c) {

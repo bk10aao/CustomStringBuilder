@@ -3,8 +3,10 @@ import java.io.IOException;
 
 public class CustomStringBuilderPerformanceTest {
 
+    private static final int RUNS = 100; // Number of runs for averaging
+
     public static void main(String[] args) {
-        int[] sizes = {10, 50, 100, 250, 500, 750, 1000, 2500, 5000, 7500, 10000,
+        int[] sizes = {1000, 2500, 5000, 7500, 10000,
                 25000, 50000, 100000, 250000, 500000, 1000000};
 
         long[][] results = new long[sizes.length][];
@@ -22,7 +24,6 @@ public class CustomStringBuilderPerformanceTest {
                 "\"append(float)\"",
                 "\"append(int)\"",
                 "\"append(long)\"",
-                "\"append(Object)\"",
                 "\"append(String)\"",
                 "\"insert(int, boolean)\"",
                 "\"insert(int, char)\"",
@@ -68,11 +69,10 @@ public class CustomStringBuilderPerformanceTest {
             long appendFloatTime = benchmarkAppendFloat();
             long appendIntTime = benchmarkAppendInt();
             long appendLongTime = benchmarkAppendLong();
-            long appendObjectTime = benchmarkAppendObject();
             long appendTime = benchmarkAppend(testStr);
             long insertBooleanTime = benchmarkInsertBoolean(testStr);
             long insertCharTime = benchmarkInsertChar(testStr);
-            long insertCharArrayTime = benchmarkInsertCharArray(testStr);
+            long insertCharArrayTime = benchmarkAppendCharArray(testStr);
             long insertCharArrayRangeTime = benchmarkInsertCharArrayRange(testStr);
             long insertCharSequenceTime = benchmarkInsertCharSequence(testStr);
             long insertCharSequenceRangeTime = benchmarkInsertCharSequenceRange(testStr);
@@ -99,7 +99,7 @@ public class CustomStringBuilderPerformanceTest {
             results[i] = new long[]{
                     size, constructorCharSequenceTime, appendBooleanTime, appendCharTime, appendCharArrayTime,
                     appendCharArrayRangeTime, appendCharSequenceTime, appendCharSequenceRangeTime,
-                    appendDoubleTime, appendFloatTime, appendIntTime, appendLongTime, appendObjectTime, appendTime,
+                    appendDoubleTime, appendFloatTime, appendIntTime, appendLongTime, appendTime,
                     insertBooleanTime, insertCharTime, insertCharArrayTime, insertCharArrayRangeTime,
                     insertCharSequenceTime, insertCharSequenceRangeTime, insertDoubleTime, insertFloatTime,
                     insertIntTime, insertLongTime, insertObjectTime, insertTime, deleteTime, deleteCharAtTime,
@@ -138,292 +138,421 @@ public class CustomStringBuilderPerformanceTest {
 
     // Constructor benchmark
     private static long benchmarkConstructorCharSequence(CharSequence input) {
-        long start = System.nanoTime();
-        new CustomStringBuilder(input);
-        return System.nanoTime() - start;
+        long totalTime = 0;
+        for (int i = 0; i < RUNS; i++) {
+            long start = System.nanoTime();
+            new CustomStringBuilder(input);
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     // Append benchmarks
     private static long benchmarkAppendBoolean() {
-        CustomStringBuilder sb = new CustomStringBuilder();
-        long start = System.nanoTime();
-        sb.append(true);
-        return System.nanoTime() - start;
+        long totalTime = 0;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder();
+            long start = System.nanoTime();
+            sb.append(true);
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     private static long benchmarkAppendChar() {
-        CustomStringBuilder sb = new CustomStringBuilder();
-        long start = System.nanoTime();
-        sb.append('a');
-        return System.nanoTime() - start;
+        long totalTime = 0;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder();
+            long start = System.nanoTime();
+            sb.append('a');
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     private static long benchmarkAppendCharArray(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder();
+        long totalTime = 0;
         char[] chars = input.toCharArray();
-        long start = System.nanoTime();
-        sb.append(chars);
-        return System.nanoTime() - start;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder();
+            long start = System.nanoTime();
+            sb.append(chars);
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     private static long benchmarkAppendCharArrayRange(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder();
+        long totalTime = 0;
         char[] chars = input.toCharArray();
         int len = Math.min(10, chars.length);
-        long start = System.nanoTime();
-        sb.append(chars, 0, len);
-        return System.nanoTime() - start;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder();
+            long start = System.nanoTime();
+            sb.append(chars, 0, len);
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     private static long benchmarkAppendCharSequence(CharSequence input) {
-        CustomStringBuilder sb = new CustomStringBuilder();
-        long start = System.nanoTime();
-        sb.append(input);
-        return System.nanoTime() - start;
+        long totalTime = 0;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder();
+            long start = System.nanoTime();
+            sb.append(input);
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     private static long benchmarkAppendCharSequenceRange(CharSequence input) {
-        CustomStringBuilder sb = new CustomStringBuilder();
+        long totalTime = 0;
         int len = Math.min(10, input.length());
-        long start = System.nanoTime();
-        sb.append(input, 0, len);
-        return System.nanoTime() - start;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder();
+            long start = System.nanoTime();
+            sb.append(input, 0, len);
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     private static long benchmarkAppendDouble() {
-        CustomStringBuilder sb = new CustomStringBuilder();
-        long start = System.nanoTime();
-        sb.append(123.45);
-        return System.nanoTime() - start;
+        long totalTime = 0;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder();
+            long start = System.nanoTime();
+            sb.append(123.45);
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     private static long benchmarkAppendFloat() {
-        CustomStringBuilder sb = new CustomStringBuilder();
-        long start = System.nanoTime();
-        sb.append(123.45f);
-        return System.nanoTime() - start;
+        long totalTime = 0;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder();
+            long start = System.nanoTime();
+            sb.append(123.45f);
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     private static long benchmarkAppendInt() {
-        CustomStringBuilder sb = new CustomStringBuilder();
-        long start = System.nanoTime();
-        sb.append(123);
-        return System.nanoTime() - start;
+        long totalTime = 0;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder();
+            long start = System.nanoTime();
+            sb.append(123);
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     private static long benchmarkAppendLong() {
-        CustomStringBuilder sb = new CustomStringBuilder();
-        long start = System.nanoTime();
-        sb.append(123L);
-        return System.nanoTime() - start;
-    }
-
-    private static long benchmarkAppendObject() {
-        CustomStringBuilder sb = new CustomStringBuilder();
-        Object obj = new Object();
-        long start = System.nanoTime();
-        return System.nanoTime() - start;
+        long totalTime = 0;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder();
+            long start = System.nanoTime();
+            sb.append(123L);
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     private static long benchmarkAppend(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder();
-        long start = System.nanoTime();
-        sb.append(input);
-        return System.nanoTime() - start;
+        long totalTime = 0;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder();
+            long start = System.nanoTime();
+            sb.append(input);
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     // Insert benchmarks
     private static long benchmarkInsertBoolean(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder(input);
-        long start = System.nanoTime();
-        sb.insert(0, true);
-        return System.nanoTime() - start;
+        long totalTime = 0;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder(input);
+            long start = System.nanoTime();
+            sb.insert(0, true);
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     private static long benchmarkInsertChar(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder(input);
-        long start = System.nanoTime();
-        sb.insert(0, 'a');
-        return System.nanoTime() - start;
-    }
-
-    private static long benchmarkInsertCharArray(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder(input);
-        char[] chars = "INSERTED".toCharArray();
-        long start = System.nanoTime();
-        sb.insert(0, chars);
-        return System.nanoTime() - start;
+        long totalTime = 0;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder(input);
+            long start = System.nanoTime();
+            sb.insert(0, 'a');
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     private static long benchmarkInsertCharArrayRange(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder(input);
+        long totalTime = 0;
         char[] chars = "INSERTED".toCharArray();
-        long start = System.nanoTime();
-        sb.insert(0, chars, 0, 4);
-        return System.nanoTime() - start;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder(input);
+            long start = System.nanoTime();
+            sb.insert(0, chars, 0, 4);
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     private static long benchmarkInsertCharSequence(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder(input);
+        long totalTime = 0;
         CharSequence seq = "INSERT".subSequence(0, 6);
-        long start = System.nanoTime();
-        sb.insert(0, seq);
-        return System.nanoTime() - start;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder(input);
+            long start = System.nanoTime();
+            sb.insert(0, seq);
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     private static long benchmarkInsertCharSequenceRange(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder(input);
+        long totalTime = 0;
         CharSequence seq = "INSERT".subSequence(0, 6);
-        long start = System.nanoTime();
-        sb.insert(0, seq, 0, 3);
-        return System.nanoTime() - start;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder(input);
+            long start = System.nanoTime();
+            sb.insert(0, seq, 0, 3);
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     private static long benchmarkInsertDouble(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder(input);
-        long start = System.nanoTime();
-        sb.insert(0, 123.45);
-        return System.nanoTime() - start;
+        long totalTime = 0;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder(input);
+            long start = System.nanoTime();
+            sb.insert(0, 123.45);
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     private static long benchmarkInsertFloat(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder(input);
-        long start = System.nanoTime();
-        sb.insert(0, 123.45f);
-        return System.nanoTime() - start;
+        long totalTime = 0;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder(input);
+            long start = System.nanoTime();
+            sb.insert(0, 123.45f);
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     private static long benchmarkInsertInt(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder(input);
-        long start = System.nanoTime();
-        sb.insert(0, 123);
-        return System.nanoTime() - start;
+        long totalTime = 0;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder(input);
+            long start = System.nanoTime();
+            sb.insert(0, 123);
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     private static long benchmarkInsertLong(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder(input);
-        long start = System.nanoTime();
-        sb.insert(0, 123L);
-        return System.nanoTime() - start;
+        long totalTime = 0;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder(input);
+            long start = System.nanoTime();
+            sb.insert(0, 123L);
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     private static long benchmarkInsertObject(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder(input);
+        long totalTime = 0;
         Object obj = new Object();
-        long start = System.nanoTime();
-        sb.insert(0, obj);
-        return System.nanoTime() - start;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder(input);
+            long start = System.nanoTime();
+            sb.insert(0, obj);
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     private static long benchmarkInsert(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder(input);
-        long start = System.nanoTime();
-        sb.insert(0, input);
-        return System.nanoTime() - start;
+        long totalTime = 0;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder(input);
+            long start = System.nanoTime();
+            sb.insert(0, input);
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     // Delete benchmarks
     private static long benchmarkDelete(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder(input);
-        int len = input.length();
-        long start = System.nanoTime();
-        if (len > 2) {
-            sb.delete(1, len - 1);
+        long totalTime = 0;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder(input);
+            int len = input.length();
+            long start = System.nanoTime();
+            if (len > 2) {
+                sb.delete(1, len - 1);
+            }
+            totalTime += System.nanoTime() - start;
         }
-        return System.nanoTime() - start;
+        return totalTime / RUNS;
     }
 
     private static long benchmarkDeleteCharAt(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder(input);
-        long start = System.nanoTime();
-        if (sb.length() > 0) sb.deleteCharAt(0);
-        return System.nanoTime() - start;
+        long totalTime = 0;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder(input);
+            long start = System.nanoTime();
+            if (sb.length() > 0) sb.deleteCharAt(0);
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     private static long benchmarkReplace(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder(input);
-        long start = System.nanoTime();
-        if (sb.length() > 3) sb.replace(0, 3, "xyz");
-        return System.nanoTime() - start;
+        long totalTime = 0;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder(input);
+            long start = System.nanoTime();
+            if (sb.length() > 3) sb.replace(0, 3, "xyz");
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     private static long benchmarkReverse(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder(input);
-        long start = System.nanoTime();
-        sb.reverse();
-        return System.nanoTime() - start;
+        long totalTime = 0;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder(input);
+            long start = System.nanoTime();
+            sb.reverse();
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     // IndexOf benchmarks
     private static long benchmarkIndexOf(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder(input);
-        long start = System.nanoTime();
-        sb.indexOf("a");
-        return System.nanoTime() - start;
+        long totalTime = 0;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder(input);
+            long start = System.nanoTime();
+            sb.indexOf("a");
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     private static long benchmarkIndexOfFromIndex(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder(input);
+        long totalTime = 0;
         int fromIndex = input.length() / 2;
-        long start = System.nanoTime();
-        sb.indexOf("a", fromIndex);
-        return System.nanoTime() - start;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder(input);
+            long start = System.nanoTime();
+            sb.indexOf("a", fromIndex);
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     private static long benchmarkLastIndexOf(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder(input);
-        long start = System.nanoTime();
-        sb.lastIndexOf("a");
-        return System.nanoTime() - start;
+        long totalTime = 0;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder(input);
+            long start = System.nanoTime();
+            sb.lastIndexOf("a");
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     private static long benchmarkSetCharAt(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder(input);
-        long start = System.nanoTime();
-        if (sb.length() > 0) sb.setCharAt(0, 'z');
-        return System.nanoTime() - start;
+        long totalTime = 0;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder(input);
+            long start = System.nanoTime();
+            if (sb.length() > 0) sb.setCharAt(0, 'z');
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     // toString benchmark
     private static long benchmarkToString(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder(input);
-        long start = System.nanoTime();
-        sb.toString();
-        return System.nanoTime() - start;
+        long totalTime = 0;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder(input);
+            long start = System.nanoTime();
+            sb.toString();
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     // subSequence benchmark
     private static long benchmarkSubSequence(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder(input);
+        long totalTime = 0;
         int len = input.length();
-        long start = System.nanoTime();
-        if (len > 2) sb.subSequence(0, len / 2);
-        return System.nanoTime() - start;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder(input);
+            long start = System.nanoTime();
+            if (len > 2) sb.subSequence(0, len / 2);
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     // substring(int) benchmark
     private static long benchmarkSubStringSingle(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder(input);
+        long totalTime = 0;
         int len = input.length();
-        long start = System.nanoTime();
-        if (len > 2) sb.subString(len / 2);
-        return System.nanoTime() - start;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder(input);
+            long start = System.nanoTime();
+            if (len > 2) sb.subString(len / 2);
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     // substring(int, int) benchmark
     private static long benchmarkSubstring(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder(input);
+        long totalTime = 0;
         int len = input.length();
-        long start = System.nanoTime();
-        if (len > 2) sb.subString(0, len / 2);
-        return System.nanoTime() - start;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder(input);
+            long start = System.nanoTime();
+            if (len > 2) sb.subString(0, len / 2);
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 
     // length benchmark
     private static long benchmarkLength(String input) {
-        CustomStringBuilder sb = new CustomStringBuilder(input);
-        long start = System.nanoTime();
-        sb.length();
-        return System.nanoTime() - start;
+        long totalTime = 0;
+        for (int i = 0; i < RUNS; i++) {
+            CustomStringBuilder sb = new CustomStringBuilder(input);
+            long start = System.nanoTime();
+            sb.length();
+            totalTime += System.nanoTime() - start;
+        }
+        return totalTime / RUNS;
     }
 }

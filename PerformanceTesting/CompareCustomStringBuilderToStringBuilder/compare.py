@@ -24,8 +24,8 @@ def read_csv(filename):
     return data
 
 # Load data from both CSVs
-custom_data = read_csv('/Users/drpsychoben/PycharmProjects/StringBuilderCharts/Compare/CustomStringBuilder_performance.csv')
-stringbuilder_data = read_csv('/Users/drpsychoben/PycharmProjects/StringBuilderCharts/Compare/StringBuilder_performance.csv')
+custom_data = read_csv('CustomStringBuilder_performance.csv')
+stringbuilder_data = read_csv('StringBuilder_performance.csv')
 
 # Get the method names sorted for consistent plotting
 methods = sorted(custom_data.keys())
