@@ -12,6 +12,8 @@ def read_csv(filename):
 
         for row in reader:
             size = int(row['Size'].strip('"'))
+            if size < 2500:  # Skip sizes less than 2500
+                continue
             for header in headers:
                 val_str = row.get(f'"{header}"') or row.get(header) or ''
                 try:
@@ -21,12 +23,12 @@ def read_csv(filename):
                 data[header].append((size, val))
     return data
 
-# Load data from CustomStringBuilder CSV
+# Load data from StringBuilder CSV
 data = read_csv('/Users/drpsychoben/PycharmProjects/StringBuilderCharts/StringBuilder/StringBuilder_performance.csv')
 
-# Get method names and sizes
-methods = sorted(data.keys())
-sizes = sorted([size for size, _ in data[methods[0]]])
+# Get method names, excluding StringBuilder(CharSequence)
+methods = sorted([m for m in data.keys() if m != 'StringBuilder(CharSequence)'])
+sizes = sorted([size for size, _ in data[methods[0]]])  # Original sizes: [2500, 5000, 7500, 10000, 25000, 50000, 100000, 250000, 500000, 1000000]
 
 # Create a figure with subplots stacked vertically
 n_methods = len(methods)
@@ -34,11 +36,10 @@ fig, axes = plt.subplots(nrows=n_methods, ncols=1, figsize=(10, 4 * n_methods))
 if n_methods == 1:
     axes = [axes]
 
-# Formatters for axes
+# Formatter for axes
 scalar_formatter = ticker.ScalarFormatter()
 scalar_formatter.set_scientific(False)
 scalar_formatter.set_useOffset(False)
-x_locator = ticker.MultipleLocator(100000)
 
 # Plot each method's performance
 for idx, method in enumerate(methods):
@@ -52,14 +53,14 @@ for idx, method in enumerate(methods):
     ax.legend()
     ax.grid(True)
 
-    # Smart axis scaling
+    # Smart axis scaling, x-axis starts at 2500
     x_max = max(sizes)
     y_max = max(times, default=0)
-    ax.set_xlim(0, 1_000_000)
+    ax.set_xlim(2500, 1_000_000)  # Start x-axis at 2500
     ax.set_ylim(0, y_max * 1.1 if y_max > 0 else 1)
 
-    # Format ticks
-    ax.xaxis.set_major_locator(x_locator)
+    # Set x-axis ticks to start at 2500, followed by 100000 increments
+    ax.set_xticks([2500, 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000])
     ax.xaxis.set_major_formatter(scalar_formatter)
     ax.yaxis.set_major_formatter(scalar_formatter)
 

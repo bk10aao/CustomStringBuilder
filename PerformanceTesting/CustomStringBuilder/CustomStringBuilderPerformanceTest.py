@@ -1,62 +1,71 @@
 import matplotlib.pyplot as plt
-import numpy as np
+import matplotlib.ticker as ticker
 import csv
+import numpy as np
 from collections import defaultdict
 
-filename = '/Users/drpsychoben/PycharmProjects/StringBuilderCharts/CustomStringBuilder/CustomStringBuilder_performance.csv'
+def read_csv(filename):
+    data = defaultdict(list)
+    with open(filename, 'r') as f:
+        reader = csv.DictReader(f, delimiter=';')
+        headers = [h.strip('"') for h in reader.fieldnames if h.lower() != 'size']
 
-# Maps size -> method name -> list of times
-size_to_times = defaultdict(lambda: defaultdict(list))
+        for row in reader:
+            size = int(row['Size'].strip('"'))
+            if size < 2500:  # Skip sizes less than 2500
+                continue
+            for header in headers:
+                val_str = row.get(f'"{header}"') or row.get(header) or ''
+                try:
+                    val = int(val_str.strip('"'))
+                except ValueError:
+                    val = 0
+                data[header].append((size, val))
+    return data
 
-with open(filename, 'r') as csvfile:
-    reader = csv.DictReader(csvfile, delimiter=';')
+# Load data from CustomStringBuilder CSV
+custom_data = read_csv('/Users/drpsychoben/PycharmProjects/StringBuilderCharts/CustomStringBuilder/CustomStringBuilder_performance.csv')
 
-    # Strip quotes from fieldnames
-    raw_headers = [h.strip().strip('"') for h in reader.fieldnames]
-    method_names_raw = [h for h in raw_headers if h.lower() != 'size']
+# Get method names, excluding CustomStringBuilder(CharSequence)
+methods = sorted([m for m in custom_data.keys() if m != 'CustomStringBuilder(CharSequence)'])
+sizes = sorted([size for size, _ in custom_data[methods[0]]])  # Original sizes: [2500, 5000, 7500, 10000, 25000, 50000, 100000, 250000, 500000, 1000000]
 
-    for row in reader:
-        size_str = row['Size'].strip().strip('"')
-        try:
-            size = int(size_str)
-        except ValueError:
-            continue
+# Create a figure with subplots stacked vertically
+n_methods = len(methods)
+fig, axes = plt.subplots(nrows=n_methods, ncols=1, figsize=(10, 4 * n_methods))
+if n_methods == 1:
+    axes = [axes]
 
-        for method in method_names_raw:
-            val_str = row.get(f'"{method}"') or row.get(method) or ''
-            try:
-                val = int(val_str.strip().strip('"'))
-            except ValueError:
-                val = 0
-            size_to_times[size][method].append(val)
+# Formatter for axes
+scalar_formatter = ticker.ScalarFormatter()
+scalar_formatter.set_scientific(False)
+scalar_formatter.set_useOffset(False)
 
-# Aggregate: compute average times per method per input size
-sizes = sorted(size_to_times.keys())
-method_times = {method: [] for method in method_names_raw}
+# Plot each method's performance
+for idx, method in enumerate(methods):
+    custom_times = [time for _, time in custom_data[method]]
 
-for size in sizes:
-    for method in method_names_raw:
-        values = size_to_times[size][method]
-        avg = sum(values) / len(values) if values else 0
-        method_times[method].append(avg)
+    ax = axes[idx] if n_methods > 1 else axes
+    ax.plot(sizes, custom_times, label='CustomStringBuilder', linestyle='-', linewidth=1.5)
+    ax.set_xlabel('Input Size')
+    ax.set_ylabel('Time (ns)')
+    ax.set_title(f'{method}')
+    ax.legend()
+    ax.grid(True)
 
-# Plotting
-sizes_np = np.array(sizes)
+    # Smart axis scaling, x-axis starts at 2500
+    x_max = max(sizes)
+    y_max = max(custom_times, default=0)
+    ax.set_xlim(2500, 1_000_000)  # Start x-axis at 2500
+    ax.set_ylim(0, y_max * 1.1 if y_max > 0 else 1)
 
-for method, times in method_times.items():
-    times_np = np.array(times)
-    if len(times_np) != len(sizes_np):
-        print(f"Skipping {method}: mismatched data length ({len(times_np)} vs {len(sizes_np)})")
-        continue
+    # Set x-axis ticks to start at 2500, followed by 100000 increments
+    ax.set_xticks([2500, 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000])
+    ax.xaxis.set_major_formatter(scalar_formatter)
+    ax.yaxis.set_major_formatter(scalar_formatter)
 
-    plt.figure(figsize=(10, 6))
-    plt.plot(sizes_np, times_np, linestyle='-', label=method, linewidth=1.5)
-    plt.xlabel('Input Size')
-    plt.ylabel('Time (ns)')
-    plt.title(f'{method} Performance')
-    plt.grid(True)
-    plt.tight_layout()
-    plt.savefig(f'{method.replace(" ", "_").replace("(", "").replace(")", "")}_performance.png')
-    plt.close()
+plt.tight_layout()
+plt.savefig('CustomStringBuilder_Performance_Comparisons.png', dpi=300, bbox_inches='tight')
+plt.close()
 
-print("✅ Charts generated for all methods.")
+print(f"All performance charts saved in 'CustomStringBuilder_Performance_Comparisons.png' for methods: {', '.join(methods)}")
