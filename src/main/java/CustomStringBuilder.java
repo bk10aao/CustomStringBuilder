@@ -67,9 +67,8 @@ public class CustomStringBuilder implements StringBuilderInterface {
     }
 
     public CustomStringBuilder append(final String str) {
-        if (str == null) {
+        if (str == null)
             throw new NullPointerException();
-        }
         stringBuilder.add(str);
         size += str.length();
         return this;
@@ -140,20 +139,14 @@ public class CustomStringBuilder implements StringBuilderInterface {
     public CustomStringBuilder insert(final int offset, final String str) {
         if(offset < 0 || offset > size)
             throw new StringIndexOutOfBoundsException();
-
         int idx = 0;
         int currentOffset = 0;
         while (idx < stringBuilder.size() && currentOffset + stringBuilder.get(idx).length() <= offset)
             currentOffset += stringBuilder.get(idx++).length();
         if (idx == stringBuilder.size())
             stringBuilder.add(str);
-        else {
-            String target = stringBuilder.get(idx);
-            int splitPoint = offset - currentOffset;
-            stringBuilder.set(idx, target.substring(0, splitPoint));
-            stringBuilder.add(++idx, str);
-            stringBuilder.add(++idx, target.substring(splitPoint));
-        }
+        else
+            insertInner(offset, str, idx, currentOffset);
         size += str.length();
         return this;
     }
@@ -201,11 +194,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
             buffer[left++] = buffer[right];
             buffer[right--] = temp;
         }
-
-        CustomStringBuilder result = new CustomStringBuilder();
-        result.stringBuilder.add(new String(buffer));
-        result.size = size;
-        return result;
+        return new CustomStringBuilder(new String(buffer));
     }
 
     public void setCharAt(final int index, final char c) {
@@ -241,8 +230,8 @@ public class CustomStringBuilder implements StringBuilderInterface {
             end -= stringBuilder.get(idx).length();
         }
         String str = stringBuilder.get(idx++).substring(start);
-        for(int i = idx; i < stringBuilder.size() && str.length() < end - start; i++)
-            str += stringBuilder.get(i);
+        while (idx < stringBuilder.size() && str.length() < end - start)
+            str += stringBuilder.get(idx++);
         return str.substring(0, end - start);
     }
 
@@ -289,6 +278,14 @@ public class CustomStringBuilder implements StringBuilderInterface {
                 break;
         }
         return matchedIndexes;
+    }
+
+    private void insertInner(int offset, String str, int idx, int currentOffset) {
+        String target = stringBuilder.get(idx);
+        int splitPoint = offset - currentOffset;
+        stringBuilder.set(idx, target.substring(0, splitPoint));
+        stringBuilder.add(++idx, str);
+        stringBuilder.add(++idx, target.substring(splitPoint));
     }
 
     private CustomStringBuilder replace(String str, String temp, int start, int end, List<Integer> matchedRange) {

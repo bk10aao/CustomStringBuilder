@@ -1,5 +1,3 @@
-
-
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -207,8 +205,8 @@ public class StringBuilderTest {
         CharSequence charSequence = "789";
         CustomStringBuilder appended = customStringBuilder.append(charSequence, 1, 2);
         String stringValue = appended.toString();
-        assertEquals("123abc89", stringValue);
-        assertEquals(8, appended.length());
+        assertEquals("123abc8", stringValue);
+        assertEquals(7, appended.length());
     }
 
     @Test
