@@ -3,7 +3,7 @@ import java.io.IOException;
 
 public class CustomStringBuilderPerformanceTest {
 
-    private static final int RUNS = 100; // Number of runs for averaging
+    private static final int RUNS = 100;
 
     public static void main(String[] args) {
         int[] sizes = {1000, 2500, 5000, 7500, 10000,
@@ -11,7 +11,6 @@ public class CustomStringBuilderPerformanceTest {
 
         long[][] results = new long[sizes.length][];
 
-        // Same method names as your StringBuilder test for CSV header
         String[] methodNames = {
                 "\"CustomStringBuilder(CharSequence)\"",
                 "\"append(boolean)\"",
@@ -56,15 +55,14 @@ public class CustomStringBuilderPerformanceTest {
             int size = sizes[i];
             System.out.println("Benchmarking size: " + size);
             String testStr = generateString(size);
-            CharSequence testSeq = testStr;
 
-            long constructorCharSequenceTime = benchmarkConstructorCharSequence(testSeq);
+            long constructorCharSequenceTime = benchmarkConstructorCharSequence(testStr);
             long appendBooleanTime = benchmarkAppendBoolean();
             long appendCharTime = benchmarkAppendChar();
             long appendCharArrayTime = benchmarkAppendCharArray(testStr);
             long appendCharArrayRangeTime = benchmarkAppendCharArrayRange(testStr);
-            long appendCharSequenceTime = benchmarkAppendCharSequence(testSeq);
-            long appendCharSequenceRangeTime = benchmarkAppendCharSequenceRange(testSeq);
+            long appendCharSequenceTime = benchmarkAppendCharSequence(testStr);
+            long appendCharSequenceRangeTime = benchmarkAppendCharSequenceRange(testStr);
             long appendDoubleTime = benchmarkAppendDouble();
             long appendFloatTime = benchmarkAppendFloat();
             long appendIntTime = benchmarkAppendInt();
@@ -136,7 +134,6 @@ public class CustomStringBuilderPerformanceTest {
         return sb.toString();
     }
 
-    // Constructor benchmark
     private static long benchmarkConstructorCharSequence(CharSequence input) {
         long totalTime = 0;
         for (int i = 0; i < RUNS; i++) {
@@ -147,7 +144,6 @@ public class CustomStringBuilderPerformanceTest {
         return totalTime / RUNS;
     }
 
-    // Append benchmarks
     private static long benchmarkAppendBoolean() {
         long totalTime = 0;
         for (int i = 0; i < RUNS; i++) {
@@ -273,7 +269,6 @@ public class CustomStringBuilderPerformanceTest {
         return totalTime / RUNS;
     }
 
-    // Insert benchmarks
     private static long benchmarkInsertBoolean(String input) {
         long totalTime = 0;
         for (int i = 0; i < RUNS; i++) {
@@ -399,7 +394,6 @@ public class CustomStringBuilderPerformanceTest {
         return totalTime / RUNS;
     }
 
-    // Delete benchmarks
     private static long benchmarkDelete(String input) {
         long totalTime = 0;
         for (int i = 0; i < RUNS; i++) {
@@ -447,7 +441,6 @@ public class CustomStringBuilderPerformanceTest {
         return totalTime / RUNS;
     }
 
-    // IndexOf benchmarks
     private static long benchmarkIndexOf(String input) {
         long totalTime = 0;
         for (int i = 0; i < RUNS; i++) {
@@ -493,7 +486,6 @@ public class CustomStringBuilderPerformanceTest {
         return totalTime / RUNS;
     }
 
-    // toString benchmark
     private static long benchmarkToString(String input) {
         long totalTime = 0;
         for (int i = 0; i < RUNS; i++) {
@@ -505,7 +497,6 @@ public class CustomStringBuilderPerformanceTest {
         return totalTime / RUNS;
     }
 
-    // subSequence benchmark
     private static long benchmarkSubSequence(String input) {
         long totalTime = 0;
         int len = input.length();
@@ -518,7 +509,6 @@ public class CustomStringBuilderPerformanceTest {
         return totalTime / RUNS;
     }
 
-    // substring(int) benchmark
     private static long benchmarkSubStringSingle(String input) {
         long totalTime = 0;
         int len = input.length();
@@ -531,7 +521,6 @@ public class CustomStringBuilderPerformanceTest {
         return totalTime / RUNS;
     }
 
-    // substring(int, int) benchmark
     private static long benchmarkSubstring(String input) {
         long totalTime = 0;
         int len = input.length();
@@ -544,7 +533,6 @@ public class CustomStringBuilderPerformanceTest {
         return totalTime / RUNS;
     }
 
-    // length benchmark
     private static long benchmarkLength(String input) {
         long totalTime = 0;
         for (int i = 0; i < RUNS; i++) {
