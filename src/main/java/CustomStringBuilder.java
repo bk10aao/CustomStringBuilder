@@ -2,6 +2,13 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * An implementation of the {@link StringBuilder}, using an {@link ArrayList}s
+ * @author Benjamin Kane
+ * @see <a href="https://www.linkedin.com/in/benjamin-kane-81149482/">LinkedIn</a>
+ * @see <a href="https://github.com/bk10aao">GitHub account bk10aao</a>
+ * @see <a href="https://github.com/bk10aao/CustomStringBuilder">Repository</a>
+ */
 public class CustomStringBuilder implements StringBuilderInterface {
 
     private final List<String> stringBuilder = new ArrayList<>();
