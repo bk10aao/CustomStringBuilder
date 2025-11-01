@@ -2,6 +2,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StringBuilderTest {
 
@@ -1686,6 +1687,198 @@ public class StringBuilderTest {
         String str = result.toString();
         assertEquals("ABCDKLEFGHI", str);
         assertEquals(11, result.length());
+    }
+
+    @Test
+    public void givenEmptyStringBuilder_onCharAt_negative_1_throwsIndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        assertThrows(IndexOutOfBoundsException.class, ()-> customStringBuilder.charAt(-1));
+    }
+
+
+    @Test
+    public void givenEmptyStringBuilder_onCharAt_0_throwsIndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        assertThrows(IndexOutOfBoundsException.class, ()-> customStringBuilder.charAt(0));
+    }
+
+    @Test
+    public void givenEmptyStringBuilder_onCharAt_1_throwsIndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        assertThrows(IndexOutOfBoundsException.class, ()-> customStringBuilder.charAt(1));
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_abc_onCharAt_negative_1_throwsIndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("abc");
+        assertThrows(IndexOutOfBoundsException.class, ()-> customStringBuilder.charAt(-1));
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_abc_onCharAt_3_throwsIndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("abc");
+        assertThrows(IndexOutOfBoundsException.class, ()-> customStringBuilder.charAt(3));
+    }
+
+    @Test
+    public void givenStringBuilder_withValues_abc_onCharAt_2_returns_c() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("abc");
+        assertEquals('c', customStringBuilder.charAt(2));
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onCharAt_3_returns_D() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        assertEquals('D', customStringBuilder.charAt(3));
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onCharAt_5_returns_F() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        assertEquals('F', customStringBuilder.charAt(5));
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onCharAt_6_returns_G() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        assertEquals('G', customStringBuilder.charAt(6));
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onCharAt_7_returns_H() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        assertEquals('H', customStringBuilder.charAt(7));
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onCharAt_8_returns_I() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        assertEquals('I', customStringBuilder.charAt(8));
+    }
+
+    @Test
+    public void giveStringBuilder_withValues_ABC_DEF_GHI_onCharAt_9_throwsIndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        customStringBuilder.append("DEF");
+        customStringBuilder.append("GHI");
+        assertThrows(IndexOutOfBoundsException.class, ()-> customStringBuilder.charAt(9));
+    }
+
+    @Test
+    void compareTo_equalStrings_returnsZero() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("hello");
+        StringBuilder sb = new StringBuilder("hello");
+        assertEquals(0, customStringBuilder.compareTo(sb));
+        assertEquals(0, sb.toString().compareTo(customStringBuilder.toString()));
+    }
+
+    @Test
+    void compareTo_customLessThanStringBuilder_returnsNegative() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("abc");
+        StringBuilder sb = new StringBuilder("abd");
+        assertTrue(customStringBuilder.compareTo(sb) < 0);
+    }
+
+    @Test
+    void compareTo_customGreaterThanStringBuilder_returnsPositive() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        customStringBuilder.append("abd");
+        StringBuilder sb = new StringBuilder("abc");
+        assertTrue(customStringBuilder.compareTo(sb) > 0);
+    }
+
+    @Test
+    void compareTo_shorterStringIsLess_whenPrefixMatches() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        customStringBuilder.append("abc");
+        StringBuilder sb = new StringBuilder("abcd");
+        assertTrue(customStringBuilder.compareTo(sb) < 0);
+        assertTrue(sb.toString().compareTo(customStringBuilder.toString()) > 0);
+    }
+
+    @Test
+    void compareTo_longerStringIsGreater_whenPrefixMatches() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        customStringBuilder.append("abcd");
+        StringBuilder sb = new StringBuilder("abc");
+        assertTrue(customStringBuilder.compareTo(sb) > 0);
+    }
+
+    @Test
+    void compareTo_emptyVsEmpty_returnsZero() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        StringBuilder sb = new StringBuilder();
+        assertEquals(0, customStringBuilder.compareTo(sb));
+    }
+
+    @Test
+    void compareTo_emptyLessThanNonEmpty_returnsNegative() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        customStringBuilder.append("");
+        StringBuilder sb = new StringBuilder("a");
+        assertTrue(customStringBuilder.compareTo(sb) < 0);
+    }
+
+    @Test
+    void compareTo_nonEmptyGreaterThanEmpty_returnsPositive() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        customStringBuilder.append("a");
+        StringBuilder sb = new StringBuilder();
+        assertTrue(customStringBuilder.compareTo(sb) > 0);
+    }
+
+    @Test
+    void compareTo_caseSensitive() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        customStringBuilder.append("ABC");
+        StringBuilder sbLower = new StringBuilder("abc");
+        StringBuilder sbUpper = new StringBuilder("ABC");
+        assertTrue(customStringBuilder.compareTo(sbLower) < 0); // 'A' < 'a'
+        assertEquals(0, customStringBuilder.compareTo(sbUpper));
+    }
+
+    @Test
+    void compareTo_unicodeCharacters() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        customStringBuilder.append("café");
+        StringBuilder sb1 = new StringBuilder("cafe");
+        StringBuilder sb2 = new StringBuilder("café");
+        assertTrue(customStringBuilder.compareTo(sb1) > 0);
+        assertEquals(0, customStringBuilder.compareTo(sb2));
+    }
+
+    @SuppressWarnings("DataFlowIssue")
+    @Test
+    void compareTo_nullArgument_throwsNullPointerException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        assertThrows(NullPointerException.class, () -> customStringBuilder.compareTo(null));
+    }
+
+    @Test
+    void compareTo_consistentWithStringCompareTo() {
+        CustomStringBuilder customStringBuilder  = new CustomStringBuilder();
+        customStringBuilder.append("test123");
+        StringBuilder sb = new StringBuilder("test123");
+        int expected = sb.toString().compareTo(customStringBuilder.toString());
+        assertEquals(expected, customStringBuilder.compareTo(sb));
+    }
+
+    @Test
+    void compareTo_differentLengths_commonPrefix() {
+        CustomStringBuilder customStringBuilder =  new CustomStringBuilder();
+        customStringBuilder.append("hello");
+        StringBuilder sb = new StringBuilder("hello world");
+        assertTrue(customStringBuilder.compareTo(sb) < 0);
     }
 
     private static final String STRING_VALUE_OF_LENGTH_129 = "uwcwiavzhhigohtwixbrlxserzenalmzmkzwhrtewfzqpcvtsrnxkpdzcqsvpnqsatxjftfkhrdagqqunffpezghcpkuhlwrttdduhwgvpoqsksfojgtkgtkxkyzvbykl";

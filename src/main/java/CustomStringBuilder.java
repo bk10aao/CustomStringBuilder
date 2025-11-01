@@ -9,7 +9,7 @@ import java.util.List;
  * @see <a href="https://github.com/bk10aao">GitHub account bk10aao</a>
  * @see <a href="https://github.com/bk10aao/CustomStringBuilder">Repository</a>
  */
-public class CustomStringBuilder implements StringBuilderInterface {
+public class CustomStringBuilder implements Appendable, java.io.Serializable, Comparable<StringBuilder>, CharSequence {
 
     private final List<String> stringBuilder = new ArrayList<>();
 
@@ -175,6 +175,35 @@ public class CustomStringBuilder implements StringBuilderInterface {
         stringBuilder.add(str);
         size += str.length();
         return this;
+    }
+
+    /**
+     * Returns the char at specified index
+     * @param index   the index of the {@code char} value to be returned
+     * @throws IndexOutOfBoundsException if the index is out of range ({@code index < 0 || index > size()})
+     * @return char value at index
+     */
+    public char charAt(int index) {
+        if(index < 0 || index >= size)
+            throw new IndexOutOfBoundsException();
+        for (String current : stringBuilder) {
+            if (current.length() > index)
+                return current.charAt(index);
+            index -= current.length();
+        }
+        return 0;
+    }
+
+    /**
+     * Compares this {@code CustomStringBuilder} with the specified {@code StringBuilder}
+     * for order. The comparison is based on the lexicographical order of the character sequences they represent.
+     * @param o the {@code StringBuilder} to be compared against this{@code CustomStringBuilder}
+     * @return a negative integer, zero, or a positive integer as this object is
+     *         less than, equal to, or greater than the specified object
+     * @throws NullPointerException if {@code o} is {@code null}
+     */
+    public int compareTo(StringBuilder o) {
+        return this.toString().compareTo(o.toString());
     }
 
     /**
