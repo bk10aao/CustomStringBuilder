@@ -23,7 +23,7 @@ public class CustomStringBuilder implements StringBuilderInterface {
     /**
      * Constructs a string builder that contains the same characters as the specified {@code CharSequence}.
      *
-     * @param seq the sequence to copy.
+     * @param seq the sequence to construct initial CustomStringBuilder String value.
      */
     public CustomStringBuilder(final CharSequence seq) {
         if(seq != null)
