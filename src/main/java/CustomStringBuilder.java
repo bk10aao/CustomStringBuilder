@@ -15,6 +15,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
 
     private int size = 0;
 
+
     /**
      * Constructs a string builder with no characters
      */
