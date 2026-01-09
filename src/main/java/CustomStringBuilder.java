@@ -15,7 +15,6 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
 
     private int size = 0;
 
-
     /**
      * Constructs a string builder with no characters
      */
@@ -408,9 +407,8 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
         while (idx < stringBuilder.size() && currentOffset + stringBuilder.get(idx).length() <= offset)
             currentOffset += stringBuilder.get(idx++).length();
         if (idx == stringBuilder.size())
-            stringBuilder.add(str);
-        else
-            insertInner(offset, str, idx, currentOffset);
+            return append(str);
+        insertInner(offset, str, idx, currentOffset);
         size += str.length();
         return this;
     }
@@ -567,10 +565,9 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
         String s = stringBuilder.get(idx).substring(startIndex);
         if(s.contains(str))
             return s.indexOf(str) + fromIndex;
-        else
-            for (int i = idx + 1; i < stringBuilder.size(); i++)
-                if ((s += stringBuilder.get(i)).contains(str))
-                    return s.indexOf(str) + fromIndex;
+        for (int i = idx + 1; i < stringBuilder.size(); i++)
+            if ((s += stringBuilder.get(i)).contains(str))
+                return s.indexOf(str) + fromIndex;
         return -1;
     }
 
