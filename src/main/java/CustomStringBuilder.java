@@ -202,7 +202,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      *         less than, equal to, or greater than the specified object
      * @throws NullPointerException if {@code o} is {@code null}
      */
-    public int compareTo(StringBuilder o) {
+    public int compareTo(final StringBuilder o) {
         return this.toString().compareTo(o.toString());
     }
 
