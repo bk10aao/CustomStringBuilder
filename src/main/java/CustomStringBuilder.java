@@ -1,6 +1,7 @@
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * An implementation of the {@link StringBuilder}, using an {@link ArrayList}s
@@ -26,8 +27,8 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * @param seq the sequence to construct initial CustomStringBuilder String value.
      */
     public CustomStringBuilder(final CharSequence seq) {
-        if(seq != null)
-            append(seq);
+        Objects.requireNonNull(seq);
+        append(seq);
     }
 
     /**
@@ -36,8 +37,8 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * @param str the initial contents.
      */
     public CustomStringBuilder(final String str) {
-        if(str != null)
-            append(str);
+        Objects.requireNonNull(str);
+        append(str);
     }
 
     /**
@@ -116,8 +117,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * @throws NullPointerException on null input;
      */
     public CustomStringBuilder append(final CharSequence charSequence, final int start, final int end) {
-        if (charSequence == null)
-            throw new NullPointerException();
+        Objects.requireNonNull(charSequence);
         if (start < 0 || end < start || end > charSequence.length())
             throw new StringIndexOutOfBoundsException();
         return append(charSequence.subSequence(start, end));
@@ -170,8 +170,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * @throws NullPointerException on null input;
      */
     public CustomStringBuilder append(final String str) {
-        if (str == null)
-            throw new NullPointerException();
+        Objects.requireNonNull(str);
         stringBuilder.add(str);
         size += str.length();
         return this;
