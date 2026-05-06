@@ -25,6 +25,8 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * Constructs a string builder that contains the same characters as the specified {@code CharSequence}.
      *
      * @param seq the sequence to construct initial CustomStringBuilder String value.
+     * @throws NullPointerException
+     *         if {@code seq} is {@code null}
      */
     public CustomStringBuilder(final CharSequence seq) {
         Objects.requireNonNull(seq);
@@ -35,6 +37,8 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * Constructs a string builder initialized to the contents of the specified string. .
      *
      * @param str the initial contents.
+     * @throws NullPointerException
+     *         if {@code str} is {@code null}
      */
     public CustomStringBuilder(final String str) {
         Objects.requireNonNull(str);
@@ -46,6 +50,8 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      *
      * @param b - boolean to be appended to CustomStringBuilder.
      * @return CustomStringBuilder
+     * @throws NullPointerException
+     *         if {@code b} is {@code null}
      */
     public CustomStringBuilder append(final boolean b) {
         return append(String.valueOf(b));
@@ -55,6 +61,8 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * Appends character value to CustomStringBuilder
      * @param c - character to be appended to CustomStringBuilder.
      * @return CustomStringBuilder
+     * @throws NullPointerException
+     *          if {@code c} is {@code null}
      */
     public CustomStringBuilder append(final char c) {
         return append(String.valueOf(c));
@@ -64,6 +72,8 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * Appends character value to CustomStringBuilder
      * @param str - character array to be appended to CustomStringBuilder.
      * @return CustomStringBuilder
+     * @throws NullPointerException
+     *          if {@code str} is {@code null}.
      */
     public CustomStringBuilder append(final char[] str) {
         return append(new String(str));
@@ -83,13 +93,15 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * and the characters of that string were then
      * {@link #append(String) appended} to this character sequence.
      *
-     * @param   str      the characters to be appended.
-     * @param   offset   the index of the first {@code char} to append.
-     * @param   len      the number of {@code char}s to append.
-     * @return  a reference to this object.
+     * @param str - the characters to be appended.
+     * @param offset - the index of the first {@code char} to append.
+     * @param len - the number of {@code char}s to append.
+     * @return a reference to this object.
      * @throws StringIndexOutOfBoundsException
-     *         if {@code offset < 0} or {@code len < 0}
-     *         or {@code offset+len > str.length}
+     *          if {@code offset < 0} or {@code len < 0}
+     *          or {@code offset+len > str.length}
+     * @throws NullPointerException
+     *          if {@code str} is {@code null}
      */
     public CustomStringBuilder append(final char[] str, final int offset, final int len) {
         if (offset < 0 || len < 0 || offset + len > str.length)
@@ -101,7 +113,8 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * Appends Character Sequence to CustomStringBuilder
      * @param charSequence - Character Sequence to be appended to CustomStringBuilder.
      * @return CustomStringBuilder
-     * @throws NullPointerException on null input;
+     * @throws NullPointerException
+     *          if {@code charSequence} is {@code null}
      */
     public CustomStringBuilder append(final CharSequence charSequence) {
         return append(String.valueOf(charSequence));
@@ -110,11 +123,14 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
     /**
      * Appends Character Sequence to CustomStringBuilder
      * @param charSequence - Character Sequence to be appended to CustomStringBuilder.
+     * @param start - The start point to append message subset of {@code charSequence}.
+     * @param end - The end point to append message subset of {@code charSequence}.
      * @return CustomStringBuilder
      * @throws StringIndexOutOfBoundsException
-     *         if {@code offset < 0} or {@code len < 0}
-     *         or {@code offset+len > str.length}
-     * @throws NullPointerException on null input;
+     *          if {@code offset < 0} or {@code len < 0}
+     *          or {@code offset+len > str.length}
+     * @throws NullPointerException
+     *          if {@code charSequence} is {@code null}
      */
     public CustomStringBuilder append(final CharSequence charSequence, final int start, final int end) {
         Objects.requireNonNull(charSequence);
@@ -127,7 +143,8 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * Appends Character Sequence to CustomStringBuilder
      * @param d - double value to be appended to CustomStringBuilder.
      * @return CustomStringBuilder
-     * @throws NullPointerException on null input;
+     * @throws NullPointerException
+     *          if {@code d} is {@code null}
      */
     public CustomStringBuilder append(final double d) {
         return append(String.valueOf(d));
@@ -137,7 +154,8 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * Appends Character Sequence to CustomStringBuilder
      * @param f - float value to be appended to CustomStringBuilder.
      * @return CustomStringBuilder
-     * @throws NullPointerException on null input;
+     * @throws NullPointerException
+     *          if {@code f} is {@code null}
      */
     public CustomStringBuilder append(final float f) {
         return append(String.valueOf(f));
@@ -147,7 +165,8 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * Appends Character Sequence to CustomStringBuilder
      * @param i - integer value to be appended to CustomStringBuilder.
      * @return CustomStringBuilder
-     * @throws NullPointerException on null input;
+     * @throws NullPointerException
+     *          if {@code i} is {@code null}
      */
     public CustomStringBuilder append(final int i) {
         return append(String.valueOf(i));
@@ -157,7 +176,8 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * Appends Character Sequence to CustomStringBuilder
      * @param lng - long value to be appended to CustomStringBuilder.
      * @return CustomStringBuilder
-     * @throws NullPointerException on null input;
+     * @throws NullPointerException
+     *          if {@code lng} is {@code null}
      */
     public CustomStringBuilder append(final long lng) {
         return append(String.valueOf(lng));
@@ -167,7 +187,8 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * Appends Character Sequence to CustomStringBuilder
      * @param str - String value to be appended to CustomStringBuilder.
      * @return CustomStringBuilder
-     * @throws NullPointerException on null input;
+     * @throws NullPointerException
+     *          if {@code str} is {@code null}
      */
     public CustomStringBuilder append(final String str) {
         Objects.requireNonNull(str);
@@ -178,8 +199,9 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
 
     /**
      * Returns the char at specified index
-     * @param index   the index of the {@code char} value to be returned
-     * @throws IndexOutOfBoundsException if the index is out of range ({@code index < 0 || index > size()})
+     * @param index - the index of the {@code char} value to be returned
+     * @throws IndexOutOfBoundsException
+     *          if the index is out of range ({@code index < 0 || index > size()})
      * @return char value at index
      */
     public char charAt(int index) {
@@ -196,12 +218,26 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
     /**
      * Compares this {@code CustomStringBuilder} with the specified {@code StringBuilder}
      * for order. The comparison is based on the lexicographical order of the character sequences they represent.
-     * @param o the {@code StringBuilder} to be compared against this{@code CustomStringBuilder}
+     * @param o - the {@code StringBuilder} to be compared against this{@code CustomStringBuilder}
      * @return a negative integer, zero, or a positive integer as this object is
      *         less than, equal to, or greater than the specified object
-     * @throws NullPointerException if {@code o} is {@code null}
+     * @throws NullPointerException
+     *          if {@code o} is {@code null}
      */
     public int compareTo(final StringBuilder o) {
+        return this.toString().compareTo(o.toString());
+    }
+
+    /**
+     * Compares this {@code CustomStringBuilder} with the specified {@code CustomStringBuilder}
+     * for order. The comparison is based on the lexicographical order of the character sequences they represent.
+     * @param o - the {@code CustomStringBuilder} to be compared against this{@code CustomStringBuilder}
+     * @return a negative integer, zero, or a positive integer as this object is
+     *         less than, equal to, or greater than the specified object
+     * @throws NullPointerException
+     *          if {@code o} is {@code null}
+     */
+    public int compareTo(final CustomStringBuilder o) {
         return this.toString().compareTo(o.toString());
     }
 
@@ -211,8 +247,8 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * @param  end - End index to delete to
      * @return CustomStringBuilder
      * @throws StringIndexOutOfBoundsException
-     *         if {@code start < 0} or {@code end < 0}
-     *         or {@code start > end} or {@code end > length()}
+     *          if {@code start < 0} or {@code end < 0}
+     *          or {@code start > end} or {@code end > length()}
      */
     public CustomStringBuilder delete(final int start, final int end) {
         return replace(start, end, "");
@@ -223,7 +259,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * @param index - index to remove character from.
      * @return CustomStringBuilder
      * @throws StringIndexOutOfBoundsException
-     *       if {@code index < 0} or {@code index > length()}
+     *          if {@code index < 0} or {@code index > length()}
      */
     public CustomStringBuilder deleteCharAt(final int index) {
         if(index < 0 || index >= size)
@@ -256,7 +292,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * @param b - boolean to insert into CustomStringBuilder.
      * @return CustomStringBuilder
      * @throws StringIndexOutOfBoundsException
-     *       if {@code offset < 0} or {@code offset > length()}
+     *          if {@code offset < 0} or {@code offset > length()}
      */
     public CustomStringBuilder insert(final int offset, final boolean b) {
         return insert(offset, String.valueOf(b));
@@ -268,7 +304,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * @param c - character to insert into CustomStringBuilder.
      * @return CustomStringBuilder
      * @throws StringIndexOutOfBoundsException
-     *       if {@code offset < 0} or {@code offset > length()}
+     *          if {@code offset < 0} or {@code offset > length()}
      */
     public CustomStringBuilder insert(final int offset, final char c) {
         return insert(offset, String.valueOf(c));
@@ -280,7 +316,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * @param str - character array to insert into CustomStringBuilder.
      * @return CustomStringBuilder
      * @throws StringIndexOutOfBoundsException
-     *       if {@code offset < 0} or {@code offset > length()}
+     *          if {@code offset < 0} or {@code offset > length()}
      */
     public CustomStringBuilder insert(final int offset, final char[] str) {
         return insert(offset, String.valueOf(str));
@@ -294,7 +330,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * @param len - length of String to be created from char[].
      * @return CustomStringBuilder
      * @throws StringIndexOutOfBoundsException
-     *       if {@code offset < 0} or {@code offset > length()}
+     *          if {@code offset < 0} or {@code offset > length()}
      */
     public CustomStringBuilder insert(final int index, final char[] str, final int offset, final int len) {
         return insert(index, String.valueOf(str).substring(offset, len));
@@ -306,7 +342,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * @param s - CharSequence to insert into CustomStringBuilder.
      * @return CustomStringBuilder
      * @throws StringIndexOutOfBoundsException
-     *       if {@code dstOffset < 0} or {@code dstOffset > length()}
+     *          if {@code dstOffset < 0} or {@code dstOffset > length()}
      */
     public CustomStringBuilder insert(final int dstOffset, final CharSequence s) {
         return insert(dstOffset, String.valueOf(s));
@@ -320,8 +356,8 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * @param end -  start of String from CharSequence.
      * @return CustomStringBuilder
      * @throws StringIndexOutOfBoundsException
-     *       if {@code dstOffset < 0} or {@code dstOffset > length()}
-     * @throws  IndexOutOfBoundsException
+     *          if {@code dstOffset < 0} or {@code dstOffset > length()}
+     * @throws IndexOutOfBoundsException
      *          if {@code start} or {@code end} are negative,
      *          if {@code end} is greater than {@code length()},
      *          or if {@code start} is greater than {@code end}
@@ -336,7 +372,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * @param d - double value to insert into CustomStringBuilder.
      * @return CustomStringBuilder
      * @throws StringIndexOutOfBoundsException
-     *       if {@code offset < 0} or {@code offset > length()}
+     *          if {@code offset < 0} or {@code offset > length()}
      */
     public CustomStringBuilder insert(final int offset, final double d) {
         return insert(offset, String.valueOf(d));
@@ -348,7 +384,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * @param f - float value to insert into CustomStringBuilder.
      * @return CustomStringBuilder
      * @throws StringIndexOutOfBoundsException
-     *       if {@code offset < 0} or {@code offset > length()}
+     *          if {@code offset < 0} or {@code offset > length()}
      */
     public CustomStringBuilder insert(final int offset, final float f) {
         return insert(offset, String.valueOf(f));
@@ -360,7 +396,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * @param i - integer value to insert into CustomStringBuilder.
      * @return CustomStringBuilder
      * @throws StringIndexOutOfBoundsException
-     *       if {@code offset < 0} or {@code offset > length()}
+     *          if {@code offset < 0} or {@code offset > length()}
      */
     public CustomStringBuilder insert(final int offset, final int i) {
         return insert(offset, String.valueOf(i));
@@ -372,7 +408,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * @param l - long value to insert into CustomStringBuilder.
      * @return CustomStringBuilder
      * @throws StringIndexOutOfBoundsException
-     *       if {@code offset < 0} or {@code offset > length()}
+     *          if {@code offset < 0} or {@code offset > length()}
      */
     public CustomStringBuilder insert(final int offset, final long l) {
         return insert(offset, String.valueOf(l));
@@ -384,7 +420,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * @param obj - Object to insert into CustomStringBuilder.
      * @return CustomStringBuilder
      * @throws StringIndexOutOfBoundsException
-     *       if {@code offset < 0} or {@code offset > length()}
+     *          if {@code offset < 0} or {@code offset > length()}
      */
     public CustomStringBuilder insert(final int offset, final Object obj) {
         return insert(offset, obj.toString());
@@ -396,7 +432,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * @param str - string value to insert into CustomStringBuilder.
      * @return CustomStringBuilder
      * @throws StringIndexOutOfBoundsException
-     *       if {@code offset < 0} or {@code offset > length()}
+     *          if {@code offset < 0} or {@code offset > length()}
      */
     public CustomStringBuilder insert(final int offset, final String str) {
         if(offset < 0 || offset > size)
@@ -507,7 +543,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
     /**
      * Returns CharSequence of subString in CustomStringBuilder
      * @param start - start index to get subString from.
-     * @return String
+     * @return String of characters in CustomStringBuilder
      * @throws StringIndexOutOfBoundsException
      *          if {@code start < 0}
      *          of {@code start > size}
@@ -527,7 +563,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
     /**
      * Returns subString in CustomStringBuilder
      * @param start - index to get CharSubSequence from.
-     * @param end - - index to get CharSubSequence to.
+     * @param end - index to get CharSubSequence to.
      * @return CharSequence of characters in range
      * @throws StringIndexOutOfBoundsException
      *          if {@code start < 0}

@@ -4,12 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class StringBuilderTest {
+public class CustomStringBuilderTest {
 
     @Test
-    public void givenStringBuilder_withCharSequenceConstructor_of_null_andLengthOf_0() {
-        CustomStringBuilder customStringBuilder = new CustomStringBuilder(null);
-        assertEquals(0, customStringBuilder.length());
+    public void givenStringBuilder_withCharSequenceConstructor_of_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> new CustomStringBuilder(null));
     }
 
     @Test
@@ -27,9 +26,8 @@ public class StringBuilderTest {
     }
 
     @Test
-    public void givenStringBuilder_withStringConstructor_null_returns_lengthOf_0() {
-        CustomStringBuilder customStringBuilder = new CustomStringBuilder(null);
-        assertEquals(0, customStringBuilder.length());
+    public void givenStringBuilder_withStringConstructor_null_throws_NullPointerException() {
+        assertThrows(NullPointerException.class, () -> new CustomStringBuilder(null));
     }
 
     @Test
@@ -52,10 +50,9 @@ public class StringBuilderTest {
     }
 
     @Test
-    public void givenStringBuilder_withCharSequenceConstructor_of_null_on_toString_returns_emptyString() {
-        CustomStringBuilder customStringBuilder = new CustomStringBuilder(null);
-        String stringValue = customStringBuilder.toString();
-        assertEquals("", stringValue);
+    public void givenStringBuilder_withCharSequenceConstructor_of_null_throws_NullPointerException() {
+        CharSequence nullCharSequence = null;
+        assertThrows(NullPointerException.class, () -> new CustomStringBuilder(nullCharSequence));
     }
 
     @Test
@@ -1774,8 +1771,9 @@ public class StringBuilderTest {
         assertThrows(IndexOutOfBoundsException.class, ()-> customStringBuilder.charAt(9));
     }
 
+    //CustomStringBuilder compared to Java StringBuilder
     @Test
-    void compareTo_equalStrings_returnsZero() {
+    void compareTo_javaStringBuilder_equalStrings_returnsZero() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("hello");
         StringBuilder sb = new StringBuilder("hello");
         assertEquals(0, customStringBuilder.compareTo(sb));
@@ -1783,14 +1781,14 @@ public class StringBuilderTest {
     }
 
     @Test
-    void compareTo_customLessThanStringBuilder_returnsNegative() {
+    void compareTo_javaStringBuilder_customLessThanStringBuilder_returnsNegative() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("abc");
         StringBuilder sb = new StringBuilder("abd");
         assertTrue(customStringBuilder.compareTo(sb) < 0);
     }
 
     @Test
-    void compareTo_customGreaterThanStringBuilder_returnsPositive() {
+    void compareTo_javaStringBuilder_customGreaterThanStringBuilder_returnsPositive() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder();
         customStringBuilder.append("abd");
         StringBuilder sb = new StringBuilder("abc");
@@ -1798,7 +1796,7 @@ public class StringBuilderTest {
     }
 
     @Test
-    void compareTo_shorterStringIsLess_whenPrefixMatches() {
+    void compareTo_javaStringBuilder_shorterStringIsLess_whenPrefixMatches() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder();
         customStringBuilder.append("abc");
         StringBuilder sb = new StringBuilder("abcd");
@@ -1807,7 +1805,7 @@ public class StringBuilderTest {
     }
 
     @Test
-    void compareTo_longerStringIsGreater_whenPrefixMatches() {
+    void compareTo_javaStringBuilder_longerStringIsGreater_whenPrefixMatches() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder();
         customStringBuilder.append("abcd");
         StringBuilder sb = new StringBuilder("abc");
@@ -1815,14 +1813,14 @@ public class StringBuilderTest {
     }
 
     @Test
-    void compareTo_emptyVsEmpty_returnsZero() {
+    void compareTo_javaStringBuilder_emptyVsEmpty_returnsZero() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder();
         StringBuilder sb = new StringBuilder();
         assertEquals(0, customStringBuilder.compareTo(sb));
     }
 
     @Test
-    void compareTo_emptyLessThanNonEmpty_returnsNegative() {
+    void compareTo_javaStringBuilder_emptyLessThanNonEmpty_returnsNegative() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder();
         customStringBuilder.append("");
         StringBuilder sb = new StringBuilder("a");
@@ -1830,7 +1828,7 @@ public class StringBuilderTest {
     }
 
     @Test
-    void compareTo_nonEmptyGreaterThanEmpty_returnsPositive() {
+    void compareTo_javaStringBuilder_nonEmptyGreaterThanEmpty_returnsPositive() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder();
         customStringBuilder.append("a");
         StringBuilder sb = new StringBuilder();
@@ -1838,17 +1836,17 @@ public class StringBuilderTest {
     }
 
     @Test
-    void compareTo_caseSensitive() {
+    void compareTo_javaStringBuilder_caseSensitive() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder();
         customStringBuilder.append("ABC");
         StringBuilder sbLower = new StringBuilder("abc");
         StringBuilder sbUpper = new StringBuilder("ABC");
-        assertTrue(customStringBuilder.compareTo(sbLower) < 0); // 'A' < 'a'
+        assertTrue(customStringBuilder.compareTo(sbLower) < 0);
         assertEquals(0, customStringBuilder.compareTo(sbUpper));
     }
 
     @Test
-    void compareTo_unicodeCharacters() {
+    void compareTo_javaStringBuilder_unicodeCharacters() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder();
         customStringBuilder.append("café");
         StringBuilder sb1 = new StringBuilder("cafe");
@@ -1859,13 +1857,13 @@ public class StringBuilderTest {
 
     @SuppressWarnings("DataFlowIssue")
     @Test
-    void compareTo_nullArgument_throwsNullPointerException() {
+    void compareTo_javaStringBuilder_withNullArgument_throwsNullPointerException() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder();
-        assertThrows(NullPointerException.class, () -> customStringBuilder.compareTo(null));
+        assertThrows(NullPointerException.class, () -> customStringBuilder.compareTo((StringBuilder) null));
     }
 
     @Test
-    void compareTo_consistentWithStringCompareTo() {
+    void compareTo_javaStringBuilder_consistentWithStringCompareTo() {
         CustomStringBuilder customStringBuilder  = new CustomStringBuilder();
         customStringBuilder.append("test123");
         StringBuilder sb = new StringBuilder("test123");
@@ -1874,10 +1872,118 @@ public class StringBuilderTest {
     }
 
     @Test
-    void compareTo_differentLengths_commonPrefix() {
+    void compareTo_javaStringBuilder_differentLengths_commonPrefix() {
         CustomStringBuilder customStringBuilder =  new CustomStringBuilder();
         customStringBuilder.append("hello");
         StringBuilder sb = new StringBuilder("hello world");
+        assertTrue(customStringBuilder.compareTo(sb) < 0);
+    }
+
+    //CustomStringBuilder compared to CustomStringBuilder
+    @Test
+    void compareTo_equalStrings_returnsZero() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("hello");
+        CustomStringBuilder sb = new CustomStringBuilder("hello");
+        assertEquals(0, customStringBuilder.compareTo(sb));
+        assertEquals(0, sb.toString().compareTo(customStringBuilder.toString()));
+    }
+
+    @Test
+    void compareTo_lessThanStringBuilder_returnsNegative() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("abc");
+        CustomStringBuilder sb = new CustomStringBuilder("abd");
+        assertTrue(customStringBuilder.compareTo(sb) < 0);
+    }
+
+    @Test
+    void compareTo_customGreaterThanStringBuilder_returnsPositive() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        customStringBuilder.append("abd");
+        CustomStringBuilder sb = new CustomStringBuilder("abc");
+        assertTrue(customStringBuilder.compareTo(sb) > 0);
+    }
+
+    @Test
+    void compareTo_shorterStringIsLess_whenPrefixMatches() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        customStringBuilder.append("abc");
+        CustomStringBuilder sb = new CustomStringBuilder("abcd");
+        assertTrue(customStringBuilder.compareTo(sb) < 0);
+        assertTrue(sb.toString().compareTo(customStringBuilder.toString()) > 0);
+    }
+
+    @Test
+    void compareTo_longerStringIsGreater_whenPrefixMatches() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        customStringBuilder.append("abcd");
+        CustomStringBuilder sb = new CustomStringBuilder("abc");
+        assertTrue(customStringBuilder.compareTo(sb) > 0);
+    }
+
+    @Test
+    void compareTo_emptyVsEmpty_returnsZero() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        CustomStringBuilder sb = new CustomStringBuilder();
+        assertEquals(0, customStringBuilder.compareTo(sb));
+    }
+
+    @Test
+    void compareTo_emptyLessThanNonEmpty_returnsNegative() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        customStringBuilder.append("");
+        CustomStringBuilder sb = new CustomStringBuilder("a");
+        assertTrue(customStringBuilder.compareTo(sb) < 0);
+    }
+
+    @Test
+    void compareTo_nonEmptyGreaterThanEmpty_returnsPositive() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        customStringBuilder.append("a");
+        CustomStringBuilder sb = new CustomStringBuilder();
+        assertTrue(customStringBuilder.compareTo(sb) > 0);
+    }
+
+    @Test
+    void compareTo_caseSensitive() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        customStringBuilder.append("ABC");
+        CustomStringBuilder sbLower = new CustomStringBuilder("abc");
+        CustomStringBuilder sbUpper = new CustomStringBuilder("ABC");
+        assertTrue(customStringBuilder.compareTo(sbLower) < 0);
+        assertEquals(0, customStringBuilder.compareTo(sbUpper));
+    }
+
+    @Test
+    void compareTo_unicodeCharacters() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        customStringBuilder.append("café");
+        CustomStringBuilder sb1 = new CustomStringBuilder("cafe");
+        CustomStringBuilder sb2 = new CustomStringBuilder("café");
+        assertTrue(customStringBuilder.compareTo(sb1) > 0);
+        assertEquals(0, customStringBuilder.compareTo(sb2));
+    }
+
+    @SuppressWarnings("DataFlowIssue")
+    @Test
+    void compareTo_withNullArgument_throwsNullPointerException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        assertThrows(NullPointerException.class, () -> customStringBuilder.compareTo((CustomStringBuilder) null));
+    }
+
+    @Test
+    void compareTo_consistentWithStringCompareTo() {
+        CustomStringBuilder customStringBuilder  = new CustomStringBuilder();
+        customStringBuilder.append("test123");
+        CustomStringBuilder sb = new CustomStringBuilder("test123");
+        int expected = sb.toString().compareTo(customStringBuilder.toString());
+        assertEquals(expected, customStringBuilder.compareTo(sb));
+    }
+
+    @Test
+    void compareTo_differentLengths_commonPrefix() {
+        CustomStringBuilder customStringBuilder =  new CustomStringBuilder();
+        customStringBuilder.append("hello");
+        CustomStringBuilder sb = new CustomStringBuilder("hello world");
         assertTrue(customStringBuilder.compareTo(sb) < 0);
     }
 
