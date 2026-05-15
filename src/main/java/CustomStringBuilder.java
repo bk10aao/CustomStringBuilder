@@ -207,12 +207,15 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
     public char charAt(int index) {
         if(index < 0 || index >= size)
             throw new IndexOutOfBoundsException();
+        char c = 0;
         for (String current : stringBuilder) {
-            if (current.length() > index)
-                return current.charAt(index);
+            if (current.length() > index) {
+                c = current.charAt(index);
+                break;
+            }
             index -= current.length();
         }
-        return 0;
+        return c;
     }
 
     /**

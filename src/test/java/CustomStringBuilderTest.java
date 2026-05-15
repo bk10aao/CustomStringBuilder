@@ -189,12 +189,21 @@ public class CustomStringBuilderTest {
                 ()-> customStringBuilder.append(charSequence, -1, 2));
     }
 
+
     @Test
     public void givenStringBuilderWithValueOf_123abc_onAppendingCharSequenceOf_123_at_indexOf_1_andEndIndexOf_5_throws_IndexOutOfBoundsException() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
         CharSequence charSequence = "123";
         assertThrows(IndexOutOfBoundsException.class,
                 ()-> customStringBuilder.append(charSequence, 1, 5));
+    }
+
+    @Test
+    public void givenStringBuilderWithValueOf_123abc_onAppendingCharSequenceOf_123_at_indexOf_2_andEndIndexOf_1_throws_IndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CharSequence charSequence = "123";
+        assertThrows(IndexOutOfBoundsException.class,
+                ()-> customStringBuilder.append(charSequence, 2, 1));
     }
 
     @Test
@@ -699,6 +708,12 @@ public class CustomStringBuilderTest {
     }
 
     @Test
+    public void givenStringBuilder_withValues_123abc_onSubString_withIndexOf__1_and_1_returns_emptyString() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        assertEquals("", customStringBuilder.subString(1, 1));
+    }
+
+    @Test
     public void givenStringBuilder_withValues_123abc_onSubString_withIndexOf_negative_1_and_2_throws_StringIndexOutOfBoundsException() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
         assertThrows(StringIndexOutOfBoundsException.class, () -> customStringBuilder.subString(-1, 2));
@@ -940,6 +955,24 @@ public class CustomStringBuilderTest {
     public void givenStringBuilder_withValue_A_onIndexOf_B_withStartIndexOf_1_returns_negative_1() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("A");
         assertEquals(-1, customStringBuilder.indexOf("B", 1));
+    }
+
+    @Test
+    public void givenStringBuilder_withValue_ABC_onIndexOf_C_withStartIndexOf_3_returns_negative_1() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        assertEquals(-1, customStringBuilder.indexOf("C", 3));
+    }
+
+    @Test
+    public void givenEmptyStringBuilder_onIndexOf_A_withStartIndexOf_negative_1_returns_negative_1() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        assertEquals(-1, customStringBuilder.indexOf("A", -1));
+    }
+
+    @Test
+    public void givenEmptyStringBuilder_onIndexOf_A_withStartIndexOf_1_returns_negative_1() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        assertEquals(-1, customStringBuilder.indexOf("A", 1));
     }
 
     @Test
