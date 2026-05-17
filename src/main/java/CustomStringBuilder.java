@@ -114,7 +114,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * @param charSequence - Character Sequence to be appended to CustomStringBuilder.
      * @return CustomStringBuilder
      * @throws NullPointerException
-     *          if {@code charSequence} is {@code null}
+     *         if {@code charSequence} is {@code null}
      */
     public CustomStringBuilder append(final CharSequence charSequence) {
         return append(String.valueOf(charSequence));
@@ -140,7 +140,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
     }
 
     /**
-     * Appends Character Sequence to CustomStringBuilder
+     * Appends doule value to CustomStringBuilder
      * @param d - double value to be appended to CustomStringBuilder.
      * @return CustomStringBuilder
      * @throws NullPointerException
@@ -151,7 +151,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
     }
 
     /**
-     * Appends Character Sequence to CustomStringBuilder
+     * Appends float value to CustomStringBuilder
      * @param f - float value to be appended to CustomStringBuilder.
      * @return CustomStringBuilder
      * @throws NullPointerException
@@ -162,7 +162,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
     }
 
     /**
-     * Appends Character Sequence to CustomStringBuilder
+     * Appends integer value to CustomStringBuilder
      * @param i - integer value to be appended to CustomStringBuilder.
      * @return CustomStringBuilder
      * @throws NullPointerException
@@ -173,7 +173,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
     }
 
     /**
-     * Appends Character Sequence to CustomStringBuilder
+     * Appends long value to CustomStringBuilder
      * @param lng - long value to be appended to CustomStringBuilder.
      * @return CustomStringBuilder
      * @throws NullPointerException
@@ -184,7 +184,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
     }
 
     /**
-     * Appends Character Sequence to CustomStringBuilder
+     * Appends String to CustomStringBuilder
      * @param str - String value to be appended to CustomStringBuilder.
      * @return CustomStringBuilder
      * @throws NullPointerException
@@ -302,7 +302,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
     }
 
     /**
-     * Inserts boolean into CustomStringBuilder at given offset
+     * Inserts character into CustomStringBuilder at given offset
      * @param offset - index to insert character into.
      * @param c - character to insert into CustomStringBuilder.
      * @return CustomStringBuilder
@@ -314,7 +314,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
     }
 
     /**
-     * Inserts boolean into CustomStringBuilder at given offset
+     * Inserts character[] into CustomStringBuilder at given offset
      * @param offset - index to insert character into.
      * @param str - character array to insert into CustomStringBuilder.
      * @return CustomStringBuilder
@@ -370,7 +370,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
     }
 
     /**
-     * Inserts boolean into CustomStringBuilder at given offset
+     * Inserts double into CustomStringBuilder at given offset
      * @param offset - index to insert character into.
      * @param d - double value to insert into CustomStringBuilder.
      * @return CustomStringBuilder
@@ -382,7 +382,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
     }
 
     /**
-     * Inserts boolean into CustomStringBuilder at given offset
+     * Inserts float into CustomStringBuilder at given offset
      * @param offset - index to insert character into.
      * @param f - float value to insert into CustomStringBuilder.
      * @return CustomStringBuilder
@@ -394,7 +394,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
     }
 
     /**
-     * Inserts boolean into CustomStringBuilder at given offset
+     * Inserts integer into CustomStringBuilder at given offset
      * @param offset - index to insert character into.
      * @param i - integer value to insert into CustomStringBuilder.
      * @return CustomStringBuilder
@@ -406,7 +406,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
     }
 
     /**
-     * Inserts boolean into CustomStringBuilder at given offset
+     * Inserts long into CustomStringBuilder at given offset
      * @param offset - index to insert character into.
      * @param l - long value to insert into CustomStringBuilder.
      * @return CustomStringBuilder
@@ -418,7 +418,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
     }
 
     /**
-     * Inserts boolean into CustomStringBuilder at given offset
+     * Inserts object into CustomStringBuilder at given offset
      * @param offset - index to insert character into.
      * @param obj - Object to insert into CustomStringBuilder.
      * @return CustomStringBuilder
