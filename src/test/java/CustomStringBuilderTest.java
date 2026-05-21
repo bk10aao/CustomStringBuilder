@@ -2023,8 +2023,7 @@ public class CustomStringBuilderTest {
     @Test
     public void givenStringBuilderWithValueOf_123abc_onAppendingCharSequenceOf_null_throwsNullPointerException() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
-        assertThrows(NullPointerException.class,
-                () -> customStringBuilder.append((CharSequence) null));
+        assertThrows(NullPointerException.class, () -> customStringBuilder.append((CharSequence) null));
     }
 
     @Test
