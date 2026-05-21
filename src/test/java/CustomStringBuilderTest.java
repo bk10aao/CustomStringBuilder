@@ -165,11 +165,11 @@ public class CustomStringBuilderTest {
     }
 
     @Test
-    public void givenStringBuilderWithValueOf_123abc_onAppendingCharSequenceOf_null_returns_123abcnull_andLengthOf_10() {
+    public void givenStringBuilderWithValueOf_123abc_onAppendingCharSequenceOf_null_throws_NullPointerException() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
-        CustomStringBuilder appended = customStringBuilder.append((CharSequence) null);
-        assertEquals("123abcnull", appended.toString());
-        assertEquals(10, appended.length());
+        assertThrows(NullPointerException.class, () -> customStringBuilder.append((CharSequence) null));
+        assertEquals("123abc", customStringBuilder.toString());
+        assertEquals(6, customStringBuilder.length());
     }
 
     @Test
@@ -517,7 +517,7 @@ public class CustomStringBuilderTest {
         customStringBuilder.append("456");
         CustomStringBuilder modified = customStringBuilder.replace(2, 7, "X");
         String value = modified.toString();
-        assertEquals("12Xxyz456", value);
+        assertEquals("12Xyz456", value);
     }
 
     @Test
@@ -1701,7 +1701,7 @@ public class CustomStringBuilderTest {
         customStringBuilder.append("DEF");
         customStringBuilder.append("GHI");
         char[] insertChars = new char[] { 'J', 'K', 'L' };
-        CustomStringBuilder result = customStringBuilder.insert(4,  insertChars, 1, 3);
+        CustomStringBuilder result = customStringBuilder.insert(4,  insertChars, 1, 2);
         String str = result.toString();
         assertEquals("ABCDKLEFGHI", str);
         assertEquals(11, result.length());
@@ -2018,6 +2018,134 @@ public class CustomStringBuilderTest {
         customStringBuilder.append("hello");
         CustomStringBuilder sb = new CustomStringBuilder("hello world");
         assertTrue(customStringBuilder.compareTo(sb) < 0);
+    }
+
+    @Test
+    public void givenStringBuilderWithValueOf_123abc_onAppendingCharSequenceOf_null_throwsNullPointerException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        assertThrows(NullPointerException.class,
+                () -> customStringBuilder.append((CharSequence) null));
+    }
+
+    @Test
+    public void givenStringBuilder_onAppendingNullString_throwsNullPointerException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        assertThrows(NullPointerException.class, () -> customStringBuilder.append((String) null));
+    }
+
+    @Test
+    public void givenStringBuilder_onAppendingNullObject_throwsNullPointerException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        assertThrows(NullPointerException.class, () -> customStringBuilder.append((Object) null));
+    }
+
+    @Test
+    public void givenStringBuilder_onAppendingNullCharArray_throwsNullPointerException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        assertThrows(NullPointerException.class, () -> customStringBuilder.append((char[]) null));
+    }
+
+    @Test
+    public void givenStringBuilder_withValue_123abc_onAppendingNullObject_throwsNullPointerException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        assertThrows(NullPointerException.class, () -> customStringBuilder.append((Object) null));
+    }
+
+    @Test
+    public void givenStringBuilderWithValueOf_123abc_onAppendingIntegerObject_returns_123abc123() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CustomStringBuilder appended = customStringBuilder.append((Object) 123);
+        assertEquals("123abc123", appended.toString());
+        assertEquals(9, appended.length());
+    }
+
+    @Test
+    public void givenStringBuilderWithValueOf_123abc_onAppendingDoubleObject_returns_123abc456_point_78() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CustomStringBuilder appended = customStringBuilder.append((Object) 456.78);
+        assertEquals("123abc456.78", appended.toString());
+        assertEquals(12, appended.length());
+    }
+
+    @Test
+    public void givenStringBuilderWithValueOf_123abc_onAppendingBooleanObject_returns_123abctrue() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CustomStringBuilder appended = customStringBuilder.append((Object) true);
+        assertEquals("123abctrue", appended.toString());
+        assertEquals(10, appended.length());
+    }
+
+    @Test
+    public void givenStringBuilderWithValueOf_123abc_onAppendingStringObject_returns_123abcXYZ() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CustomStringBuilder appended = customStringBuilder.append((Object) "XYZ");
+        assertEquals("123abcXYZ", appended.toString());
+        assertEquals(9, appended.length());
+    }
+
+    @Test
+    public void givenStringBuilder_onAppendingCustomObject_appendsItsToStringValue() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("Test-");
+        CustomStringBuilder appended = customStringBuilder.append(new TestObject());
+        assertEquals("Test-TestObject{x=0, y=1, z=2}", appended.toString());
+        assertEquals(30, appended.length());
+    }
+
+    @Test
+    public void givenEmptyStringBuilder_onAppendingObject_returnsTheObjectsStringRepresentation() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        CustomStringBuilder appended = customStringBuilder.append((Object) 999L);
+        assertEquals("999", appended.toString());
+        assertEquals(3, appended.length());
+    }
+
+    @Test
+    public void givenStringBuilder_withMultipleChunks_onReplace_spanningTwoChunks_returnsCorrectResult() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123");
+        customStringBuilder.append("abc");
+        customStringBuilder.append("xyz");
+        CustomStringBuilder result = customStringBuilder.replace(2, 7, "TEST");
+        assertEquals("12TESTyz", result.toString());
+    }
+
+    @Test
+    public void givenStringBuilder_withMultipleChunks_onReplace_entireChunks_returnsCorrectResult() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123");
+        customStringBuilder.append("abc");
+        customStringBuilder.append("xyz");
+        CustomStringBuilder result = customStringBuilder.replace(3, 9, "NEW");
+        assertEquals("123NEW", result.toString());
+    }
+
+    @Test
+    public void givenStringBuilder_onReplace_withEmptyString_removesRange() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        customStringBuilder.append("xyz");
+        CustomStringBuilder result = customStringBuilder.replace(2, 8, "");
+        assertEquals("12z", result.toString());
+    }
+
+    @Test
+    public void givenStringBuilder_onReplace_startEqualsEnd_insertsWithoutRemoving() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        CustomStringBuilder result = customStringBuilder.replace(3, 3, "---");
+        assertEquals("123---abc", result.toString());
+    }
+
+    @Test
+    public void givenStringBuilder_onReplace_wholeContent_returnsNewString() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123");
+        customStringBuilder.append("abc");
+        CustomStringBuilder result = customStringBuilder.replace(0, customStringBuilder.length(), "NEW");
+        assertEquals("NEW", result.toString());
+        assertEquals(3, result.length());
+    }
+
+    @Test
+    public void givenStringBuilder_onReplace_withVeryLongReplacement() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("abc");
+        CustomStringBuilder result = customStringBuilder.replace(1, 2, "VERYLONGSTRING");
+        assertEquals("aVERYLONGSTRINGc", result.toString());
     }
 
     private static final String STRING_VALUE_OF_LENGTH_129 = "uwcwiavzhhigohtwixbrlxserzenalmzmkzwhrtewfzqpcvtsrnxkpdzcqsvpnqsatxjftfkhrdagqqunffpezghcpkuhlwrttdduhwgvpoqsksfojgtkgtkxkyzvbykl";
