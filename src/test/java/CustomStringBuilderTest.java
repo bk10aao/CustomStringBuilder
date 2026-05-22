@@ -1,6 +1,9 @@
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Field;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -934,6 +937,12 @@ public class CustomStringBuilderTest {
     }
 
     @Test
+    void testGetIndex_WithEmptyString_ShouldReturnFromIndex() {
+        CustomStringBuilder sb = new CustomStringBuilder("Hello World");
+        assertEquals(4, sb.indexOf("", 4));
+    }
+
+    @Test
     public void givenStringBuilder_withValue_A_onIndexOf_B_withStartIndexOf_negative_1_returns_negative_1() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("A");
         assertEquals(-1, customStringBuilder.indexOf("B", 1));
@@ -1165,6 +1174,36 @@ public class CustomStringBuilderTest {
         CustomStringBuilder result = customStringBuilder.delete(8, 10);
         String str = result.toString();
         assertEquals("ABCDEFGHKLMNOPQ", str);
+    }
+
+    @Test
+    public void givenStringBuilder_onInsertCharArray_withNegativeOffset_throws_StringIndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        char[] insertChars = new char[] {'x', 'y', 'z'};
+        assertThrows(StringIndexOutOfBoundsException.class, () -> customStringBuilder.insert(3, insertChars, -1, 2));
+    }
+
+    @Test
+    public void givenStringBuilder_onInsertCharArray_withNegativeLength_throws_StringIndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        char[] insertChars = new char[] {'x', 'y', 'z'};
+        assertThrows(StringIndexOutOfBoundsException.class, () -> customStringBuilder.insert(3, insertChars, 1, -1));
+    }
+
+    @Test
+    public void givenStringBuilder_onInsertCharArray_withOffsetAndLengthExceedingArrayBounds_throws_StringIndexOutOfBoundsException() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        char[] insertChars = new char[] {'x', 'y', 'z'};
+        assertThrows(StringIndexOutOfBoundsException.class, () -> customStringBuilder.insert(3, insertChars, 1, 3));
+    }
+
+    @Test
+    public void givenStringBuilder_onInsertCharArray_withValidParameters_insertsSubstrValueCorrectly() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
+        char[] insertChars = new char[] {'x', 'y', 'z', '7', '8'};
+        CustomStringBuilder result = customStringBuilder.insert(3, insertChars, 1, 3);
+        assertEquals("123yz7abc", result.toString());
+        assertEquals(9, result.length());
     }
 
     @Test
@@ -2145,6 +2184,54 @@ public class CustomStringBuilderTest {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("abc");
         CustomStringBuilder result = customStringBuilder.replace(1, 2, "VERYLONGSTRING");
         assertEquals("aVERYLONGSTRINGc", result.toString());
+    }
+
+    @Test
+    public void givenEmptyStringBuilder_hashCode_returns_1() {
+        assertEquals(1, new CustomStringBuilder().hashCode());
+    }
+
+    @Test
+    public void hashCode_shouldMatch_onMatchingCustomStringBuilder() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("abc");
+        CustomStringBuilder matched = new CustomStringBuilder("abc");
+        assertEquals(matched.hashCode(), customStringBuilder.hashCode());
+    }
+
+    @Test
+    public void givenTwoDifferentCustomStringBuilders_onEquals_returnsFalse() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("abc");
+        CustomStringBuilder notMatched = new CustomStringBuilder("def");
+        assertNotEquals(customStringBuilder, notMatched);
+    }
+
+    @Test
+    public void givenACustomStringBuilders_andAnObject_onEquals_returnsFale() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("abc");
+        Object object = new Object();
+        assertNotEquals(customStringBuilder, object);
+    }
+
+    @Test
+    public void givenTwoMatchingCustomStringBuilders_onEquals_returnsTrue() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("abc");
+        CustomStringBuilder matched = new CustomStringBuilder("abc");
+        assertEquals(customStringBuilder, matched);
+    }
+
+    @Test
+    public void givenTheSameCustomStringBuilders_onEquals_returnsTrue() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("abc");
+        assertEquals(customStringBuilder, customStringBuilder);
+    }
+
+    @Test
+    public void givenCorruptedInternalState_onCharAt_throws_IllegalStateException() throws Exception {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder("ABC");
+        Field sizeField = CustomStringBuilder.class.getDeclaredField("size");
+        sizeField.setAccessible(true);
+        sizeField.set(customStringBuilder, 5);
+        assertThrows(IllegalStateException.class, () -> customStringBuilder.charAt(4));
     }
 
     private static final String STRING_VALUE_OF_LENGTH_129 = "uwcwiavzhhigohtwixbrlxserzenalmzmkzwhrtewfzqpcvtsrnxkpdzcqsvpnqsatxjftfkhrdagqqunffpezghcpkuhlwrttdduhwgvpoqsksfojgtkgtkxkyzvbykl";

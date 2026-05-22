@@ -324,7 +324,10 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      */
     @Override
     public int hashCode() {
-        return Objects.hashCode(this.toString());
+        int result = 1;
+        for (String s : stringBuilder)
+            result = 31 * result + Objects.hashCode(s);
+        return result;
     }
 
     /**
