@@ -11,7 +11,7 @@ import java.util.Objects;
  * @see <a href="https://github.com/bk10aao">GitHub account bk10aao</a>
  * @see <a href="https://github.com/bk10aao/CustomStringBuilder">Repository</a>
  */
-public class CustomStringBuilder implements Appendable, java.io.Serializable, Comparable<StringBuilder>, CharSequence {
+public class CustomStringBuilder implements Appendable, java.io.Serializable, Comparable<CustomStringBuilder>, CharSequence {
 
     private final List<String> stringBuilder = new ArrayList<>();
 
@@ -27,7 +27,6 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
 
     /**
      * Constructs a string builder that contains the same characters as the specified {@code CharSequence}.
-     *
      * @param seq the sequence to construct initial CustomStringBuilder String value.
      * @throws NullPointerException
      *         if {@code seq} is {@code null}
@@ -39,7 +38,6 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
 
     /**
      * Constructs a string builder initialized to the contents of the specified string. .
-     *
      * @param str the initial contents.
      * @throws NullPointerException
      *         if {@code str} is {@code null}
@@ -51,7 +49,6 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
 
     /**
      * Appends boolean value to CustomStringBuilder
-     *
      * @param b - boolean to be appended to CustomStringBuilder.
      * @return CustomStringBuilder
      * @throws NullPointerException
@@ -80,6 +77,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      *          if {@code str} is {@code null}.
      */
     public CustomStringBuilder append(final char[] str) {
+        Objects.requireNonNull(str);
         return append(new String(str));
     }
 
@@ -203,7 +201,6 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
         return this;
     }
 
-
     /**
      * Appends String to CustomStringBuilder
      * @param str - String value to be appended to CustomStringBuilder.
@@ -213,8 +210,10 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      */
     public CustomStringBuilder append(final String str) {
         Objects.requireNonNull(str);
-        stringBuilder.add(str);
-        size += str.length();
+        if(!str.isEmpty()) {
+            stringBuilder.add(str);
+            size += str.length();
+        }
         return this;
     }
 
@@ -228,15 +227,13 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
     public char charAt(int index) {
         if(index < 0 || index >= size)
             throw new IndexOutOfBoundsException();
-        char c = 0;
-        for (String current : stringBuilder) {
-            if (current.length() > index) {
-                c = current.charAt(index);
-                break;
-            }
-            index -= current.length();
+        int trackingIndex = index;
+        for (String chunk : stringBuilder) {
+            if (trackingIndex < chunk.length())
+                return chunk.charAt(trackingIndex);
+            trackingIndex -= chunk.length();
         }
-        return c;
+        throw new IllegalStateException("Internal state corruption tracking size.");
     }
 
     /**
@@ -261,6 +258,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * @throws NullPointerException
      *          if {@code o} is {@code null}
      */
+    @Override
     public int compareTo(final CustomStringBuilder o) {
         return this.toString().compareTo(o.toString());
     }
@@ -292,6 +290,44 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
     }
 
     /**
+     * Compares the specified object with this {@code CustomStringBuilder} for equality.
+     * Returns {@code true} if and only if the specified object is also a
+     * {@code CustomStringBuilder} and both represent the exact same sequence of characters.
+     * <p>
+     * In other words, two custom string builders are considered equal if they have
+     * the same length and contain the same characters in the same sequential order.
+     * This implementation relies on comparing the string representations of both objects.
+     *
+     * @param obj the object to be compared for equality with this custom string builder.
+     * @return {@code true} if the specified object is equal to this custom string builder,
+     *         {@code false} otherwise.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!(obj instanceof CustomStringBuilder))
+            return false;
+        return Objects.equals(this.toString(), obj.toString());
+    }
+
+    /**
+     * Returns the hash code value for this {@code CustomStringBuilder}.
+     * The hash code is computed based on the character sequence represented by this object,
+     * ensuring consistency with the {@link String#hashCode()} contract.
+     * <p>
+     * This ensures that {@code cb1.equals(cb2)} implies that {@code cb1.hashCode() == cb2.hashCode()}
+     * for any two {@code CustomStringBuilder} objects, as required by the general contract of
+     * {@link Object#hashCode()}.
+     *
+     * @return the hash code value for this custom string builder.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.toString());
+    }
+
+    /**
      * Gets index of String in CustomStringBuilder
      * @param str - String to be find index of.
      * @return int index of String if present, else -1
@@ -307,7 +343,11 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * @return int index of String if present, else -1
      */
     public int indexOf(final String str, final int fromIndex) {
-        return (fromIndex > size || fromIndex < 0 || size == 0) ? -1 : getIndex(str, fromIndex);
+        if (fromIndex < 0)
+            return -1;
+        if (fromIndex > size)
+            return -1;
+        return getIndex(str, fromIndex);
     }
 
     /**
@@ -343,6 +383,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      *          if {@code offset < 0} or {@code offset > length()}
      */
     public CustomStringBuilder insert(final int offset, final char[] str) {
+        Objects.requireNonNull(str);
         return insert(offset, String.valueOf(str));
     }
 
@@ -461,17 +502,10 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      *          if {@code offset < 0} or {@code offset > length()}
      */
     public CustomStringBuilder insert(final int offset, final String str) {
+        Objects.requireNonNull(str);
         if(offset < 0 || offset > size)
             throw new StringIndexOutOfBoundsException();
-        int idx = 0;
-        int currentOffset = 0;
-        while (idx < stringBuilder.size() && currentOffset + stringBuilder.get(idx).length() <= offset)
-            currentOffset += stringBuilder.get(idx++).length();
-        if (idx == stringBuilder.size())
-            return append(str);
-        insertInner(offset, str, idx, currentOffset);
-        size += str.length();
-        return this;
+        return replace(offset, offset, str);
     }
 
     /**
@@ -480,13 +514,8 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * @return last index of String if present, else -1
      */
     public int lastIndexOf(final String str) {
-        String built = "";
-        for(int i = stringBuilder.size() - 1; i >= 0; i--) {
-            built = stringBuilder.get(i) + built;
-            if(built.lastIndexOf(str) != -1)
-                return size - (built.length() - built.lastIndexOf(str));
-        }
-        return -1;
+        Objects.requireNonNull(str);
+        return toString().lastIndexOf(str);
     }
 
     /**
@@ -509,18 +538,20 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      *          or if {@code start} is greater than {@code end}
      */
     public CustomStringBuilder replace(final int start, final int end, final String str) {
+        Objects.requireNonNull(str);
         if (start < 0 || start > size || start > end)
             throw new StringIndexOutOfBoundsException();
+        char[] current = toCharArray();
         int actualEnd = Math.min(end, size);
-        if (start == actualEnd && str.isEmpty())
-            return this;
-        int[] chunkIndices = locateChunkIndices(start, actualEnd);
-        int startIdx = chunkIndices[0];
-        int endIdx = chunkIndices[1];
-        String prefix = getChunkSubstring(startIdx, 0, start);
-        String suffix = getChunkSubstring(endIdx, actualEnd, -1);
-        String replacingBlock = prefix + str + suffix;
-        updateChunks(startIdx, endIdx, replacingBlock);
+        int replacementLength = str.length();
+        int newSize = size - (actualEnd - start) + replacementLength;
+        char[] newBuffer = new char[newSize];
+        System.arraycopy(current, 0, newBuffer, 0, start);
+        str.getChars(0, replacementLength, newBuffer, start);
+        System.arraycopy(current, actualEnd, newBuffer, start + replacementLength, size - actualEnd);
+        stringBuilder.clear();
+        stringBuilder.add(new String(newBuffer));
+        size = newSize;
         return this;
     }
 
@@ -536,7 +567,12 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
             buffer[left++] = buffer[right];
             buffer[right--] = temp;
         }
-        return new CustomStringBuilder(new String(buffer));
+        stringBuilder.clear();
+        if(size > 0)
+            stringBuilder.add(new String(buffer));
+        else
+            stringBuilder.add("");
+        return this;
     }
 
     /**
@@ -548,7 +584,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      *          or {@code index > length()},
      */
     public void setCharAt(final int index, final char c) {
-        if(index < 0 || index > size)
+        if(index < 0 || index >= size)
             throw new StringIndexOutOfBoundsException();
         replace(index, index + 1, String.valueOf(c));
     }
@@ -575,16 +611,8 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      *          if {@code start < 0}
      *          of {@code start > size}
      */
-    public String subString(int start) {
-        if(start < 0 || start > size)
-            throw new StringIndexOutOfBoundsException();
-        int idx = 0;
-        while(start > stringBuilder.get(idx).length())
-            start -= stringBuilder.get(++idx).length();
-        String str = stringBuilder.get(idx++).substring(start);
-        for(int i = idx; i < stringBuilder.size(); i++)
-            str += stringBuilder.get(i);
-        return str;
+    public String subString(final int start) {
+        return subString(start, size);
     }
 
     /**
@@ -602,12 +630,8 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
             throw new StringIndexOutOfBoundsException();
         if(start == end)
             return "";
-        int idx = 0;
-        while(start >= stringBuilder.get(idx).length()) {
-            start -= stringBuilder.get(++idx).length();
-            end -= stringBuilder.get(idx).length();
-        }
-        return getSubString(start, end, idx);
+        char[] chars = toCharArray();
+        return new String(chars, start, end - start);
     }
 
     /**
@@ -616,61 +640,27 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      */
     @Override
     public String toString() {
-        return new String(toCharArray());
+        return (stringBuilder.size() == 1) ? stringBuilder.getFirst() : new String(toCharArray());
     }
 
-    private Integer getIndex(final String str, final int fromIndex) {
-        int idx = 0;
-        int startIndex = fromIndex;
-        while (startIndex > stringBuilder.get(idx).length())
-            startIndex -= stringBuilder.get(idx++).length();
-        String s = stringBuilder.get(idx).substring(startIndex);
-        if(s.contains(str))
-            return s.indexOf(str) + fromIndex;
-        for (int i = idx + 1; i < stringBuilder.size(); i++)
-            if ((s += stringBuilder.get(i)).contains(str))
-                return s.indexOf(str) + fromIndex;
-        return -1;
-    }
-
-    private String getChunkSubstring(int chunkIdx, int index, int cutTo) {
-        if (chunkIdx < 0 || chunkIdx >= stringBuilder.size())
-            return "";
-        int offset = 0;
-        for (int i = 0; i < chunkIdx; i++)
-            offset += stringBuilder.get(i).length();
-        String chunk = stringBuilder.get(chunkIdx);
-        return (cutTo == -1) ? chunk.substring(index - offset) : chunk.substring(0, cutTo - offset);
-    }
-
-    private String getSubString(int start, int end, int idx) {
-        String str = stringBuilder.get(idx++).substring(start);
-        while (idx < stringBuilder.size() && str.length() < end - start)
-            str += stringBuilder.get(idx++);
-        return str.substring(0, end - start);
-    }
-
-    private void insertInner(int offset, String str, int idx, int currentOffset) {
-        String target = stringBuilder.get(idx);
-        int splitPoint = offset - currentOffset;
-        stringBuilder.set(idx, target.substring(0, splitPoint));
-        stringBuilder.add(++idx, str);
-        stringBuilder.add(++idx, target.substring(splitPoint));
-    }
-
-    private int[] locateChunkIndices(int start, int actualEnd) {
-        int startChunkIdx = -1;
-        int endChunkIdx = -1;
-        int currentOffset = 0;
-        for (int i = 0; i < stringBuilder.size(); i++) {
-            int nextOffset = currentOffset + stringBuilder.get(i).length();
-            if (start >= currentOffset && start <= nextOffset && startChunkIdx == -1)
-                startChunkIdx = i;
-            if (actualEnd >= currentOffset && actualEnd <= nextOffset && endChunkIdx == -1)
-                endChunkIdx = i;
-            currentOffset = nextOffset;
+    private int getIndex(final String str, final int fromIndex) {
+        if (str.isEmpty())
+            return fromIndex;
+        int matchLength = str.length();
+        int maxSearchLimit = size - matchLength;
+        char[] currentChars = toCharArray();
+        char[] targetChars = str.toCharArray();
+        for (int i = fromIndex; i <= maxSearchLimit; i++) {
+            boolean matchFound = true;
+            for (int j = 0; j < matchLength; j++)
+                if (currentChars[i + j] != targetChars[j]) {
+                    matchFound = false;
+                    break;
+                }
+            if (matchFound)
+                return i;
         }
-        return new int[]{ startChunkIdx, endChunkIdx };
+        return -1;
     }
 
     private char[] toCharArray() {
@@ -681,15 +671,5 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
             offset += str.length();
         }
         return buffer;
-    }
-
-    private void updateChunks(int startIdx, int endIdx, String replacingBlock) {
-        int oldElementsLength = 0;
-        int elementsToRemove = endIdx - startIdx + 1;
-        for (int i = 0; i < elementsToRemove; i++)
-            oldElementsLength += stringBuilder.remove(startIdx).length();
-        if (!replacingBlock.isEmpty() || stringBuilder.isEmpty())
-            stringBuilder.add(startIdx, replacingBlock);
-        size = size - oldElementsLength + replacingBlock.length();
     }
 }
