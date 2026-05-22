@@ -1,4 +1,5 @@
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -15,6 +16,9 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
     private final List<String> stringBuilder = new ArrayList<>();
 
     private int size = 0;
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * Constructs a string builder with no characters
