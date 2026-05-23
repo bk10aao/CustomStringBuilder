@@ -818,14 +818,14 @@ public class CustomStringBuilderTest {
     public void givenStringBuilder_withValues_123abc_onSubSequence_startIndexOf_1_endIndexOf_3_returns_23() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
         CharSequence subSequence = customStringBuilder.subSequence(1, 3);
-        assertEquals("23", subSequence);
+        assertEquals("23", subSequence.toString());
     }
 
     @Test
     public void givenStringBuilder_withValues_123abc_onSubSequence_startIndexOf_2_endIndexOf_3_returns_3() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("123abc");
         CharSequence subSequence = customStringBuilder.subSequence(2, 3);
-        assertEquals("3", subSequence);
+        assertEquals("3", subSequence.toString());
     }
 
     @Test
@@ -834,7 +834,7 @@ public class CustomStringBuilderTest {
         customStringBuilder.append("456");
         customStringBuilder.append("7890");
         CharSequence subString = customStringBuilder.subSequence(2, 8);
-        assertEquals("3abc45", subString);
+        assertEquals("3abc45", subString.toString());
     }
 
     @Test
@@ -849,7 +849,7 @@ public class CustomStringBuilderTest {
         customStringBuilder.append("5");
         customStringBuilder.append("6");
         CharSequence subString = customStringBuilder.subSequence(4, 8);
-        assertEquals("bc45", subString);
+        assertEquals("bc45", subString.toString());
     }
 
     @Test
@@ -2187,8 +2187,8 @@ public class CustomStringBuilderTest {
     }
 
     @Test
-    public void givenEmptyStringBuilder_hashCode_returns_1() {
-        assertEquals(1, new CustomStringBuilder().hashCode());
+    public void givenEmptyStringBuilder_hashCode_returns_0() {
+        assertEquals(0, new CustomStringBuilder().hashCode());
     }
 
     @Test

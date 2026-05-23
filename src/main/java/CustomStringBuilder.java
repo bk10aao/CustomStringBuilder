@@ -17,6 +17,13 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
 
     private int size = 0;
 
+    private static final String[] CHAR_CACHE = new String[256];
+
+    static {
+        for (int i = 0; i < 256; i++)
+            CHAR_CACHE[i] = String.valueOf((char) i);
+    }
+
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -66,7 +73,12 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      *          if {@code c} is {@code null}
      */
     public CustomStringBuilder append(final char c) {
-        return append(String.valueOf(c));
+        if (c < 256)
+            stringBuilder.add(CHAR_CACHE[c]);
+        else
+            stringBuilder.add(String.valueOf(c));
+        size++;
+        return this;
     }
 
     /**
@@ -306,9 +318,9 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (!(obj instanceof CustomStringBuilder))
+        if (!(obj instanceof CustomStringBuilder other))
             return false;
-        return Objects.equals(this.toString(), obj.toString());
+        return Objects.equals(this.toString(), other.toString());
     }
 
     /**
@@ -324,10 +336,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      */
     @Override
     public int hashCode() {
-        int result = 1;
-        for (String s : stringBuilder)
-            result = 31 * result + Objects.hashCode(s);
-        return result;
+        return Objects.hashCode(this.toString());
     }
 
     /**
@@ -603,7 +612,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      *          or {@code start > end}
      */
     public CharSequence subSequence(final int start, final int end) {
-        return subString(start, end);
+        return new CustomStringBuilder(subString(start, end));
     }
 
     /**
@@ -643,20 +652,21 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      */
     @Override
     public String toString() {
-        return (stringBuilder.size() == 1) ? stringBuilder.getFirst() : new String(toCharArray());
+        return String.join("", stringBuilder);
     }
 
     private int getIndex(final String str, final int fromIndex) {
         if (str.isEmpty())
             return fromIndex;
+        if (fromIndex > size - str.length())
+            return -1;
+        char[] currentChars = toCharArray();
         int matchLength = str.length();
         int maxSearchLimit = size - matchLength;
-        char[] currentChars = toCharArray();
-        char[] targetChars = str.toCharArray();
         for (int i = fromIndex; i <= maxSearchLimit; i++) {
             boolean matchFound = true;
             for (int j = 0; j < matchLength; j++)
-                if (currentChars[i + j] != targetChars[j]) {
+                if (currentChars[i + j] != str.charAt(j)) {
                     matchFound = false;
                     break;
                 }
