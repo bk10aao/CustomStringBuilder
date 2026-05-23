@@ -2234,6 +2234,14 @@ public class CustomStringBuilderTest {
         assertThrows(IllegalStateException.class, () -> customStringBuilder.charAt(4));
     }
 
+    @Test
+    public void givenCharacterOutsideExtendedAscii_whenAppend_thenHitsElseBranchAndAppendsValue() {
+        CustomStringBuilder customStringBuilder = new CustomStringBuilder();
+        customStringBuilder.append('€');
+        assertEquals("€", customStringBuilder.toString());
+        assertEquals(1, customStringBuilder.length());
+    }
+
     private static final String STRING_VALUE_OF_LENGTH_129 = "uwcwiavzhhigohtwixbrlxserzenalmzmkzwhrtewfzqpcvtsrnxkpdzcqsvpnqsatxjftfkhrdagqqunffpezghcpkuhlwrttdduhwgvpoqsksfojgtkgtkxkyzvbykl";
 
     private static class TestObject {
