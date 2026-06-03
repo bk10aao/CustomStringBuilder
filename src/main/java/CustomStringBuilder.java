@@ -1,4 +1,3 @@
-
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +12,16 @@ import java.util.Objects;
  */
 public class CustomStringBuilder implements Appendable, java.io.Serializable, Comparable<CustomStringBuilder>, CharSequence {
 
+    private static final int MAX_FRAGMENTS_BEFORE_COMPACT = 32;
+
     private final List<String> stringBuilder = new ArrayList<>();
 
     private int size = 0;
 
     private static final String[] CHAR_CACHE = new String[256];
+
+    private transient int lastChunkStartIndex = -1;
+    private transient int lastChunkIndex = -1;
 
     static {
         for (int i = 0; i < 256; i++)
@@ -26,6 +30,8 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
 
     @Serial
     private static final long serialVersionUID = 1L;
+
+    private record ChunkCoordinate(int chunkIndex, int localOffset) {}
 
     /**
      * Constructs a string builder with no characters
@@ -58,8 +64,6 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * Appends boolean value to CustomStringBuilder
      * @param b - boolean to be appended to CustomStringBuilder.
      * @return CustomStringBuilder
-     * @throws NullPointerException
-     *         if {@code b} is {@code null}
      */
     public CustomStringBuilder append(final boolean b) {
         return append(String.valueOf(b));
@@ -69,8 +73,6 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * Appends character value to CustomStringBuilder
      * @param c - character to be appended to CustomStringBuilder.
      * @return CustomStringBuilder
-     * @throws NullPointerException
-     *          if {@code c} is {@code null}
      */
     public CustomStringBuilder append(final char c) {
         if (c < 256)
@@ -151,7 +153,12 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
         Objects.requireNonNull(charSequence);
         if (start < 0 || end < start || end > charSequence.length())
             throw new StringIndexOutOfBoundsException();
-        return append(charSequence.subSequence(start, end));
+        if (start != end) {
+            String chunk = charSequence.subSequence(start, end).toString();
+            stringBuilder.add(chunk);
+            size += chunk.length();
+        }
+        return this;
     }
 
     /**
@@ -207,10 +214,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      */
     public CustomStringBuilder append(final Object o) {
         Objects.requireNonNull(o);
-        String objectString = o.toString();
-        stringBuilder.add(objectString);
-        size += objectString.length();
-        return this;
+        return append(o.toString());
     }
 
     /**
@@ -236,16 +240,16 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      *          if the index is out of range ({@code index < 0 || index > size()})
      * @return char value at index
      */
-    public char charAt(int index) {
-        if(index < 0 || index >= size)
+    public char charAt(final int index) {
+        if (index < 0 || index >= size)
             throw new IndexOutOfBoundsException();
-        int trackingIndex = index;
-        for (String chunk : stringBuilder) {
-            if (trackingIndex < chunk.length())
-                return chunk.charAt(trackingIndex);
-            trackingIndex -= chunk.length();
+        if (lastChunkIndex >= 0 && lastChunkIndex < stringBuilder.size()) {
+            int start = lastChunkStartIndex;
+            int end = start + stringBuilder.get(lastChunkIndex).length();
+            if (index >= start && index < end)
+                return stringBuilder.get(lastChunkIndex).charAt(index - start);
         }
-        throw new IllegalStateException("Internal state corruption tracking size.");
+        return getCharFromInnerChunk(index);
     }
 
     /**
@@ -355,9 +359,12 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * @return int index of String if present, else -1
      */
     public int indexOf(final String str, final int fromIndex) {
-        if (fromIndex < 0)
+        Objects.requireNonNull(str);
+        if (fromIndex < 0 || fromIndex > size)
             return -1;
-        if (fromIndex > size)
+        if (str.isEmpty())
+            return fromIndex;
+        if (fromIndex == size || str.length() > size - fromIndex)
             return -1;
         return getIndex(str, fromIndex);
     }
@@ -412,7 +419,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
     public CustomStringBuilder insert(final int index, final char[] str, final int offset, final int len) {
         if (offset < 0 || len < 0 || offset + len > str.length)
             throw new StringIndexOutOfBoundsException();
-        return insert(index, String.valueOf(str).substring(offset, offset + len));
+        return insert(index, new String(str, offset, len));
     }
 
     /**
@@ -424,6 +431,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      *          if {@code dstOffset < 0} or {@code dstOffset > length()}
      */
     public CustomStringBuilder insert(final int dstOffset, final CharSequence s) {
+        Objects.requireNonNull(s);
         return insert(dstOffset, String.valueOf(s));
     }
 
@@ -442,6 +450,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      *          or if {@code start} is greater than {@code end}
      */
     public CustomStringBuilder insert(final int dstOffset, final CharSequence s, final int start, final int end) {
+        Objects.requireNonNull(s);
         return insert(dstOffset, s.subSequence(start, end));
     }
 
@@ -517,6 +526,11 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
         Objects.requireNonNull(str);
         if(offset < 0 || offset > size)
             throw new StringIndexOutOfBoundsException();
+        if(offset == size) {
+            append(str);
+            invalidateCache();
+            return this;
+        }
         return replace(offset, offset, str);
     }
 
@@ -526,8 +540,24 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      * @return last index of String if present, else -1
      */
     public int lastIndexOf(final String str) {
+        return lastIndexOf(str, size);
+    }
+
+    /**
+     * Returns the last index of String in CustomStringBuilder searching backward from fromIndex
+     * @param str - String to be find last index of.
+     * @param fromIndex - maximum start boundary to scan backwards from
+     * @return last index of String if present, else -1
+     */
+    public int lastIndexOf(final String str, int fromIndex) {
         Objects.requireNonNull(str);
-        return toString().lastIndexOf(str);
+        if (fromIndex < 0)
+            return -1;
+        if (fromIndex > size - str.length())
+            fromIndex = size - str.length();
+        if (str.isEmpty())
+            return fromIndex;
+        return getLastIndex(str, fromIndex);
     }
 
     /**
@@ -538,32 +568,44 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
         return size;
     }
 
+    @Serial
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        this.lastChunkStartIndex = -1;
+        this.lastChunkIndex = -1;
+    }
+
     /**
      * Replaces range of characters in Custom String Builder with new String
+     * without flattening unaffected chunks in the underlying ArrayList.
+     *
      * @param start - start index to begin replacement.
      * @param end - end index to end replacement.
      * @param str - string to replace range.
      * @return CustomStringBuilder
      * @throws StringIndexOutOfBoundsException
-     *          if {@code start} or {@code end} are negative,
-     *          if {@code end} is greater than {@code length()},
-     *          or if {@code start} is greater than {@code end}
+     * if {@code start} or {@code end} are negative,
+     * if {@code start} is greater than {@code length()},
+     * or if {@code start} is greater than {@code end}
      */
     public CustomStringBuilder replace(final int start, final int end, final String str) {
         Objects.requireNonNull(str);
         if (start < 0 || start > size || start > end)
             throw new StringIndexOutOfBoundsException();
-        char[] current = toCharArray();
+        if (start == size)
+            return append(str);
         int actualEnd = Math.min(end, size);
         int replacementLength = str.length();
-        int newSize = size - (actualEnd - start) + replacementLength;
-        char[] newBuffer = new char[newSize];
-        System.arraycopy(current, 0, newBuffer, 0, start);
-        str.getChars(0, replacementLength, newBuffer, start);
-        System.arraycopy(current, actualEnd, newBuffer, start + replacementLength, size - actualEnd);
-        stringBuilder.clear();
-        stringBuilder.add(new String(newBuffer));
-        size = newSize;
+        if (start == actualEnd && replacementLength == 0)
+            return this;
+        ChunkCoordinate startCoord = findCoordinate(start);
+        ChunkCoordinate endCoord = findCoordinate(actualEnd);
+        if (startCoord == null || endCoord == null)
+            return handleCorruptedStateFallback(str, replacementLength);
+        executeChunkReplacement(startCoord, endCoord, str);
+        size = size - (actualEnd - start) + replacementLength;
+        ensureFragmentThresholdLimits();
+        invalidateCache();
         return this;
     }
 
@@ -584,6 +626,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
             stringBuilder.add(new String(buffer));
         else
             stringBuilder.add("");
+        invalidateCache();
         return this;
     }
 
@@ -655,25 +698,114 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
         return String.join("", stringBuilder);
     }
 
-    private int getIndex(final String str, final int fromIndex) {
-        if (str.isEmpty())
-            return fromIndex;
-        if (fromIndex > size - str.length())
-            return -1;
-        char[] currentChars = toCharArray();
-        int matchLength = str.length();
-        int maxSearchLimit = size - matchLength;
-        for (int i = fromIndex; i <= maxSearchLimit; i++) {
-            boolean matchFound = true;
-            for (int j = 0; j < matchLength; j++)
-                if (currentChars[i + j] != str.charAt(j)) {
-                    matchFound = false;
-                    break;
-                }
-            if (matchFound)
-                return i;
+    private void ensureFragmentThresholdLimits() {
+        if (stringBuilder.size() > MAX_FRAGMENTS_BEFORE_COMPACT) {
+            String consolidated = this.toString();
+            stringBuilder.clear();
+            stringBuilder.add(consolidated);
         }
+    }
+
+    private void executeChunkReplacement(ChunkCoordinate startCoord, ChunkCoordinate endCoord, String str) {
+        String prefixFragment = stringBuilder.get(startCoord.chunkIndex).substring(0, startCoord.localOffset);
+        String suffixFragment = stringBuilder.get(endCoord.chunkIndex).substring(endCoord.localOffset);
+        List<String> incomingChunks = new ArrayList<>();
+        if (!prefixFragment.isEmpty())
+            incomingChunks.add(prefixFragment);
+        if (!str.isEmpty())
+            incomingChunks.add(str);
+        if (!suffixFragment.isEmpty())
+            incomingChunks.add(suffixFragment);
+        stringBuilder.subList(startCoord.chunkIndex, endCoord.chunkIndex + 1).clear();
+        stringBuilder.addAll(startCoord.chunkIndex, incomingChunks);
+    }
+
+    private ChunkCoordinate findCoordinate(int globalIndex) {
+        int trackingIndex = 0;
+        int lastIdx = stringBuilder.size() - 1;
+        for (int i = 0; i <= lastIdx; i++) {
+            String chunk = stringBuilder.get(i);
+            int chunkLength = chunk.length();
+            if ((globalIndex >= trackingIndex && globalIndex < trackingIndex + chunkLength) ||
+                    (globalIndex == trackingIndex + chunkLength && i == lastIdx))
+                    return new ChunkCoordinate(i, globalIndex - trackingIndex);
+            trackingIndex += chunkLength;
+        }
+        return null;
+    }
+
+    private char getCharFromInnerChunk(int index) {
+        int trackingIndex = 0;
+        int startScanFrom = 0;
+        if (lastChunkIndex >= 0 && index >= lastChunkStartIndex) {
+            trackingIndex = lastChunkStartIndex;
+            startScanFrom = lastChunkIndex;
+        }
+        for (int i = startScanFrom; i < stringBuilder.size(); i++) {
+            String chunk = stringBuilder.get(i);
+            if (index < trackingIndex + chunk.length()) {
+                lastChunkStartIndex = trackingIndex;
+                lastChunkIndex = i;
+                return chunk.charAt(index - trackingIndex);
+            }
+            trackingIndex += chunk.length();
+        }
+        throw new IllegalStateException("Internal state corruption.");
+    }
+
+    private int getIndex(final String target, final int fromIndex) {
+        int targetLen = target.length();
+        int maxSearchIdx = size - targetLen;
+
+        for(int i = fromIndex; i <= maxSearchIdx; i++)
+            if (matchAtGlobalIndex(target, i))
+                return i;
         return -1;
+    }
+
+    private int getLastIndex(final String target, final int fromIndex) {
+        for (int i = fromIndex; i >= 0; i--)
+            if (matchAtGlobalIndex(target, i))
+                return i;
+        return -1;
+    }
+
+    private CustomStringBuilder handleCorruptedStateFallback(String str, int replacementLength) {
+        stringBuilder.clear();
+        if (!str.isEmpty())
+            stringBuilder.add(str);
+        size = replacementLength;
+        invalidateCache();
+        return this;
+    }
+
+    private void invalidateCache() {
+        this.lastChunkStartIndex = -1;
+        this.lastChunkIndex = -1;
+    }
+
+    private boolean matchAtGlobalIndex(String target, int globalIdx) {
+        int targetLen = target.length();
+        int currentGlobal = 0;
+        int matchCount = 0;
+        for (String chunk : stringBuilder) {
+            int chunkLen = chunk.length();
+            if (globalIdx + matchCount >= currentGlobal && globalIdx < currentGlobal + chunkLen) {
+                int localStart = Math.max(0, (globalIdx + matchCount) - currentGlobal);
+                while (localStart < chunkLen && matchCount < targetLen) {
+                    if (chunk.charAt(localStart) != target.charAt(matchCount))
+                        return false;
+                    matchCount++;
+                    localStart++;
+                }
+                if (matchCount == targetLen)
+                    return true;
+            }
+            currentGlobal += chunkLen;
+            if (currentGlobal > globalIdx + targetLen)
+                break;
+        }
+        return matchCount == targetLen;
     }
 
     private char[] toCharArray() {
