@@ -6,94 +6,106 @@ Implementation of a StringBuilder using a List
 
 This table compares the time complexity of key methods in Java's `StringBuilder` (using a dynamic character array) and `CustomStringBuilder` (using an `ArrayList<String>`).
 
-| **Method**                              | **Java StringBuilder** | **CustomStringBuilder** |     **Winner**      |
-|-----------------------------------------|:----------------------:|:-----------------------:|:-------------------:|
-| **append(boolean)**                     |         $O(1)$         |         $O(1)$          |         Tie         |
-| **append(char)**                        |         $O(1)$         |         $O(1)$          |         Tie         |
-| **append(char[])**                      |         $O(k)$         |         $O(k)$          |         Tie         |
-| **append(char[], int, int)**            |         $O(k)$         |         $O(k)$          |         Tie         |
-| **append(CharSequence)**                |         $O(k)$         |         $O(k)$          |         Tie         |
-| **append(CharSequence, int, int)**      |         $O(k)$         |         $O(k)$          |         Tie         |
-| **append(double)**                      |         $O(1)$         |         $O(1)$          |         Tie         |
-| **append(float)**                       |         $O(1)$         |         $O(1)$          |         Tie         |
-| **append(int)**                         |         $O(1)$         |         $O(1)$          |         Tie         |
-| **append(long)**                        |         $O(1)$         |         $O(1)$          |         Tie         |
-| **append(String)**                      |         $O(k)$         |         $O(k)$          |         Tie         |
-| **delete(int, int)**                    |         $O(n)$         |       $O(m + k)$        | CustomStringBuilder |
-| **deleteCharAt(int)**                   |         $O(n)$         |       $O(m + k)$        | CustomStringBuilder |
-| **indexOf(String)**                     |         $O(n)$         |       $O(n + m)$        |    StringBuilder    |
-| **indexOf(String, int)**                |         $O(n)$         |       $O(n + m)$        |    StringBuilder    |
-| **insert(int, boolean)**                |         $O(n)$         |       $O(m + k)$        | CustomStringBuilder |
-| **insert(int, char)**                   |         $O(n)$         |       $O(m + k)$        | CustomStringBuilder |
-| **insert(int, char[])**                 |       $O(n + k)$       |       $O(m + k)$        | CustomStringBuilder |
-| **insert(int, char[], int, int)**       |       $O(n + k)$       |       $O(m + k)$        | CustomStringBuilder |
-| **insert(int, CharSequence)**           |       $O(n + k)$       |       $O(m + k)$        | CustomStringBuilder |
-| **insert(int, CharSequence, int, int)** |       $O(n + k)$       |       $O(m + k)$        | CustomStringBuilder |
-| **insert(int, double)**                 |         $O(n)$         |       $O(m + k)$        | CustomStringBuilder |
-| **insert(int, float)**                  |         $O(n)$         |       $O(m + k)$        | CustomStringBuilder |
-| **insert(int, int)**                    |         $O(n)$         |       $O(m + k)$        | CustomStringBuilder |
-| **insert(int, long)**                   |         $O(n)$         |       $O(m + k)$        | CustomStringBuilder |
-| **insert(int, Object)**                 |       $O(n + k)$       |       $O(m + k)$        | CustomStringBuilder |
-| **insert(int, String)**                 |       $O(n + k)$       |       $O(m + k)$        | CustomStringBuilder |
-| **lastIndexOf(String)**                 |         $O(n)$         |       $O(n + m)$        |    StringBuilder    |
-| **length()**                            |         $O(1)$         |         $O(1)$          |         Tie         |
-| **replace(int, int, String)**           |       $O(n + k)$       |       $O(m + k)$        | CustomStringBuilder |
-| **reverse()**                           |         $O(n)$         |       $O(n + m)$        |    StringBuilder    |
-| **setCharAt(int, char)**                |         $O(1)$         |         $O(m)$          |    StringBuilder    |
-| **subSequence(int, int)**               |         $O(k)$         |       $O(m + k)$        |    StringBuilder    |
-| **substring(int)**                      |         $O(n)$         |       $O(n + m)$        |    StringBuilder    |
-| **substring(int, int)**                 |         $O(k)$         |       $O(m + k)$        |    StringBuilder    |
-| **toString()**                          |         $O(n)$         |         $O(n)$          |         Tie         |
+### Time Complexity Comparison: `StringBuilder` vs `CustomStringBuilder`
+
+| Method                              | Standard `StringBuilder` | CustomStringBuilder | Winner                  |
+|-------------------------------------|--------------------------|---------------------|-------------------------|
+| append(boolean)                     | O(1) amortized           | O(1) amortized      | **Tie**                 |
+| append(char)                        | O(1) amortized           | O(1) amortized      | **Tie**                 |
+| append(char[])                      | O(k)                     | O(k)                | **Tie**                 |
+| append(char[], int, int)            | O(k)                     | O(k)                | **Tie**                 |
+| append(CharSequence)                | O(k)                     | O(1) amortized      | **CustomStringBuilder** |
+| append(CharSequence, int, int)      | O(k)                     | O(k)                | **Tie**                 |
+| append(double)                      | O(1) amortized           | O(1) amortized      | **Tie**                 |
+| append(float)                       | O(1) amortized           | O(1) amortized      | **Tie**                 |
+| append(int)                         | O(1) amortized           | O(1) amortized      | **Tie**                 |
+| append(long)                        | O(1) amortized           | O(1) amortized      | **Tie**                 |
+| append(String)                      | O(k)                     | O(1) amortized      | **CustomStringBuilder** |
+| append(Object)                      | O(1) amortized           | O(1) amortized      | **Tie**                 |
+| insert(int, boolean)                | O(n)                     | O(1) amortized      | **CustomStringBuilder** |
+| insert(int, char)                   | O(n)                     | O(1) amortized      | **CustomStringBuilder** |
+| insert(int, char[])                 | O(n)                     | O(1) amortized      | **CustomStringBuilder** |
+| insert(int, char[], int, int)       | O(n)                     | O(1) amortized      | **CustomStringBuilder** |
+| insert(int, CharSequence)           | O(n)                     | O(1) amortized      | **CustomStringBuilder** |
+| insert(int, CharSequence, int, int) | O(n)                     | O(1) amortized      | **CustomStringBuilder** |
+| insert(int, double)                 | O(n)                     | O(1) amortized      | **CustomStringBuilder** |
+| insert(int, float)                  | O(n)                     | O(1) amortized      | **CustomStringBuilder** |
+| insert(int, int)                    | O(n)                     | O(1) amortized      | **CustomStringBuilder** |
+| insert(int, long)                   | O(n)                     | O(1) amortized      | **CustomStringBuilder** |
+| insert(int, Object)                 | O(n)                     | O(1) amortized      | **CustomStringBuilder** |
+| insert(int, String)                 | O(n)                     | O(1) amortized      | **CustomStringBuilder** |
+| delete(int, int)                    | O(n)                     | O(m + f)            | **CustomStringBuilder** |
+| deleteCharAt(int)                   | O(n)                     | O(m + f)            | **CustomStringBuilder** |
+| replace(int, int, String)           | O(n)                     | O(m + f)            | **CustomStringBuilder** |
+| reverse()                           | O(n)                     | O(n)                | **Tie**                 |
+| charAt(int)                         | O(1)                     | O(f) amortized      | **StringBuilder**       |
+| indexOf(String)                     | O(n)                     | O(n × f) worst      | **StringBuilder**       |
+| indexOf(String, int)                | O(n)                     | O(n × f) worst      | **StringBuilder**       |
+| lastIndexOf(String)                 | O(n)                     | O(n × f) worst      | **StringBuilder**       |
+| setCharAt(int, char)                | O(n)                     | O(m + f)            | **CustomStringBuilder** |
+| toString()                          | O(n)                     | O(n)                | **Tie**                 |
+| subSequence(int, int)               | O(1)                     | O(n)                | **StringBuilder**       |
+| substring(int)                      | O(k)                     | O(n)                | **StringBuilder**       |
+| substring(int, int)                 | O(k)                     | O(n)                | **StringBuilder**       |
+| length()                            | O(1)                     | O(1)                | **Tie**                 |
+
+**Legend:**
+- **n** = current length of the builder
+- **k** = number of characters involved in the operation
+- **m** = number of characters affected (deleted/replaced)
+- **f** = number of fragments (capped at 32)
 
 # Space Complexity
 
 This table compares the space complexity of key methods in Java's `StringBuilder` (using a dynamic character array) and `CustomStringBuilder` (using an `ArrayList<String>`).
 
-| **Method**                              | **Java StringBuilder** | **CustomStringBuilder** |  **Winner**   |
-|-----------------------------------------|:----------------------:|:-----------------------:|:-------------:|
-| **append(boolean)**                     |         $O(1)$         |         $O(1)$          |      Tie      |
-| **append(char)**                        |         $O(1)$         |         $O(1)$          |      Tie      |
-| **append(char[])**                      |         $O(k)$         |         $O(k)$          |      Tie      |
-| **append(char[], int, int)**            |         $O(k)$         |         $O(k)$          |      Tie      |
-| **append(CharSequence)**                |         $O(k)$         |         $O(k)$          |      Tie      |
-| **append(CharSequence, int, int)**      |         $O(k)$         |         $O(k)$          |      Tie      |
-| **append(double)**                      |         $O(1)$         |         $O(1)$          |      Tie      |
-| **append(float)**                       |         $O(1)$         |         $O(1)$          |      Tie      |
-| **append(int)**                         |         $O(1)$         |         $O(1)$          |      Tie      |
-| **append(long)**                        |         $O(1)$         |         $O(1)$          |      Tie      |
-| **append(String)**                      |         $O(k)$         |         $O(k)$          |      Tie      |
-| **delete(int, int)**                    |         $O(1)$         |       $O(m + k)$        | StringBuilder |
-| **deleteCharAt(int)**                   |         $O(1)$         |       $O(m + k)$        | StringBuilder |
-| **indexOf(String)**                     |         $O(1)$         |       $O(n + m)$        | StringBuilder |
-| **indexOf(String, int)**                |         $O(1)$         |       $O(n + m)$        | StringBuilder |
-| **insert(int, boolean)**                |         $O(1)$         |       $O(m + k)$        | StringBuilder |
-| **insert(int, char)**                   |         $O(1)$         |       $O(m + k)$        | StringBuilder |
-| **insert(int, char[])**                 |         $O(k)$         |       $O(m + k)$        | StringBuilder |
-| **insert(int, char[], int, int)**       |         $O(k)$         |       $O(m + k)$        | StringBuilder |
-| **insert(int, CharSequence)**           |         $O(k)$         |       $O(m + k)$        | StringBuilder |
-| **insert(int, CharSequence, int, int)** |         $O(k)$         |       $O(m + k)$        | StringBuilder |
-| **insert(int, double)**                 |         $O(1)$         |       $O(m + k)$        | StringBuilder |
-| **insert(int, float)**                  |         $O(1)$         |       $O(m + k)$        | StringBuilder |
-| **insert(int, int)**                    |         $O(1)$         |       $O(m + k)$        | StringBuilder |
-| **insert(int, long)**                   |         $O(1)$         |       $O(m + k)$        | StringBuilder |
-| **insert(int, Object)**                 |         $O(k)$         |       $O(m + k)$        | StringBuilder |
-| **insert(int, String)**                 |         $O(k)$         |       $O(m + k)$        | StringBuilder |
-| **lastIndexOf(String)**                 |         $O(1)$         |       $O(n + m)$        | StringBuilder |
-| **length()**                            |         $O(1)$         |         $O(1)$          |      Tie      |
-| **replace(int, int, String)**           |         $O(k)$         |       $O(m + k)$        | StringBuilder |
-| **reverse()**                           |         $O(1)$         |       $O(n + m)$        | StringBuilder |
-| **setCharAt(int, char)**                |         $O(1)$         |       $O(m + k)$        | StringBuilder |
-| **subSequence(int, int)**               |         $O(k)$         |       $O(m + k)$        | StringBuilder |
-| **substring(int)**                      |         $O(n)$         |       $O(n + m)$        | StringBuilder |
-| **substring(int, int)**                 |         $O(k)$         |       $O(m + k)$        | StringBuilder |
-| **toString()**                          |         $O(n)$         |         $O(n)$          |      Tie      |
+### Space Complexity Comparison: `StringBuilder` vs `CustomStringBuilder`
 
-## Notes
-- **Variables**:
-  - **n**: Total length of the string (sum of all characters).
-  - **m**: Number of string segments in `CustomStringBuilder`'s `ArrayList`.
-  - **k**: Length of the input string or subsequence.
+| Method                                      | Standard `StringBuilder` Space     | CustomStringBuilder Space                  | Winner                  |
+|---------------------------------------------|------------------------------------|--------------------------------------------|-------------------------|
+| append(boolean)                             | O(1) amortized                     | O(1)                                       | **Tie**                 |
+| append(char)                                | O(1) amortized                     | O(1)                                       | **Tie**                 |
+| append(char[])                              | O(k)                               | O(k)                                       | **Tie**                 |
+| append(char[], int, int)                    | O(k)                               | O(k)                                       | **Tie**                 |
+| append(CharSequence)                        | O(k)                               | O(1)                                       | **CustomStringBuilder** |
+| append(CharSequence, int, int)              | O(k)                               | O(k)                                       | **Tie**                 |
+| append(double)                              | O(1) amortized                     | O(1)                                       | **Tie**                 |
+| append(float)                               | O(1) amortized                     | O(1)                                       | **Tie**                 |
+| append(int)                                 | O(1) amortized                     | O(1)                                       | **Tie**                 |
+| append(long)                                | O(1) amortized                     | O(1)                                       | **Tie**                 |
+| append(String)                              | O(k)                               | O(1)                                       | **CustomStringBuilder** |
+| append(Object)                              | O(1) amortized                     | O(1)                                       | **Tie**                 |
+| insert(int, boolean)                        | O(n)                               | O(1) + O(m)                                | **CustomStringBuilder** |
+| insert(int, char)                           | O(n)                               | O(1) + O(m)                                | **CustomStringBuilder** |
+| insert(int, char[])                         | O(n)                               | O(1) + O(m)                                | **CustomStringBuilder** |
+| insert(int, char[], int, int)               | O(n)                               | O(1) + O(m)                                | **CustomStringBuilder** |
+| insert(int, CharSequence)                   | O(n)                               | O(1) + O(m)                                | **CustomStringBuilder** |
+| insert(int, CharSequence, int, int)         | O(n)                               | O(1) + O(m)                                | **CustomStringBuilder** |
+| insert(int, double)                         | O(n)                               | O(1) + O(m)                                | **CustomStringBuilder** |
+| insert(int, float)                          | O(n)                               | O(1) + O(m)                                | **CustomStringBuilder** |
+| insert(int, int)                            | O(n)                               | O(1) + O(m)                                | **CustomStringBuilder** |
+| insert(int, long)                           | O(n)                               | O(1) + O(m)                                | **CustomStringBuilder** |
+| insert(int, Object)                         | O(n)                               | O(1) + O(m)                                | **CustomStringBuilder** |
+| insert(int, String)                         | O(n)                               | O(1) + O(m)                                | **CustomStringBuilder** |
+| delete(int, int)                            | O(1)                               | O(1)                                       | **Tie**                 |
+| deleteCharAt(int)                           | O(1)                               | O(1)                                       | **Tie**                 |
+| replace(int, int, String)                   | O(1)                               | O(1) + O(m)                                | **CustomStringBuilder** |
+| reverse()                                   | O(n)                               | O(n)                                       | **Tie**                 |
+| charAt(int)                                 | O(1)                               | O(1)                                       | **Tie**                 |
+| indexOf(String)                             | O(1)                               | O(1)                                       | **Tie**                 |
+| indexOf(String, int)                        | O(1)                               | O(1)                                       | **Tie**                 |
+| lastIndexOf(String)                         | O(1)                               | O(1)                                       | **Tie**                 |
+| setCharAt(int, char)                        | O(1)                               | O(1)                                       | **Tie**                 |
+| toString()                                  | O(n)                               | O(n)                                       | **Tie**                 |
+| subSequence(int, int)                       | O(1)                               | O(n)                                       | **StringBuilder**       |
+| substring(int)                              | O(k)                               | O(n)                                       | **StringBuilder**       |
+| substring(int, int)                         | O(k)                               | O(n)                                       | **StringBuilder**       |
+| length()                                    | O(1)                               | O(1)                                       | **Tie**                 |
 
+**Legend:**
+- **n** = current total length of the builder
+- **k** = length of the input string/sequence being added
+- **m** = length of the new string being inserted/replaced
 # Performance Charts
 
 ## Custom String Builder vs String Builder
