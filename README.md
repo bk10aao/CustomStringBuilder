@@ -6,7 +6,7 @@ Implementation of a StringBuilder using a List
 
 This table compares the time complexity of key methods in Java's `StringBuilder` (using a dynamic character array) and `CustomStringBuilder` (using an `ArrayList<String>`).
 
-### Time Complexity Comparison: `StringBuilder` vs `CustomStringBuilder`
+### Time Complexity
 
 | Method                              | Standard `StringBuilder` | CustomStringBuilder | Winner                  |
 |-------------------------------------|--------------------------|---------------------|-------------------------|
@@ -59,7 +59,7 @@ This table compares the time complexity of key methods in Java's `StringBuilder`
 
 This table compares the space complexity of key methods in Java's `StringBuilder` (using a dynamic character array) and `CustomStringBuilder` (using an `ArrayList<String>`).
 
-### Space Complexity Comparison: `StringBuilder` vs `CustomStringBuilder`
+### Space Complexity
 
 | Method                                      | Standard `StringBuilder` Space     | CustomStringBuilder Space                  | Winner                  |
 |---------------------------------------------|------------------------------------|--------------------------------------------|-------------------------|
@@ -112,6 +112,7 @@ This table compares the space complexity of key methods in Java's `StringBuilder
 
 #### Note: The following performance charts are designed to be viewed in dark mode.
 
+![Heatmap](PerformanceTesting/CompareCustomStringBuilderToStringBuilder/heatmap.png)
 ![Combined Performance Charts](PerformanceTesting/CompareCustomStringBuilderToStringBuilder/StringBuilder(CharSequence).png)
 ![Combined Performance Charts](PerformanceTesting/CompareCustomStringBuilderToStringBuilder/append(boolean).png)
 ![Combined Performance Charts](PerformanceTesting/CompareCustomStringBuilderToStringBuilder/append(boolean).png)
@@ -147,4 +148,3 @@ This table compares the space complexity of key methods in Java's `StringBuilder
 ![Combined Performance Charts](PerformanceTesting/CompareCustomStringBuilderToStringBuilder/substring(int).png)
 ![Combined Performance Charts](PerformanceTesting/CompareCustomStringBuilderToStringBuilder/substring(int,%20int).png)
 ![Combined Performance Charts](PerformanceTesting/CompareCustomStringBuilderToStringBuilder/length().png)
-![Heatmap](PerformanceTesting/CompareCustomStringBuilderToStringBuilder/heatmap.png)
