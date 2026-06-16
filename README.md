@@ -147,3 +147,4 @@ This table compares the space complexity of key methods in Java's `StringBuilder
 ![Combined Performance Charts](PerformanceTesting/CompareCustomStringBuilderToStringBuilder/substring(int).png)
 ![Combined Performance Charts](PerformanceTesting/CompareCustomStringBuilderToStringBuilder/substring(int,%20int).png)
 ![Combined Performance Charts](PerformanceTesting/CompareCustomStringBuilderToStringBuilder/length().png)
+![Heatmap](PerformanceTesting/CompareCustomStringBuilderToStringBuilder/heatmap.png)
