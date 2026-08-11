@@ -1843,7 +1843,6 @@ public class CustomStringBuilderTest {
         assertThrows(IndexOutOfBoundsException.class, ()-> customStringBuilder.charAt(9));
     }
 
-    //CustomStringBuilder compared to Java StringBuilder
     @Test
     void compareTo_javaStringBuilder_equalStrings_returnsZero() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("hello");
@@ -1951,7 +1950,6 @@ public class CustomStringBuilderTest {
         assertTrue(customStringBuilder.compareTo(sb) < 0);
     }
 
-    //CustomStringBuilder compared to CustomStringBuilder
     @Test
     void compareTo_equalStrings_returnsZero() {
         CustomStringBuilder customStringBuilder = new CustomStringBuilder("hello");
