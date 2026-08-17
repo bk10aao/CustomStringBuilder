@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 
 import static java.lang.String.valueOf;
-import static java.util.Objects.checkFromToIndex;
 import static java.util.Objects.checkIndex;
 import static java.util.Objects.requireNonNull;
 
