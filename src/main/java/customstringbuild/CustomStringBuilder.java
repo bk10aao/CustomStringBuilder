@@ -233,7 +233,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      */
     public CustomStringBuilder append(final String str) {
         requireNonNull(str);
-        if(!str.isEmpty()) {
+        if (!str.isEmpty()) {
             stringBuilder.add(str);
             size += str.length();
         }
@@ -306,7 +306,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      *          if {@code index < 0} or {@code index > length()}
      */
     public CustomStringBuilder deleteCharAt(final int index) {
-        if(index < 0 || index >= size)
+        if (index < 0 || index >= size)
             throw new StringIndexOutOfBoundsException();
         return replace(index, index + 1, "");
     }
@@ -530,9 +530,9 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      */
     public CustomStringBuilder insert(final int offset, final String str) {
         requireNonNull(str);
-        if(offset < 0 || offset > size)
+        if (offset < 0 || offset > size)
             throw new StringIndexOutOfBoundsException();
-        if(offset == size) {
+        if (offset == size) {
             append(str);
             invalidateCache();
             return this;
@@ -628,7 +628,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
             buffer[right--] = temp;
         }
         stringBuilder.clear();
-        if(size > 0)
+        if (size > 0)
             stringBuilder.add(new String(buffer));
         else
             stringBuilder.add("");
@@ -645,7 +645,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      *          or {@code index > length()},
      */
     public void setCharAt(final int index, final char c) {
-        if(index < 0 || index >= size)
+        if (index < 0 || index >= size)
             throw new StringIndexOutOfBoundsException();
         replace(index, index + 1, valueOf(c));
     }
@@ -687,9 +687,9 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
      *          or {@code start > end}
      */
     public String subString(int start, int end) {
-        if(start < 0 || start > size || start > end || end > size)
+        if (start < 0 || start > size || start > end || end > size)
             throw new StringIndexOutOfBoundsException();
-        if(start == end)
+        if (start == end)
             return "";
         char[] chars = toCharArray();
         return new String(chars, start, end - start);
@@ -762,7 +762,7 @@ public class CustomStringBuilder implements Appendable, java.io.Serializable, Co
     private int getIndex(final String target, final int fromIndex) {
         int targetLen = target.length();
         int maxSearchIdx = size - targetLen;
-        for(int i = fromIndex; i <= maxSearchIdx; i++)
+        for (int i = fromIndex; i <= maxSearchIdx; i++)
             if (matchAtGlobalIndex(target, i))
                 return i;
         return -1;
