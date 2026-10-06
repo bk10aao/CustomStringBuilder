@@ -2,10 +2,6 @@
 
 Implementation of a StringBuilder using a List
 
-# Time Complexity
-
-This table compares the time complexity of key methods in Java's `StringBuilder` (using a dynamic character array) and `CustomStringBuilder` (using an `ArrayList<String>`).
-
 ### Time Complexity
 
 | Method                              |   JDK    |    Custom    |          Winner           |
@@ -48,15 +44,6 @@ This table compares the time complexity of key methods in Java's `StringBuilder`
 | substring(int)                      |  $O(k)$  |    $O(n)$    |     **StringBuilder**     |
 | substring(int, int)                 |  $O(k)$  |    $O(n)$    |     **StringBuilder**     |
 | length()                            |  $O(1)$  |    $O(1)$    |          **Tie**          |
-
-- $n$ = current length of the builder
-- $k$ = number of characters involved in the operation
-- $m$ = number of characters affected (deleted/replaced)
-- $f$ = number of fragments (capped at 32)
-
-# Space Complexity
-
-This table compares the space complexity of key methods in Java's `StringBuilder` (using a dynamic character array) and `CustomStringBuilder` (using an `ArrayList<String>`).
 
 ### Space Complexity
 
@@ -101,9 +88,10 @@ This table compares the space complexity of key methods in Java's `StringBuilder
 | substring(int, int)                  | $O(k)$ |    $O(n)$     |    **StringBuilder**    |
 | length()                             | $O(1)$ |    $O(1)$     |         **Tie**         |
 
-- $n$ = current total length of the builder
-- $k$ = length of the input string/sequence being added
-- $m$ = length of the new string being inserted/replaced
+- $n$ = current length of the builder
+- $k$ = number of characters involved in the operation
+- $m$ = number of characters affected (deleted/replaced)
+- $f$ = number of fragments (capped at 32)
 
 # Performance Charts
 
@@ -112,27 +100,27 @@ This table compares the space complexity of key methods in Java's `StringBuilder
 | Method                                | Custom (ns/op) | JDK (ns/op) |            Winner            |  Margin   |
 |:--------------------------------------|:--------------:|:-----------:|:----------------------------:|:---------:|
 | `append(boolean)`                     |       11       |     3.1     |           **JDK**            |   3.55x   |
-| `append(char)`                        |       13       |     3.0     |           **JDK**            |   4.23x   |
+| `append(char)`                        |       13       |      3      |           **JDK**            |   4.23x   |
 | `append(char[])`                      |     2,061      |   14,078    |          **Custom**          |   6.83x   |
 | `append(char[], int, int)`            |       14       |     6.1     |           **JDK**            |   2.23x   |
 | `append(CharSequence)`                |       10       |    1,664    |          **Custom**          |  161.57x  |
 | `append(CharSequence, int, int)`      |       13       |     5.2     |           **JDK**            |   2.50x   |
 | `append(double)`                      |       34       |     55      |          **Custom**          |   1.60x   |
 | `append(float)`                       |       32       |     59      |          **Custom**          |   1.83x   |
-| `append(int)`                         |       13       |     3.0     |           **JDK**            |   4.40x   |
+| `append(int)`                         |       13       |      3      |           **JDK**            |   4.40x   |
 | `append(long)`                        |       18       |     11      |           **JDK**            |   1.59x   |
-| `append(Object)`                      |       11       |     3.0     |           **JDK**            |   3.53x   |
+| `append(Object)`                      |       11       |      3      |           **JDK**            |   3.53x   |
 | `append(String)`                      |       10       |    1,634    |          **Custom**          |  160.24x  |
-| `charAt(int)`                         |      1.0       |    1,562    |          **Custom**          | 1,562.20x |
+| `charAt(int)`                         |       1        |    1,562    |          **Custom**          | 1,562.20x |
 | `compareTo(StringBuilder)`            |     6,984      |    5,488    |           **JDK**            |   1.27x   |
-| `constructor(CharSequence)`           |       10       |    1,688    |          **Custom**          |  167.09x  |
-| `constructor()`                       |      3.0       |     3.0     | **Statistically Equivalent** |   1.00x   |
+| `constructor(CharSequence)`           |       10       |    1,688    |          **Custom**          |   1679x   |
+| `constructor()`                       |       3        |      3      | **Statistically Equivalent** |   1.00x   |
 | `constructor(String)`                 |       10       |    1,681    |          **Custom**          |  168.06x  |
 | `delete(int, int)`                    |     1,807      |    2,322    |          **Custom**          |   1.28x   |
 | `deleteCharAt(int)`                   |     1,824      |    2,274    |          **Custom**          |   1.25x   |
 | `equals(Object)`                      |     5,240      |    3,248    |           **JDK**            |   1.61x   |
 | `hashCode()`                          |     51,496     |    1,786    |           **JDK**            |  28.83x   |
-| `indexOf(String)`                     |      2.0       |    1,660    |          **Custom**          |  829.95x  |
+| `indexOf(String)`                     |       2        |    1,660    |          **Custom**          |  829.95x  |
 | `indexOf(String, int)`                |      2.1       |    1,628    |          **Custom**          |  775.19x  |
 | `insert(int, boolean)`                |     1,845      |    2,388    |          **Custom**          |   1.29x   |
 | `insert(int, char)`                   |     1,814      |    2,383    |          **Custom**          |   1.31x   |
@@ -147,14 +135,14 @@ This table compares the space complexity of key methods in Java's `StringBuilder
 | `insert(int, Object)`                 |     1,823      |    2,402    |          **Custom**          |   1.32x   |
 | `insert(int, String)`                 |     1,801      |    2,369    |          **Custom**          |   1.32x   |
 | `lastIndexOf(String)`                 |       25       |    1,598    |          **Custom**          |  63.92x   |
-| `length()`                            |      1.0       |    1,569    |          **Custom**          | 1,568.90x |
+| `length()`                            |       1        |    1,569    |          **Custom**          | 1,568.90x |
 | `replace(int, int, String)`           |     1,906      |    2,359    |          **Custom**          |   1.24x   |
 | `reverse()`                           |     16,719     |   11,161    |           **JDK**            |   1.50x   |
 | `setCharAt(int, char)`                |     1,877      |    1,625    |           **JDK**            |   1.16x   |
 | `subSequence(int, int)`               |     4,348      |    1,635    |           **JDK**            |   2.66x   |
 | `substring(int)`                      |     5,676      |    2,856    |           **JDK**            |   1.99x   |
 | `substring(int, int)`                 |     4,714      |    1,608    |           **JDK**            |   2.93x   |
-| `toString()`                          |     1,538      |     2.0     |           **JDK**            |  769.25x  |
+| `toString()`                          |     1,538      |      2      |           **JDK**            |  769.25x  |
 
 #### Note: The following performance charts are designed to be viewed in dark mode.
 
