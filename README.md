@@ -4,89 +4,89 @@ Implementation of a StringBuilder using a List
 
 ### Time Complexity
 
-| Method                              |   JDK    |    Custom    |          Winner           |
-|:------------------------------------|:--------:|:------------:|:-------------------------:|
-| append(boolean)                     |  $O(1)$  |    $O(1)$    |          **Tie**          |
-| append(char)                        |  $O(1)$  |    $O(1)$    |          **Tie**          |
-| append(char[])                      |  $O(k)$  |    $O(k)$    |          **Tie**          |
-| append(char[], int, int)            |  $O(k)$  |    $O(k)$    |          **Tie**          |
-| append(CharSequence)                |  $O(k)$  |    $O(1)$    |  **CustomStringBuilder**  |
-| append(CharSequence, int, int)      |  $O(k)$  |    $O(k)$    |          **Tie**          |
-| append(double)                      |  $O(1)$  |    $O(1)$    |          **Tie**          |
-| append(float)                       |  $O(1)$  |    $O(1)$    |          **Tie**          |
-| append(int)                         |  $O(1)$  |    $O(1)$    |          **Tie**          |
-| append(long)                        |  $O(1)$  |    $O(1)$    |          **Tie**          |
-| append(String)                      |  $O(k)$  |    $O(1)$    |  **CustomStringBuilder**  |
-| append(Object)                      |  $O(1)$  |    $O(1)$    |          **Tie**          |
-| insert(int, boolean)                |  $O(n)$  |    $O(1)$    |  **CustomStringBuilder**  |
-| insert(int, char)                   |  $O(n)$  |    $O(1)$    |  **CustomStringBuilder**  |
-| insert(int, char[])                 |  $O(n)$  |    $O(1)$    |  **CustomStringBuilder**  |
-| insert(int, char[], int, int)       |  $O(n)$  |    $O(1)$    |  **CustomStringBuilder**  |
-| insert(int, CharSequence)           |  $O(n)$  |    $O(1)$    |  **CustomStringBuilder**  |
-| insert(int, CharSequence, int, int) |  $O(n)$  |    $O(1)$    |  **CustomStringBuilder**  |
-| insert(int, double)                 |  $O(n)$  |    $O(1)$    |  **CustomStringBuilder**  |
-| insert(int, float)                  |  $O(n)$  |    $O(1)$    |  **CustomStringBuilder**  |
-| insert(int, int)                    |  $O(n)$  |    $O(1)$    |  **CustomStringBuilder**  |
-| insert(int, long)                   |  $O(n)$  |    $O(1)$    |  **CustomStringBuilder**  |
-| insert(int, Object)                 |  $O(n)$  |    $O(1)$    |  **CustomStringBuilder**  |
-| insert(int, String)                 |  $O(n)$  |    $O(1)$    |  **CustomStringBuilder**  |
-| delete(int, int)                    |  $O(n)$  |  $O(m + f)$  |  **CustomStringBuilder**  |
-| deleteCharAt(int)                   |  $O(n)$  |  $O(m + f)$  |  **CustomStringBuilder**  |
-| replace(int, int, String)           |  $O(n)$  |  $O(m + f)$  |  **CustomStringBuilder**  |
-| reverse()                           |  $O(n)$  |    $O(n)$    |          **Tie**          |
-| charAt(int)                         |  $O(1)$  |    $O(f)$    |     **StringBuilder**     |
-| indexOf(String)                     |  $O(n)$  |  $O(n × f)$  |     **StringBuilder**     |
-| indexOf(String, int)                |  $O(n)$  |  $O(n × f)$  |     **StringBuilder**     |
-| lastIndexOf(String)                 |  $O(n)$  |  $O(n × f)$  |     **StringBuilder**     |
-| setCharAt(int, char)                |  $O(n)$  |  $O(m + f)$  |  **CustomStringBuilder**  |
-| toString()                          |  $O(n)$  |    $O(n)$    |          **Tie**          |
-| subSequence(int, int)               |  $O(1)$  |    $O(n)$    |     **StringBuilder**     |
-| substring(int)                      |  $O(k)$  |    $O(n)$    |     **StringBuilder**     |
-| substring(int, int)                 |  $O(k)$  |    $O(n)$    |     **StringBuilder**     |
-| length()                            |  $O(1)$  |    $O(1)$    |          **Tie**          |
+| Method                              |    Custom    |   JDK    |          Winner           |
+|:------------------------------------|:------------:|:--------:|:-------------------------:|
+| append(boolean)                     |    $O(1)$    |  $O(1)$  |          **Tie**          |
+| append(char)                        |    $O(1)$    |  $O(1)$  |          **Tie**          |
+| append(char[])                      |    $O(k)$    |  $O(k)$  |          **Tie**          |
+| append(char[], int, int)            |    $O(k)$    |  $O(k)$  |          **Tie**          |
+| append(CharSequence)                |    $O(1)$    |  $O(k)$  |  **CustomStringBuilder**  |
+| append(CharSequence, int, int)      |    $O(k)$    |  $O(k)$  |          **Tie**          |
+| append(double)                      |    $O(1)$    |  $O(1)$  |          **Tie**          |
+| append(float)                       |    $O(1)$    |  $O(1)$  |          **Tie**          |
+| append(int)                         |    $O(1)$    |  $O(1)$  |          **Tie**          |
+| append(long)                        |    $O(1)$    |  $O(1)$  |          **Tie**          |
+| append(String)                      |    $O(1)$    |  $O(k)$  |  **CustomStringBuilder**  |
+| append(Object)                      |    $O(1)$    |  $O(1)$  |          **Tie**          |
+| insert(int, boolean)                |    $O(1)$    |  $O(n)$  |  **CustomStringBuilder**  |
+| insert(int, char)                   |    $O(1)$    |  $O(n)$  |  **CustomStringBuilder**  |
+| insert(int, char[])                 |    $O(1)$    |  $O(n)$  |  **CustomStringBuilder**  |
+| insert(int, char[], int, int)       |    $O(1)$    |  $O(n)$  |  **CustomStringBuilder**  |
+| insert(int, CharSequence)           |    $O(1)$    |  $O(n)$  |  **CustomStringBuilder**  |
+| insert(int, CharSequence, int, int) |    $O(1)$    |  $O(n)$  |  **CustomStringBuilder**  |
+| insert(int, double)                 |    $O(1)$    |  $O(n)$  |  **CustomStringBuilder**  |
+| insert(int, float)                  |    $O(1)$    |  $O(n)$  |  **CustomStringBuilder**  |
+| insert(int, int)                    |    $O(1)$    |  $O(n)$  |  **CustomStringBuilder**  |
+| insert(int, long)                   |    $O(1)$    |  $O(n)$  |  **CustomStringBuilder**  |
+| insert(int, Object)                 |    $O(1)$    |  $O(n)$  |  **CustomStringBuilder**  |
+| insert(int, String)                 |    $O(1)$    |  $O(n)$  |  **CustomStringBuilder**  |
+| delete(int, int)                    |  $O(m + f)$  |  $O(n)$  |  **CustomStringBuilder**  |
+| deleteCharAt(int)                   |  $O(m + f)$  |  $O(n)$  |  **CustomStringBuilder**  |
+| replace(int, int, String)           |  $O(m + f)$  |  $O(n)$  |  **CustomStringBuilder**  |
+| reverse()                           |    $O(n)$    |  $O(n)$  |          **Tie**          |
+| charAt(int)                         |    $O(f)$    |  $O(1)$  |     **StringBuilder**     |
+| indexOf(String)                     |  $O(n × f)$  |  $O(n)$  |     **StringBuilder**     |
+| indexOf(String, int)                |  $O(n × f)$  |  $O(n)$  |     **StringBuilder**     |
+| lastIndexOf(String)                 |  $O(n × f)$  |  $O(n)$  |     **StringBuilder**     |
+| setCharAt(int, char)                |  $O(m + f)$  |  $O(n)$  |  **CustomStringBuilder**  |
+| toString()                          |    $O(n)$    |  $O(n)$  |          **Tie**          |
+| subSequence(int, int)               |    $O(n)$    |  $O(1)$  |     **StringBuilder**     |
+| substring(int)                      |    $O(n)$    |  $O(k)$  |     **StringBuilder**     |
+| substring(int, int)                 |    $O(n)$    |  $O(k)$  |     **StringBuilder**     |
+| length()                            |    $O(1)$    |  $O(1)$  |          **Tie**          |
 
 ### Space Complexity
 
-| Method                               |  JDK   |    Custom     |         Winner          |
-|:-------------------------------------|:------:|:-------------:|:-----------------------:|
-| append(boolean)                      | $O(1)$ |    $O(1)$     |         **Tie**         |
-| append(char)                         | $O(1)$ |    $O(1)$     |         **Tie**         |
-| append(char[])                       | $O(k)$ |    $O(k)$     |         **Tie**         |
-| append(char[], int, int)             | $O(k)$ |    $O(k)$     |         **Tie**         |
-| append(CharSequence)                 | $O(k)$ |    $O(1)$     | **CustomStringBuilder** |
-| append(CharSequence, int, int)       | $O(k)$ |    $O(k)$     |         **Tie**         |
-| append(double)                       | $O(1)$ |    $O(1)$     |         **Tie**         |
-| append(float)                        | $O(1)$ |    $O(1)$     |         **Tie**         |
-| append(int)                          | $O(1)$ |    $O(1)$     |         **Tie**         |
-| append(long)                         | $O(1)$ |    $O(1)$     |         **Tie**         |
-| append(String)                       | $O(k)$ |    $O(1)$     | **CustomStringBuilder** |
-| append(Object)                       | $O(1)$ |    $O(1)$     |         **Tie**         |
-| insert(int, boolean)                 | $O(n)$ | $O(1) + O(m)$ | **CustomStringBuilder** |
-| insert(int, char)                    | $O(n)$ | $O(1) + O(m)$ | **CustomStringBuilder** |
-| insert(int, char[])                  | $O(n)$ | $O(1) + O(m)$ | **CustomStringBuilder** |
-| insert(int, char[], int, int)        | $O(n)$ | $O(1) + O(m)$ | **CustomStringBuilder** |
-| insert(int, CharSequence)            | $O(n)$ | $O(1) + O(m)$ | **CustomStringBuilder** |
-| insert(int, CharSequence, int, int)  | $O(n)$ | $O(1) + O(m)$ | **CustomStringBuilder** |
-| insert(int, double)                  | $O(n)$ | $O(1) + O(m)$ | **CustomStringBuilder** |
-| insert(int, float)                   | $O(n)$ | $O(1) + O(m)$ | **CustomStringBuilder** |
-| insert(int, int)                     | $O(n)$ | $O(1) + O(m)$ | **CustomStringBuilder** |
-| insert(int, long)                    | $O(n)$ | $O(1) + O(m)$ | **CustomStringBuilder** |
-| insert(int, Object)                  | $O(n)$ | $O(1) + O(m)$ | **CustomStringBuilder** |
-| insert(int, String)                  | $O(n)$ | $O(1) + O(m)$ | **CustomStringBuilder** |
-| delete(int, int)                     | $O(1)$ |    $O(1)$     |         **Tie**         |
-| deleteCharAt(int)                    | $O(1)$ |    $O(1)$     |         **Tie**         |
-| replace(int, int, String)            | $O(1)$ | $O(1) + O(m)$ | **CustomStringBuilder** |
-| reverse()                            | $O(n)$ |    $O(n)$     |         **Tie**         |
-| charAt(int)                          | $O(1)$ |    $O(1)$     |         **Tie**         |
-| indexOf(String)                      | $O(1)$ |    $O(1)$     |         **Tie**         |
-| indexOf(String, int)                 | $O(1)$ |    $O(1)$     |         **Tie**         |
-| lastIndexOf(String)                  | $O(1)$ |    $O(1)$     |         **Tie**         |
-| setCharAt(int, char)                 | $O(1)$ |    $O(1)$     |         **Tie**         |
-| toString()                           | $O(n)$ |    $O(n)$     |         **Tie**         |
-| subSequence(int, int)                | $O(1)$ |    $O(n)$     |    **StringBuilder**    |
-| substring(int)                       | $O(k)$ |    $O(n)$     |    **StringBuilder**    |
-| substring(int, int)                  | $O(k)$ |    $O(n)$     |    **StringBuilder**    |
-| length()                             | $O(1)$ |    $O(1)$     |         **Tie**         |
+| Method                               |    Custom     |  JDK   |         Winner          |
+|:-------------------------------------|:-------------:|:------:|:-----------------------:|
+| append(boolean)                      |    $O(1)$     | $O(1)$ |         **Tie**         |
+| append(char)                         |    $O(1)$     | $O(1)$ |         **Tie**         |
+| append(char[])                       |    $O(k)$     | $O(k)$ |         **Tie**         |
+| append(char[], int, int)             |    $O(k)$     | $O(k)$ |         **Tie**         |
+| append(CharSequence)                 |    $O(1)$     | $O(k)$ | **CustomStringBuilder** |
+| append(CharSequence, int, int)       |    $O(k)$     | $O(k)$ |         **Tie**         |
+| append(double)                       |    $O(1)$     | $O(1)$ |         **Tie**         |
+| append(float)                        |    $O(1)$     | $O(1)$ |         **Tie**         |
+| append(int)                          |    $O(1)$     | $O(1)$ |         **Tie**         |
+| append(long)                         |    $O(1)$     | $O(1)$ |         **Tie**         |
+| append(String)                       |    $O(1)$     | $O(k)$ | **CustomStringBuilder** |
+| append(Object)                       |    $O(1)$     | $O(1)$ |         **Tie**         |
+| insert(int, boolean)                 | $O(1) + O(m)$ | $O(n)$ | **CustomStringBuilder** |
+| insert(int, char)                    | $O(1) + O(m)$ | $O(n)$ | **CustomStringBuilder** |
+| insert(int, char[])                  | $O(1) + O(m)$ | $O(n)$ | **CustomStringBuilder** |
+| insert(int, char[], int, int)        | $O(1) + O(m)$ | $O(n)$ | **CustomStringBuilder** |
+| insert(int, CharSequence)            | $O(1) + O(m)$ | $O(n)$ | **CustomStringBuilder** |
+| insert(int, CharSequence, int, int)  | $O(1) + O(m)$ | $O(n)$ | **CustomStringBuilder** |
+| insert(int, double)                  | $O(1) + O(m)$ | $O(n)$ | **CustomStringBuilder** |
+| insert(int, float)                   | $O(1) + O(m)$ | $O(n)$ | **CustomStringBuilder** |
+| insert(int, int)                     | $O(1) + O(m)$ | $O(n)$ | **CustomStringBuilder** |
+| insert(int, long)                    | $O(1) + O(m)$ | $O(n)$ | **CustomStringBuilder** |
+| insert(int, Object)                  | $O(1) + O(m)$ | $O(n)$ | **CustomStringBuilder** |
+| insert(int, String)                  | $O(1) + O(m)$ | $O(n)$ | **CustomStringBuilder** |
+| delete(int, int)                     |    $O(1)$     | $O(1)$ |         **Tie**         |
+| deleteCharAt(int)                    |    $O(1)$     | $O(1)$ |         **Tie**         |
+| replace(int, int, String)            | $O(1) + O(m)$ | $O(1)$ | **CustomStringBuilder** |
+| reverse()                            |    $O(n)$     | $O(n)$ |         **Tie**         |
+| charAt(int)                          |    $O(1)$     | $O(1)$ |         **Tie**         |
+| indexOf(String)                      |    $O(1)$     | $O(1)$ |         **Tie**         |
+| indexOf(String, int)                 |    $O(1)$     | $O(1)$ |         **Tie**         |
+| lastIndexOf(String)                  |    $O(1)$     | $O(1)$ |         **Tie**         |
+| setCharAt(int, char)                 |    $O(1)$     | $O(1)$ |         **Tie**         |
+| toString()                           |    $O(n)$     | $O(n)$ |         **Tie**         |
+| subSequence(int, int)                |    $O(n)$     | $O(1)$ |    **StringBuilder**    |
+| substring(int)                       |    $O(n)$     | $O(k)$ |    **StringBuilder**    |
+| substring(int, int)                  |    $O(n)$     | $O(k)$ |    **StringBuilder**    |
+| length()                             |    $O(1)$     | $O(1)$ |         **Tie**         |
 
 - $n$ = current length of the builder
 - $k$ = number of characters involved in the operation
